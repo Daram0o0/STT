@@ -6,7 +6,7 @@
     height:100%;
 }
 
-.body {
+.Login .body {
     display:flex;
     flex-direction: column;
 
@@ -18,7 +18,7 @@
     align-items: center;
 }
 
-.title{
+.Login .title{
     width:100%;
     color : black;
     margin-top : 40px;
@@ -27,7 +27,7 @@
     justify-content: center;
 }
 
-.deco_title {
+.Login .deco_title {
     width:100%;
     background-color: blueviolet;
     height: 40px;
@@ -35,7 +35,7 @@
     border-top-right-radius: 30px;
 }
 
-.deco_end {
+.Login .deco_end {
     width:100%;
     background-color: blueviolet;
     height: 40px;
@@ -44,14 +44,14 @@
     margin-top:auto;
 }
 
-.login_form{
+.Login .login_form{
     display:flex;
     /* margin-top : 100px; */
     flex-direction: column;
     justify-content: center;
 }
 
-.id_input {
+.Login .id_input {
     width : 340px;
     height : 45px;
     border : 1px solid gray;
@@ -59,11 +59,11 @@
     border-top-right-radius: 10px;
 }
 
-.id_input:focus{
+.Login .id_input:focus{
     outline : none;
 }
 
-.pw_input {
+.Login .pw_input {
     width : 340px;
     height : 45px;
     margin-top : -1px;
@@ -72,11 +72,11 @@
     border-bottom-right-radius: 10px;
 }
 
-.pw_input:focus {
+.Login .pw_input:focus {
     outline: none;
 }
 
-.submit {
+.Login .submit {
     height: 50px;
     border:1px solid blueviolet;
     border-radius: 10px;
