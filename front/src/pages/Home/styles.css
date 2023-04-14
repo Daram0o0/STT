@@ -1,58 +1,58 @@
 .top {
     background-color: aqua;
     margin-top: 20px;
-  }
-  
-  .middle {
-    background-color: blanchedalmond;
-    margin: auto;
-    width: 780px;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .middle-box {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .bottom-box {
-    /* background-color: #12a025; */
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+}
 
-  .bottom-box > *{
-    cursor: pointer;
-    background-color: aquamarine;
-    margin: auto;
-    width: 100px;
-    height: 50px;
-    border-style: solid;
-    border-color: darkviolet;
-    border-width: 5px;
-  }
+.middle {
+  background-color: blanchedalmond;
+  margin: auto;
+  width: 780px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
-  .bottom-my {
-    /* cursor: pointer;
-    background-color: aquamarine;
-    width: 100px;
-    height: 50px;
-    border-style: solid;
-    border-color: darkviolet;
-    border-width: 5px; */
-  }
+.middle-box {
+  display: flex;
+  justify-content: center;
+}
 
-  .bottom-home {
-    /* cursor: pointer;
-    margin-left: 3px;
-    background-color: aquamarine;
-    width: 100px;
-    height: 50px;
-    border-style: solid;
-    border-color: darkviolet;
-    border-width: 5px; */
-  }
+.bottom-box {
+  /* background-color: #12a025; */
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom-box > *{
+  cursor: pointer;
+  background-color: aquamarine;
+  margin: auto;
+  width: 100px;
+  height: 50px;
+  border-style: solid;
+  border-color: darkviolet;
+  border-width: 5px;
+}
+
+.bottom-my {
+  /* cursor: pointer;
+  background-color: aquamarine;
+  width: 100px;
+  height: 50px;
+  border-style: solid;
+  border-color: darkviolet;
+  border-width: 5px; */
+}
+
+.bottom-home {
+  /* cursor: pointer;
+  margin-left: 3px;
+  background-color: aquamarine;
+  width: 100px;
+  height: 50px;
+  border-style: solid;
+  border-color: darkviolet;
+  border-width: 5px; */
+}
