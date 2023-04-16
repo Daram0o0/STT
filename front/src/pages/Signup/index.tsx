@@ -1,9 +1,10 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import './styles.css';
 import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../components/firebase';
 
+const provider = new GoogleAuthProvider();
 
 function Signup(){
     const navigate = useNavigate();
@@ -40,9 +41,9 @@ function Signup(){
                     <input className="pw_input" value={password} onChange={(e)=>{setPassword(e.target.value)}} type="password" placeholder='password'></input>
                     <br/><br/>
 
-                    <button className="submit" onClick={(e)=>{onSubmit(e)}}>가입하기</button>                   
+                    <button className="submit" onClick={(e)=>{onSubmit(e)}}>가입하기</button>  
+                                     
                 </div>
-                
                 <div className="deco_end"></div>
             </div>
         </div>

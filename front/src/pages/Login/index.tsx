@@ -1,6 +1,7 @@
 import "./styles.css";
 import "../Signup";
 import { useNavigate } from "react-router-dom";
+import GoogleLogin from './../../components/GoogleLogin';
 
 function Login(){
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function Login(){
                     <a href="" style={{textDecoration:"none",color:"gray"}}> | 비밀번호 찾기</a> 
                     <a href="" style={{textDecoration:"none",color:"gray"}} onClick={()=>{navigate('/signup');}}> | 회원가입</a>
                 </p>
-                
+                <GoogleLogin width="340px" text="Sign in with Google"/>
                 <div className="deco_end"></div>
             </div>
         </div>
