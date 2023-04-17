@@ -1,4 +1,4 @@
-.Login{
+.Signup{
     display : flex;
     align-items: center;
     justify-content: center;
@@ -6,7 +6,7 @@
     height:100%;
 }
 
-.Login .body {
+.Signup .body {
     display:flex;
     flex-direction: column;
 
@@ -18,7 +18,7 @@
     align-items: center;
 }
 
-.Login .title{
+.Signup .title{
     width:100%;
     color : black;
     margin-top : 40px;
@@ -27,7 +27,7 @@
     justify-content: center;
 }
 
-.Login .deco_title {
+.Signup .deco_title {
     width:100%;
     background-color: blueviolet;
     height: 40px;
@@ -35,7 +35,7 @@
     border-top-right-radius: 30px;
 }
 
-.Login .deco_end {
+.Signup .deco_end {
     width:100%;
     background-color: blueviolet;
     height: 40px;
@@ -44,7 +44,7 @@
     margin-top:auto;
 }
 
-.Login .login_form{
+.Signup .signup_form{
     display:flex;
     /* margin-top : 100px; */
     width: 340px;
@@ -52,7 +52,7 @@
     align-items: center;
 }
 
-.Login .id_input {
+.Signup .id_input {
     width : calc(100% - 6px);
     height : 45px;
     border : 1px solid gray;
@@ -60,11 +60,13 @@
     border-top-right-radius: 10px;
 }
 
-.Login .id_input:focus{
+.Signup .id_input:focus{
     outline : none;
+    border-color : blueviolet;
+    z-index: 0;
 }
 
-.Login .pw_input {
+.Signup .pw_input {
     width : calc(100% - 6px);
     height : 45px;
     margin-top : -1px;
@@ -73,15 +75,18 @@
     border-bottom-right-radius: 10px;
 }
 
-.Login .pw_input:focus {
-    outline: none;
+.Signup .pw_input:focus {
+    outline : none;
+    border-color : blueviolet;
+    z-index: 0;
 }
 
-.Login .submit {
+.Signup .submit {
     width : calc(100% - 2px);
     height: 50px;
     border:1px solid blueviolet;
     border-radius: 10px;
     background-color: blueviolet;
     color : white;
+    cursor : pointer;
 }
