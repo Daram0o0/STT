@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, User  } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import './styles.css';
 import { useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ function Signup(){
         try{
             const res = await createUserWithEmailAndPassword(auth, email, password);
             console.log("create user!");
-            
+            localStorage.setItem('uid', res.user.uid);
         } catch (e) {
             console.log(e);
         }   
