@@ -7,7 +7,7 @@ import GoogleLogin from './../../components/GoogleLogin';
 function Login(){
     const navigate = useNavigate();
     const [errMsg, setErrMsg] = useState();
-
+    
     return(
         <div className="Login">
             <div className="body">
@@ -18,7 +18,6 @@ function Login(){
                 <div className="login_form">
                     <input className="id_input" type="text"></input>
                     <input className="pw_input" type="password"></input>
-                    <br/>
                     <p style={{color:"red", height:"22px"}}>{errMsg && errMsg}</p>
                     <button className="submit">로그인</button>                   
                 </div>

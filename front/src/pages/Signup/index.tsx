@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, User  } from 'firebase/auth';
 import './styles.css';
 import { useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,34 +13,20 @@ function Signup(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [errMsg, setErrMsg] = useState("");
 
     const onSubmit = async (e? : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e?.preventDefault();
-
-        await createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                //Signed in
-                const user = userCredential.user;
-                console.log(user);
-                alert("회원 가입이 완료되었습니다!");
-                navigate("/login");
-            })
-            .catch((err) => {
-                const errorCode = err.code;
-                const errorMsg = err.message;
-                console.log(errorCode, errorMsg);
-                setErrMsg(errorCode);
-                switch (errorCode){
-                    case 'auth/invalid-email':
-                        setErrMsg("잘못된 이메일 형식입니다.");
-                        break;
-                    case 'auth/weak-password':
-                        setErrMsg("비밀번호는 최소 6자 이상이어야 합니다.");
-                        break;
-                }
-            })
+        
+        console.log("회원가입 시도");
+        console.log(auth.currentUser);
+        try{
+            const res = await createUserWithEmailAndPassword(auth, email, password);
+            console.log("create user!");
+            
+        } catch (e) {
+            console.log(e);
+        }   
     }
 
     return (
@@ -63,7 +49,6 @@ function Signup(){
                         }
                     }} onChange={(e)=>{setPassword(e.target.value)}} type="password" placeholder='password'></input>
                     <p style={{color:"red", height:"22px"}}>{errMsg && errMsg}</p>
-                    <br/>
 
                     <button className="submit" onClick={(e)=>{onSubmit(e)}}>가입하기</button>  
                     <GoogleLogin width="340px" text="Sign in with Google"/>        
@@ -73,5 +58,6 @@ function Signup(){
         </div>
     )
 }
+
 
 export default Signup;
