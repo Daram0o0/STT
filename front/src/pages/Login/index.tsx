@@ -1,10 +1,12 @@
 import "./styles.css";
 import "../Signup";
+import {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from './../../components/GoogleLogin';
 
 function Login(){
     const navigate = useNavigate();
+    const [errMsg, setErrMsg] = useState();
 
     return(
         <div className="Login">
@@ -16,8 +18,8 @@ function Login(){
                 <div className="login_form">
                     <input className="id_input" type="text"></input>
                     <input className="pw_input" type="password"></input>
-                    <br/><br/>
-
+                    <br/>
+                    <p style={{color:"red", height:"22px"}}>{errMsg && errMsg}</p>
                     <button className="submit">로그인</button>                   
                 </div>
 

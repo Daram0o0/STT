@@ -62,6 +62,8 @@
 
 .Signup .id_input:focus{
     outline : none;
+    border-color : blueviolet;
+    z-index: 0;
 }
 
 .Signup .pw_input {
@@ -74,7 +76,9 @@
 }
 
 .Signup .pw_input:focus {
-    outline: none;
+    outline : none;
+    border-color : blueviolet;
+    z-index: 0;
 }
 
 .Signup .submit {

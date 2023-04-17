@@ -3,6 +3,7 @@ import './styles.css';
 import { useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../components/firebase';
+import GoogleLogin from './../../components/GoogleLogin';
 
 function Signup(){
     const navigate = useNavigate();
@@ -61,11 +62,11 @@ function Signup(){
                             onSubmit();
                         }
                     }} onChange={(e)=>{setPassword(e.target.value)}} type="password" placeholder='password'></input>
-                    <p style={{color:"red"}}>{errMsg && errMsg}</p>
-                    <br/><br/>
+                    <p style={{color:"red", height:"22px"}}>{errMsg && errMsg}</p>
+                    <br/>
 
                     <button className="submit" onClick={(e)=>{onSubmit(e)}}>가입하기</button>  
-                                     
+                    <GoogleLogin width="340px" text="Sign in with Google"/>        
                 </div>
                 <div className="deco_end"></div>
             </div>
