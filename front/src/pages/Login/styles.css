@@ -62,6 +62,8 @@
 
 .Login .id_input:focus{
     outline : none;
+    border: 1px solid blueviolet;
+    z-index: 0; 
 }
 
 .Login .pw_input {
@@ -75,6 +77,7 @@
 
 .Login .pw_input:focus {
     outline: none;
+    border: 1px solid blueviolet;
 }
 
 .Login .submit {
