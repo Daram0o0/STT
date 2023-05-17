@@ -2,6 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import './styles.css';
 import { createTable , getMyTableList} from '../../service/tableDB/tableDB';
+import TimeCell from '../TimeCell';
 
 function Home() {
 
@@ -16,7 +17,8 @@ function Home() {
             </div>
             <div className='middle'> 
                 <div className='middle_1'>
-                    여기에 공용 시간표가 보이게 하기
+                    {/* 여기에 공용 시간표가 보이게 하기 */}
+                    <TimeCell></TimeCell>
                     <button onClick={()=>{createTable(localStorage.getItem('uid'), "TestRoom");}}>테이블 만들기</button> {/**임시 추가 */}
                     <button onClick={()=>{
                         getMyTableList(localStorage.getItem('uid'))
