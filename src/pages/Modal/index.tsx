@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
-// import Modal from './index';
 import './styles.css';
-import './OpenModal';
+import Openmodal from'./OpenModal';
 
 function OpenModal() {
     const [modal, setModal] = useState<boolean>(false);
@@ -29,11 +28,11 @@ function OpenModal() {
             {modal && (
                 <div className="modal">
                     <div onClick={toggleModal} className="overlay"></div>
-                    <form className="modal-content">
+                    <div className="modal-content">
                         <h2>시간표 추가</h2>
-                        <OpenModal/>
+                        <Openmodal></Openmodal>
                         <button className="close-modal" onClick={toggleModal}> X </button>
-                    </form>
+                    </div>
                 </div>
             )}
 
