@@ -8,5 +8,9 @@ td {
   border: 2px solid black;
   width: 100px;
   height: 30px;
+  cursor: progress;
 }
 
+td:hover {
+  background-color: rgb(255, 255, 255);
+}

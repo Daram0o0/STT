@@ -2,7 +2,8 @@ import React from 'react';
 import {useState} from 'react';
 import './styles.css';
 import { createTable , getMyTableList} from '../../service/tableDB/tableDB';
-import TimeCell from '../TimeCell';
+import TimeCell from '../../components/TimeCell';
+import Modal from '../Modal/index'
 
 function Home() {
 
@@ -14,6 +15,7 @@ function Home() {
                 <div className='top_1'>
                     홈화면
                 </div>
+                <Modal/>
             </div>
             <div className='middle'> 
                 <div className='middle_1'>

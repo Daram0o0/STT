@@ -1,10 +1,13 @@
 import "./styles.css";
-import "../TimeCell/index";
+import "../../components/TimeCell/index";
+import TimeCell from "../../components/TimeCell/index";
 
 function CreateTeam() {
     return (
         <div>
-            
+            hello
+            <select></select>
+            <TimeCell/>
         </div>
     )
 }
