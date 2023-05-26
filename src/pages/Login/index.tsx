@@ -1,11 +1,12 @@
 import "./styles.css";
 import "../Signup";
-import { setCookie, getCookie, removeCookie} from "../../service/cookie/cookie"
+// import { setCookie, getCookie, removeCookie } from "../../service/cookie/cookie";
 import {useState, useRef, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from './../../components/GoogleLogin';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../../components/firebase";
+import { useCookies } from "react-cookie";
 
 function Login() {
     const navigate = useNavigate();
@@ -13,15 +14,15 @@ function Login() {
     const [errMsg, setErrMsg] = useState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [cookies, setCookie, removeCookie] = useCookies();
     
     function submit(e : React.MouseEvent<HTMLButtonElement, MouseEvent>){
         e.preventDefault();
         const res = signInWithEmailAndPassword(auth, email, password).then(
             (UserCredential) => {
                 const user = UserCredential.user;
-                // setCookie('uidToken', );
-                localStorage.setItem('uid', user.uid);
+                setCookie('uidToken', user.uid);
+                // localStorage.setItem('uid', user.uid);
                 navigate('/');
             }
         ).catch((error)=>{console.log(error)});
