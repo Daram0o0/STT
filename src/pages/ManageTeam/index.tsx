@@ -1,7 +1,16 @@
 import "./styles.css";
 import TimeCell from '../../components/TimeCell';
+import { addUser, deleteUser } from '../../service/tableDB';
+import { useCookies } from "react-cookie";
+import { useLocation, useParams } from "react-router-dom";
 
 function ManageTeam() {
+
+  const [cookies] = useCookies();
+  const { state } = useLocation();
+  const roomId = state.roomId;
+  const teamName = state.teamName;
+
   return (
     <div className="ManageTeam">
       <div className="container">
@@ -20,19 +29,21 @@ function ManageTeam() {
               <div>3</div>
               {/* <input type="checkbox"/> */}
             </div>
-            <div>
+            <div onClick={()=>{addUser(roomId, "zizon_jiho", false, teamName)}}>
               <div>+</div>
             </div>
           </div>
           <div className="team_timetable">
             <TimeCell/>
           </div>
+          {roomId}
         </div>
         <div className="members">
           오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기
           <div className="member">
             <div className="icons">1</div>
             <p>member1</p>
+            <button onClick={()=>{deleteUser("zizon_jiho", roomId);}}>강퇴</button>
           </div>
           <div className="member">
             <div className="icons">2</div>

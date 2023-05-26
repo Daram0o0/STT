@@ -25,6 +25,7 @@ function Signup() {
             const res = await createUserWithEmailAndPassword(auth, email, password);
             console.log("create user!");
             localStorage.setItem('uid', res.user.uid);
+            navigate('/login');
         } catch (e) {
             console.log(e);
         }
