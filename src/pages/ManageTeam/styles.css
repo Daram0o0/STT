@@ -1,0 +1,73 @@
+.ManageTeam{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content:center;
+  /* flex-direction: row; */
+  /* align-items: center; */
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.main{
+  display: flex;
+  flex-direction: column;
+  background-color: var(--main-theme-000);
+  border: 1px solid black;
+}
+.main > div {
+  margin-right: 30px;
+}
+
+.timetables{
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  border: 1px solid black;
+}
+.timetables > div {
+  width: 110px;
+  height: 110px;
+  margin: 10px;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+}
+
+.team_timetable{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.members{
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  background-color:var(--main-theme-200);
+}
+.member {
+  width: 200px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+}
+.icons{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+/* .container > * {margin-bottom: 20px;} */

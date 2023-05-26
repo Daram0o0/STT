@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Invite from './pages/Invite';
 import CreateTeam from './pages/CreateTeam';
+import ManageTeam from './pages/ManageTeam';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/createteam" element={ <CreateTeam/>}></Route>
+        <Route path="/createteam" element={<CreateTeam />}></Route>
+        <Route path="/manageteam" element={<ManageTeam />}></Route>
         <Route path="/invite/:code" element={<Invite />}></Route>
       </Routes>
 
