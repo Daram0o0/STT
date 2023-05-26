@@ -1,3 +1,12 @@
+html{
+  --main-theme-000 : #efddfb;
+  --main-theme-100 : #debbf7;
+  --main-theme-200 : #cc9af2;
+  --main-theme-300 : #b878ed;
+  --main-theme-400 : #a255e8;
+  --main-theme: #8a2be2;
+  }
+
 .App {
   text-align: center;
 }
