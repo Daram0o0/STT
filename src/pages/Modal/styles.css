@@ -184,6 +184,7 @@ dl, dt {
     /* background-color: darkcyan; */
     display: flex;
     justify-content: flex-start;
+
 }
 
 .ol > .active {
@@ -200,6 +201,11 @@ dl, dt {
 .starttime, .endtime {
     width: 50px;
     height: 30px;
+}
+
+.select {
+    display: flex;
+    justify-content: center;
 }
 
 .subject {
