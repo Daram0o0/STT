@@ -1,15 +1,21 @@
 import "./styles.css";
 import "../../components/TimeCell/index";
-import TimeCell from "../../components/TimeCell/index";
+import { createTable } from "../../service/tableDB/tableDB";
+import { useCookies } from "react-cookie";
+import { useState } from "react";
 
 function CreateTeam() {
+    const [cookies, setCookie, removeCookie] = useCookies();
+    const [teamName, setTeamName] = useState('');
 
     return (
         <div className="CreateTeam">
             <div className="container">
                 <div className="team_name">
                     <div>팀 이름</div>
-                    <input type="text" placeholder="팀 명"></input>
+                    <input type="text" placeholder="팀 명"
+                        value={teamName}
+                        onChange={(e) => { setTeamName(e.target.value) }} />
                 </div>
                     
                 <div className="team_explain">
@@ -24,7 +30,7 @@ function CreateTeam() {
                 </div>
 
                 <div className="make">
-                    <button>make</button>
+                    <button onClick={()=>{createTable(cookies.uidToken, teamName)}}>make</button>
                 </div>
             </div>
         </div>
