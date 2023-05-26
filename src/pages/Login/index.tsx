@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import GoogleLogin from './../../components/GoogleLogin';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../../components/firebase";
+import {useCookies} from 'react-cookie';
 
 function Login() {
     const navigate = useNavigate();
@@ -20,8 +21,7 @@ function Login() {
         const res = signInWithEmailAndPassword(auth, email, password).then(
             (UserCredential) => {
                 const user = UserCredential.user;
-                // setCookie('uidToken', );
-                localStorage.setItem('uid', user.uid);
+                console.log(user.uid);
                 navigate('/');
             }
         ).catch((error)=>{console.log(error)});

@@ -1,16 +1,24 @@
 import firebase from 'firebase/app';
-import {ref, set, push, update, get} from 'firebase/database';
+import {ref, set, push, update, get, remove} from 'firebase/database';
 
 import { db } from '../../components/firebase';
 
-function createTable(uid, roomName){
+// uid : 방을 만드는 유저의 user id 값
+// roomName : 방 이름
+async function createTable(uid, roomName){
     const unique_key = push(ref(db, 'rooms/')).key
     // set(ref(db, 'rooms/'), )
     addUser(unique_key, uid, true, roomName);
-    return unique_key;
+    return new Promise(unique_key);
 }
 
-function addUser(key, uid, isOwner, roomName){
+async function deleteUser(uid, roomId){
+    const dbRef = ref(db, 'rooms/' + roomId + '/users/', + uid);
+    //user belong room delete need
+    return await remove(dbRef);
+}
+
+async function addUser(key, uid, isOwner, roomName){
     let exist = false;
     get(ref(db, 'rooms/' + key + '/users/' + uid)).then((snapshot)=>{
         exist = snapshot.exists();
@@ -36,13 +44,18 @@ function addUser(key, uid, isOwner, roomName){
     })
 }
 
-function getMyTableList(uid){
+async function deleteTable(uid, roomId){
+    const dbRef = ref(db, 'rooms/' + roomId);
+    remove(dbRef);
+    remove(ref(db, 'users/'+ uid + '/belong/' + roomId));
+}
+
+async function getMyTables(uid){
     return new Promise((resolve, rej) => {
         get(ref(db, 'users/' + uid)).then((snapshot)=>{
             resolve(snapshot.child('belong').exportVal());
         })
-    })    
-
+    })
 }
 
-export {createTable, addUser, getMyTableList};
+export {createTable, addUser, getMyTables, deleteUser, deleteTable};

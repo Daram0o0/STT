@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import './styles.css';
-import { createTable , getMyTableList} from '../../service/tableDB/tableDB';
+import { createTable , getMyTables} from '../../service/tableDB/tableDB';
 import TimeCell from '../../components/TimeCell';
 import Modal from '../Modal/index'
 
@@ -23,7 +23,7 @@ function Home() {
                     <TimeCell></TimeCell>
                     <button onClick={()=>{createTable(localStorage.getItem('uid'), "TestRoom");}}>테이블 만들기</button> {/**임시 추가 */}
                     <button onClick={()=>{
-                        getMyTableList(localStorage.getItem('uid'))
+                        getMyTables(localStorage.getItem('uid'))
                             .then((r)=>{
                                 setTables(r);
                                 console.log(r);
