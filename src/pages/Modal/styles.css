@@ -170,42 +170,60 @@ dl, dt {
 
 .ol > li {
     list-style: none;
-    margin: 5px;
-}
-
-.dltest {
-    background-color: aqua;
-    display: block;
+    margin: 1px;
+    cursor: pointer;
 }
 
 .container {
-    background-color: chartreuse;
+    /* background-color: var(--main-theme-300); */
     display: block;
     justify-content: center;
 }
 
 .ol {
-    background-color: darkcyan;
+    /* background-color: darkcyan; */
     display: flex;
     justify-content: flex-start;
-    cursor: pointer;
-}
-
-.divtest {
-    background-color: peru;
 }
 
 .ol > .active {
     color: #fff;
-    background-color: blueviolet;
+    background-color: var(--main-theme-400);
+    /* border: solid 1px black; */
 }
 
 .timeselect {
-    background-color: khaki;
+    /* background-color: khaki; */
     margin-left: 30px;
 }
 
 .starttime, .endtime {
     width: 50px;
     height: 30px;
+}
+
+.subject {
+    /* background-color: var(--main-theme-400); */
+    /* width: 400px; */
+    display: flex;
+    justify-content: center;
+}
+
+.subject > .delete {
+    border-radius: 25px;
+    width: 60px;
+    height: 25px;
+    background-color: var(--main-theme-100);
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    left: 80px;
+    box-shadow: 1px 4px 0 rgb(0,0,0,0.5);
+}
+
+.subject > .delete:hover {
+    background-color: var(--main-theme-300);
+    box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
+    position: relative;
+    top:2px;
 }
