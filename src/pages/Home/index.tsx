@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import './styles.css';
-import { createTable , getMyTables} from '../../service/tableDB/tableDB';
+import { createTable , getMyTables} from '../../service/tableDB';
 import TimeCell from '../../components/TimeCell';
 import Modal from '../Modal/index'
 

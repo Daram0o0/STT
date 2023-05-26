@@ -9,28 +9,29 @@ async function createTable(uid, roomName){
     const unique_key = push(ref(db, 'rooms/')).key
     // set(ref(db, 'rooms/'), )
     addUser(unique_key, uid, true, roomName);
-    return new Promise(unique_key);
+    return unique_key;
 }
 
 async function deleteUser(uid, roomId){
-    const dbRef = ref(db, 'rooms/' + roomId + '/users/', + uid);
+    const dbRef = ref(db, 'rooms/' + roomId + '/users/' + uid);
+    console.log('rooms/' + roomId + '/users/' + uid);
     //user belong room delete need
-    return await remove(dbRef);
+    return remove(dbRef);
 }
 
-async function addUser(key, uid, isOwner, roomName){
+async function addUser(roomId, uid, isOwner, roomName){
     let exist = false;
-    get(ref(db, 'rooms/' + key + '/users/' + uid)).then((snapshot)=>{
+    get(ref(db, 'rooms/' + roomId + '/users/' + uid)).then((snapshot)=>{
         exist = snapshot.exists();
     })
 
     if (!exist){
-        update(ref(db, 'rooms/' + key + '/users/' + uid),{
+        update(ref(db, 'rooms/' + roomId + '/users/' + uid),{
             isOwner : isOwner,
             timeTable : {}, // 시간표
         });
 
-        update(ref(db, 'users/' + uid + '/belong/' + key),{
+        update(ref(db, 'users/' + uid + '/belong/' + roomId),{
             roomName: roomName,
             isOnwer: isOwner,
         });
@@ -39,7 +40,7 @@ async function addUser(key, uid, isOwner, roomName){
     }
     
 
-    update(ref(db, 'rooms/' + key), {
+    update(ref(db, 'rooms/' + roomId), {
         roomName : roomName,
     })
 }
