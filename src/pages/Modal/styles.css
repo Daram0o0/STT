@@ -164,11 +164,48 @@ dl, dt {
     height: 102px;
 } */
 
-
 .formcon {
     display: block;
 }
 
-.oltest > li {
+.ol > li {
     list-style: none;
+    margin: 5px;
+}
+
+.dltest {
+    background-color: aqua;
+    display: block;
+}
+
+.container {
+    background-color: chartreuse;
+    display: block;
+    justify-content: center;
+}
+
+.ol {
+    background-color: darkcyan;
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.divtest {
+    background-color: peru;
+}
+
+.ol > .active {
+    color: #fff;
+    background-color: blueviolet;
+}
+
+.timeselect {
+    background-color: khaki;
+    margin-left: 30px;
+}
+
+.starttime, .endtime {
+    width: 50px;
+    height: 30px;
 }
