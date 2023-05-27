@@ -1,9 +1,9 @@
 import "./styles.css";
 import TimeCell from '../../components/TimeCell';
-import { addUser, deleteUser } from '../../service/tableDB';
+import { addUser, deleteUser, getMembersByTable } from '../../service/tableDB';
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
 // 이지만 일단 addUser되면 하나씩 늘어나도록 만들어보기
@@ -22,6 +22,13 @@ function ManageTeam() {
     },
   ]);
 
+  // DB에서 불러와서 페이지 열릴 때 멤버 추가
+  useEffect(()=>{
+    getMembersByTable(roomId).then((snapshot)=>{
+      console.log(snapshot);
+    });
+  }, [])
+
   return (
     <div className="ManageTeam">
       <div className="container">
@@ -33,7 +40,7 @@ function ManageTeam() {
                 <Timetable alias={ obj.userId[0]+obj.userId[1]+obj.userId[2] } />
               )})}
             
-            <div onClick={() => {
+            <div style={{cursor:"pointer"}} onClick={() => {
               addUser(roomId, "zizon_jiho", false, teamName);
               setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
             }}>

@@ -14,13 +14,13 @@ function App() {
       <Link to="/"></Link>
       <Link to="/invite"></Link>
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={<Main />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/createteam" element={<CreateTeam />}></Route>
         <Route path="/manageteam" element={<ManageTeam />}></Route>
         <Route path="/invite/:code" element={<Invite />}></Route>
-        <Route path="/main" element={<Main />}></Route>
+        <Route path="/home" element={<Home />}></Route>
       </Routes>
 
     </BrowserRouter>

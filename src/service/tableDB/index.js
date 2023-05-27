@@ -60,4 +60,11 @@ async function getMyTables(uid){
     // return;
 }
 
-export {createTable, addUser, getMyTables, deleteUser, deleteTable};
+async function getMembersByTable(roomId){
+    return new Promise((res, rej) => {get(ref(db, 'rooms/' + roomId)).then((snapshot) => {
+            res(snapshot.child('users').exportVal());
+        })
+    });
+}
+
+export {createTable, addUser, getMyTables, deleteUser, deleteTable, getMembersByTable};

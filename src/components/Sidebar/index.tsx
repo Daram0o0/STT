@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import { getMyTables } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import { RiSettings5Fill } from 'react-icons/ri';
 
 interface ISidebar{
   width?: string,
@@ -23,7 +24,10 @@ const Team = (props: any) => {
         }
     });
     }}>
-      {props.teamName}
+      <div className="icon">
+      <p style={{fontWeight:"bold",fontFamily:"sans-serif"}}>{props.teamName[0].toUpperCase()}</p>
+      </div>
+      <p>{props.teamName}</p>
     </div>
   );
 }
@@ -58,18 +62,24 @@ function Sidebar(props : ISidebar){
   }
 
   return (
-    <div className="Sidebar" style={styles} >
+    <div className="Sidebar" style={styles}>
       <div className='container'>
-        <div className='profile'></div>
-        <hr></hr>
+        <div className='profile'>
+          <div className='icon'></div>
+          <div style={{marginRight: "10px"}}>{"Zizon jiho"}</div>
+          <RiSettings5Fill className="settings" size={24} onClick={()=>{
+            //navigate settings pages
+          }}/>
+          
+        </div>
         <div className='teams'>
           {
-            teams && Object.entries(teams).map((v, i)=>{
+            teams ? Object.entries(teams).map((v, i)=>{
               const roomId = v[0];
               const t = v[1];
               console.log(Object.values(t)[1]);
               return <Team roomId={roomId} teamName={Object.values(t)[1]}/>
-            })
+            }) : <p style={{display:"flex",alignItems:"center",justifyContent:"center",color:"gray"}}>서버 협박하는 중 ...</p>
           }
         </div>
       </div>
