@@ -1,6 +1,5 @@
 import firebase from 'firebase/app';
 import {ref, set, push, update, get, remove} from 'firebase/database';
-
 import { db } from '../../components/firebase';
 
 // uid : 방을 만드는 유저의 user id 값
@@ -14,8 +13,7 @@ async function createTable(uid, roomName){
 
 async function deleteUser(uid, roomId){
     const dbRef = ref(db, 'rooms/' + roomId + '/users/' + uid);
-    console.log('rooms/' + roomId + '/users/' + uid);
-    //user belong room delete need
+
     return remove(dbRef);
 }
 
@@ -38,7 +36,6 @@ async function addUser(roomId, uid, isOwner, roomName){
     }else{
         console.log('이미 존재하는 유저입니다.');
     }
-    
 
     update(ref(db, 'rooms/' + roomId), {
         roomName : roomName,
@@ -57,6 +54,10 @@ async function getMyTables(uid){
             resolve(snapshot.child('belong').exportVal());
         })
     })
+    // let snapshot = await get(ref(db, 'users/' + uid));
+    // console.log("ss : ", snapshot);
+
+    // return;
 }
 
 export {createTable, addUser, getMyTables, deleteUser, deleteTable};

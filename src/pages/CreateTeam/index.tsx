@@ -36,7 +36,7 @@ function CreateTeam() {
                 <div className="make">
                     <button onClick={()=>{
                         createTable(cookies.uidToken, teamName).then((roomId : string | null)=>{
-                            navigate('/manageteam', {
+                            navigate('/manageteam' , {
                                 state : {
                                     roomId : roomId,
                                     teamName : teamName,

@@ -26,7 +26,6 @@ function Login() {
                 navigate('/');
             }
         ).catch((error)=>{console.log(error)});
-        
     }
 
     const idFocusRef = useRef<HTMLInputElement>(null);
