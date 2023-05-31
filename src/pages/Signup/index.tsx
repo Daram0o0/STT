@@ -1,4 +1,5 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUser } from './../../service/tableDB';
 import './styles.css';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,7 @@ function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState("");
+    const [nickname, setNickname] = useState("");
 
     const onSubmit = async (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e?.preventDefault();
@@ -24,7 +26,7 @@ function Signup() {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
             console.log("create user!");
-            localStorage.setItem('uid', res.user.uid);
+            createUser(res.user.uid, nickname);
             navigate('/login');
         } catch (e) {
             console.log(e);
@@ -40,9 +42,18 @@ function Signup() {
                 <h1 className="title">회원 가입</h1>
 
                 <div className="signup_form">
+                    <input className="nickname_input" value={nickname}
+                        placeholder='nickname'
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                id_input.current?.focus();
+                            }
+                        }}
+                        onChange={(e) => {
+                            setNickname(e.target.value);
+                        }}></input>
                     <input className="id_input" ref={id_input} value={email} onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            id_input.current?.blur();
                             pw_input.current?.focus();
                         }
                     }} onChange={(e) => { setEmail(e.target.value) }} type="text" placeholder='email'></input>
@@ -61,6 +72,5 @@ function Signup() {
         </div>
     )
 }
-
 
 export default Signup;
