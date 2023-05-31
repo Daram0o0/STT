@@ -1,7 +1,7 @@
 import './styles.css'
 import { useState } from 'react';
 
-function TimeCell() {
+function TimeCell(props?:any) {
 
   function addTime() {
     console.log("모달창 뜨게 하기")
