@@ -19,7 +19,12 @@ function ManageTeam() {
   const { state } = useLocation();
   const roomId = state.roomId;
   const teamName = state.teamName;
-  const [members, setMembers] = useState <MemberType>([]);
+  const [members, setMembers] = useState([
+    {
+      userId: "members1",
+      Owner: true
+    },
+  ]);
 
 
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
@@ -45,7 +50,7 @@ function ManageTeam() {
 
             <div style={{ cursor: "pointer" }} onClick={() => {
               addMember(roomId, "zizon_jiho", false);
-              setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
+              // setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
             }}>
               <div>+</div>
             </div>
