@@ -26,9 +26,10 @@ function ManageTeam() {
 
   
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
-  useEffect(()=>{
-    getMembersByTable(roomId).then((snapshot)=>{
-      console.log(Object.entries(snapshot));
+
+  useEffect(() => {
+    getMembersByTable(roomId).then((snapshot) => {
+      console.log(snapshot);
     });
   }, [])
 
@@ -40,10 +41,11 @@ function ManageTeam() {
           <div className="timetables">
             {members.map((obj) => {
               return (
-                <Timetable alias={ obj.userId[0] } />
-              )})}
-            
-            <div style={{cursor:"pointer"}} onClick={() => {
+                <Timetable alias={obj.userId[0]} />
+              )
+            })}
+
+            <div style={{ cursor: "pointer" }} onClick={() => {
               addUser(roomId, "zizon_jiho", false, teamName);
               setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
             }}>
@@ -51,16 +53,17 @@ function ManageTeam() {
             </div>
           </div>
           <div className="team_timetable">
-            <TimeCell/>
+            <TimeCell />
           </div>
           {roomId}
         </div>
         <div className="members">
-          오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기          
-          {members.map((obj, idx)=>{
+          오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기
+          {members.map((obj, idx) => {
             return (
-              <Member value={obj.userId} bool={obj.Owner} roomId={roomId} idx={ idx} />
-            )})}
+              <Member value={obj.userId} bool={obj.Owner} roomId={roomId} idx={idx} />
+            )
+          })}
         </div>
       </div>
     </div>
@@ -68,11 +71,11 @@ function ManageTeam() {
 }
 export default ManageTeam
 
-function Timetable(props : any) {
+function Timetable(props: any) {
   const alias = props.alias;
   return (
     <div>
-      <div>{ alias }</div>
+      <div>{alias}</div>
       {/* <input type="checkbox"/> */}
     </div>
   )
@@ -87,8 +90,8 @@ function Member(props: any) {
   return (
     <div className="member">
       <div className="icons">{userID[0]}</div>
-      <p>{ userID }</p>
-      {isOwner == false && <button onClick={() => { deleteUser("zizon_jiho", roomId); console.log(idx);}}>강퇴</button>}
+      <p>{userID}</p>
+      {isOwner == false && <button onClick={() => { deleteUser("zizon_jiho", roomId); console.log(idx); }}>강퇴</button>}
     </div>
   )
 }
