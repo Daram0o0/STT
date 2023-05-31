@@ -37,7 +37,7 @@ function ManageTeam() {
           <div className="timetables">
             {members.map((obj) => {
               return (
-                <Timetable alias={ obj.userId[0]+obj.userId[1]+obj.userId[2] } />
+                <Timetable alias={ obj.userId[0] } />
               )})}
             
             <div style={{cursor:"pointer"}} onClick={() => {
