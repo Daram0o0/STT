@@ -1,6 +1,6 @@
 import "./styles.css";
 import "../../components/TimeCell/index";
-import { createTable } from "../../service/tableDB";
+import { createRoom } from "../../service/tableDB";
 import { useCookies } from "react-cookie";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,12 +21,12 @@ function CreateTeam() {
                         value={teamName}
                         onChange={(e) => { setTeamName(e.target.value) }} />
                 </div>
-                    
+
                 <div className="team_explain">
                     <div>팀 설명</div>
                     <textarea placeholder="simple is best!"></textarea>
                 </div>
-                
+
                 <div className="invite">
                     <div>초대 링크</div>
                     <p>http://localhost:3000/STT/createteam</p>
@@ -34,12 +34,12 @@ function CreateTeam() {
                 </div>
 
                 <div className="make">
-                    <button onClick={()=>{
-                        createTable(cookies.uidToken, teamName).then((roomId : string | null)=>{
-                            navigate('/manageteam' , {
-                                state : {
-                                    roomId : roomId,
-                                    teamName : teamName,
+                    <button onClick={() => {
+                        createRoom(cookies.uidToken, teamName).then((roomId: String | null) => {
+                            navigate('/manageteam', {
+                                state: {
+                                    roomId: roomId,
+                                    teamName: teamName,
                                 }
                             });
                         });

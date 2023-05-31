@@ -1,6 +1,6 @@
 import "./styles.css";
 import TimeCell from '../../components/TimeCell';
-import { addUser, deleteUser, getMembersByTable } from '../../service/tableDB';
+import { addMember, deleteUser, getMembers, removeMember } from '../../service/tableDB';
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -13,10 +13,6 @@ import { DataSnapshot } from "firebase/database";
 //header 추가
 //첫 멤버 -> get
 
-type MemberType = (string | {
-  isOwner: boolean;
-})[];
-
 function ManageTeam() {
 
   const [cookies] = useCookies();
@@ -25,13 +21,12 @@ function ManageTeam() {
   const teamName = state.teamName;
   const [members, setMembers] = useState <MemberType>([]);
 
-  
+
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
 
   useEffect(() => {
-    getMembersByTable(roomId).then((snapshot) => {
-      console.log(snapshot);
-      // setMembers(snapshot);
+    getMembers(roomId).then((members) => {
+      console.log(members);
     });
   }, [])
 
@@ -49,9 +44,8 @@ function ManageTeam() {
             })}
 
             <div style={{ cursor: "pointer" }} onClick={() => {
-              addUser(roomId, "zizon_jiho", false, teamName);
-              // const tempMember = "zizon_jiho", isOwnerfalse;
-              setMembers([...members]);
+              addMember(roomId, "zizon_jiho", false);
+              setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
             }}>
               <div>+</div>
             </div>
@@ -89,13 +83,12 @@ function Member(props: any) {
   const userID = props.value;
   const isOwner = props.bool;
   const roomId = props.roomId;
-
+  const idx = props.idx;
   return (
     <div className="member">
       <div className="icons">{userID[0]}</div>
       <p>{userID}</p>
-      {isOwner == false && <button onClick={() => { deleteUser("zizon_jiho", roomId); }}>강퇴</button>}
+      {isOwner == false && <button onClick={() => { removeMember(roomId, "zizon_jiho",); console.log(idx); }}>강퇴</button>}
     </div>
   )
 }
-

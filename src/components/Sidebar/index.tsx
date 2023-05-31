@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './styles.css';
-import { getMyTables } from '../../service/tableDB';
+import { getUserRooms } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
@@ -42,12 +42,12 @@ function Sidebar(props: ISidebar) {
 
   const [cookies] = useCookies();
 
-  const [teams, setTeams] = useState<test | undefined>(undefined);
+  const [teams, setTeams] = useState<String[]>([]);
 
   useEffect(() => {
     if (cookies.uidToken) {
-      getMyTables(cookies.uidToken).then((v: test) => {
-        setTeams(v);
+      getUserRooms(cookies.uidToken).then((v) => {
+        setTeams(v!); // 조심!!!
       });
     } else {
       console.log("login need");
