@@ -4,11 +4,13 @@ import { addUser, deleteUser, getMembersByTable } from '../../service/tableDB';
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
 // 이지만 일단 addUser되면 하나씩 늘어나도록 만들어보기
 // delete시 useState내 members 지우기
-
+//header 추가
+//첫 멤버 -> get
 function ManageTeam() {
 
   const [cookies] = useCookies();
@@ -22,10 +24,11 @@ function ManageTeam() {
     },
   ]);
 
+  
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
   useEffect(()=>{
     getMembersByTable(roomId).then((snapshot)=>{
-      console.log(snapshot);
+      console.log(Object.entries(snapshot));
     });
   }, [])
 

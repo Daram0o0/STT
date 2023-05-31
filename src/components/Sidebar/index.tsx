@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import './styles.css';
-import styled, { css } from "styled-components";
 import { getMyTables } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
