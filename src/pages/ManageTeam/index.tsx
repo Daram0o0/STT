@@ -22,8 +22,8 @@ function ManageTeam() {
   const teamName = state.teamName;
   const [members, setMembers] = useState([
     {
-      userId: "member1",
-      Owner: true,
+      userId: "members1",
+      Owner: true
     },
   ]);
 
@@ -44,9 +44,10 @@ function ManageTeam() {
         <div className="main">
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
           <div className="timetables">
-            {members.map((obj) => {
+            {members.map((userId, isOwner) => {
+              console.log(userId, isOwner);
               return (
-                <Timetable alias={obj.userId[0]} />
+                <Timetable alias={userId} />
               )
             })}
 
@@ -64,9 +65,9 @@ function ManageTeam() {
         </div>
         <div className="members">
           오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기
-          {members.map((obj, idx) => {
+          {members.map((k, v) => {
             return (
-              <Member value={obj.userId} bool={obj.Owner} roomId={roomId} idx={idx} />
+              <Member value={k} bool={Object.values(k)[0]} roomId={roomId} />
             )
           })}
         </div>

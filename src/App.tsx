@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import Invite from './pages/Invite';
 import CreateTeam from './pages/CreateTeam';
 import ManageTeam from './pages/ManageTeam';
+import Setting from './pages/Setting';
 import Main from './pages/Main';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/manageteam" element={<ManageTeam />}></Route>
         <Route path="/invite/:code" element={<Invite />}></Route>
         <Route path="/home" element={<Home />}></Route>
+        <Route path="/setting" element={<Setting/>}></Route>
       </Routes>
 
     </BrowserRouter>
