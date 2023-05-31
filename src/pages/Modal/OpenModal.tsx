@@ -102,7 +102,10 @@ function ModalDetail() {
             ))}
             <button type="button" onClick={() => {
                 setTem([...tem, <Test delete={<button type="button" className="delete" onClick={() => {
-                    console.log("test")
+                    console.log(tem, tem.length);
+                    let temp2 = tem.splice(tem.length-1, 1)
+                    setTem(tem);
+                    console.log(temp2);
                 }}>삭제</button>}></Test>])
             }}>추가하기</button>
             <button type="submit">저장</button>
