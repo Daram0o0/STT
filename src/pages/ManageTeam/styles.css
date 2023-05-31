@@ -1,34 +1,38 @@
-.ManageTeam{
+.ManageTeam {
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content:center;
+  flex-direction: column;
   /* flex-direction: row; */
   /* align-items: center; */
 }
 
 .ManageTeam .container {
   display: flex;
+  min-height: 800px;
+  margin-bottom: auto;
   flex-direction: row;
 }
 
-.ManageTeam .main{
+.ManageTeam .main {
   display: flex;
   flex-direction: column;
   background-color: var(--main-theme-000);
   border: 1px solid black;
 }
-.ManageTeam .main > div {
+
+.ManageTeam .main>div {
   margin-right: 30px;
 }
 
-.ManageTeam .timetables{
+.ManageTeam .timetables {
   display: flex;
   flex-direction: row;
   /* align-items: center; */
   border: 1px solid black;
 }
-.ManageTeam .timetables > div {
+
+.ManageTeam .timetables>div {
   width: 80px;
   height: 80px;
   margin: 10px;
@@ -42,19 +46,20 @@
   cursor: pointer;
 }
 
-.ManageTeam .team_timetable{
+.ManageTeam .team_timetable {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid black;
 }
 
-.ManageTeam .members{
+.ManageTeam .members {
   display: flex;
   /* align-items: center; */
   flex-direction: column;
-  background-color:var(--main-theme-200);
+  background-color: var(--main-theme-200);
 }
+
 .ManageTeam .member {
   width: 200px;
   height: 30px;
@@ -63,7 +68,8 @@
   align-items: center;
   padding: 10px;
 }
-.ManageTeam .icons{
+
+.ManageTeam .icons {
   width: 30px;
   height: 30px;
   display: flex;
@@ -72,4 +78,5 @@
   border: 1px solid black;
   border-radius: 50%;
 }
+
 /* .ManageTeam .container > * {margin-bottom: 20px;} */

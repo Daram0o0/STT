@@ -14,8 +14,7 @@ async function createRoom(uid: String, roomName: String): Promise<String | null>
         roomName: roomName
     })
 
-
-    update(ref(db, 'users/' + uid + "/belongs"), [unique_key])
+    push(ref(db, 'users/' + uid + "/belongs"), unique_key)
 
     return unique_key;
 }
@@ -50,14 +49,11 @@ async function deleteUser(uid: String): Promise<void> {
 
 //uid에 해당하는 닉네임을 가져옵니다.
 async function getUserName(uid: String): Promise<String> {
-    let user_name = "";
-    get(ref(db, 'users/' + uid)).then((e) => {
-        user_name = Object.entries(e.exportVal())[1] && "";
+    return get(ref(db, 'users/' + uid)).then((e) => {
+        return Object.entries(e.exportVal())[1] && "";
     }).catch((err) => {
         throw new Error(err);
     });
-
-    return user_name;
 }
 
 //==========Member==========
@@ -90,14 +86,12 @@ async function removeMember(roomId: String, uid: String) {
     remove(ref(db, 'rooms/' + roomId + '/users/' + uid));
 }
 
-async function getMembers(roomId: String) {
-    let members: String[] = [];
-    get(ref(db, 'rooms/' + roomId + '/users/')).then((ss) => {
+async function getMembers(roomId: String): Promise<String[]> {
+    return get(ref(db, 'rooms/' + roomId + '/users/')).then((ss) => {
         console.log(Object.entries(ss.exportVal()));
+        return [];
         // members = Object.entries(ss.exportVal());
     })
-
-    return members;
 }
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정

@@ -4,6 +4,8 @@ import { addMember, deleteUser, getMembers, removeMember } from '../../service/t
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Header from '../../components/Header';
+import Sidebar from '../../components/Sidebar';
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
@@ -36,7 +38,9 @@ function ManageTeam() {
 
   return (
     <div className="ManageTeam">
+      <Header />
       <div className="container">
+        <Sidebar />
         <div className="main">
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
           <div className="timetables">
@@ -48,7 +52,7 @@ function ManageTeam() {
 
             <div style={{ cursor: "pointer" }} onClick={() => {
               addMember(roomId, "zizon_jiho", false);
-              setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
+              // setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
             }}>
               <div>+</div>
             </div>

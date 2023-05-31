@@ -62,7 +62,7 @@ function Sidebar(props: ISidebar) {
 
   return (
     <div className="Sidebar" style={styles}>
-      <div className='container'>
+      <div className='sidebar-container'>
         <div className='profile'>
           <div className='icon'></div>
           <div style={{ marginRight: "10px" }}>{"Zizon jiho"}</div>

@@ -1,3 +1,5 @@
+import "./styles.css";
+
 function Header() {
   return (
     <div className="Header">
@@ -5,3 +7,5 @@ function Header() {
     </div>
   )
 }
+
+export default Header;
