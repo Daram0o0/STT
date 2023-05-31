@@ -10,9 +10,9 @@ function Setting() {
       <Header />
       <div className="setting_container">
       <Sidebar/>
-      <div className="setting_name">
+      {/* <div className="setting_name">
         <div>Settings</div>
-      </div>
+      </div> */}
       
       <div className="setting_subcontainer">
         <div className="logout">
@@ -20,22 +20,24 @@ function Setting() {
         </div>
         <div className="setting_page">
           <div className="font">
-            <div>font</div>
-            <input type="text" />
-            <button></button>
+              <div>font</div>
+              <div className="divclass">
+                <input type="text" />
+                <button>확인</button>
+              </div>
           </div>
           <div className="font_size">
-            <div>글자 크기</div>
+            <div>text-size</div>
             <input type="text" />
             <button>확인</button>
           </div>
           <div className="start_addr">
-            <div>시작 주소</div>
+            <div>http://localhost:3000/STT + ?</div>
             <input type="text" />
             <button>확인</button>
           </div>
           <div className="darkmode_btn">
-            <div>다크모드설정</div>
+            <div>dark mode</div>
             <button>토글</button>
           </div>
         </div>
