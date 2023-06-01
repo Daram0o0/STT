@@ -1,6 +1,5 @@
 .Setting{
   font-family:'Arial Narrow Bold', sans-serif;
-  /* font-weight: */
 }
 .setting_container{
   width: 100vw;
@@ -9,18 +8,6 @@
   flex-direction: row;
   
 }
-
-/* .setting_name{
-  
-  font-size: 20px;
-  color: aliceblue;
-  background-color:var(--main-theme);
-  width: 10%;
-}
-.setting_name > div {
-  float: right;
-  margin: 10px;
-} */
 
 .setting_subcontainer{
   /* border: 3px solid red; */
@@ -58,136 +45,98 @@
   margin: 20px;
 }
 
-.font{
-  /* border: 3px solid hotpink; */
-  /* font-size: 30px; */
-  background-color: #ffffff;
-  border-radius: 20px;
-  /* margin: 10px; */
-  height: 130px;
-  /* display: flex; */
-}
-.font > div{
+.divname{
   border-radius: 20px 20px 0px 0px;
-  
   color:#ffffff;
   background-color: var(--main-theme);
-  padding: 10px;
-}
-.font > input{
-  width: 500px;
+  display: flex;
+  align-items: center;
   height: 50px;
-  font-size: 23px;
-  /* margin: 7px; */
-  border-radius: 20px;
-  border:1px solid black;
-  
-  justify-content: center;
-}
-.font > button{
-  font-size: 20px;
-  border-radius: 10px;
-  background-color: var(--main-theme-000);
-  cursor: pointer;
-  outline: none;
-  box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
-  border: none;
-}
-.font > button:active{
-  background-color: var(--main-theme-100);
-  box-shadow: inset 1px 1px 0 rgb(0, 0, 0, 0.5);
-  position: relative;
-  top: 1.5px;
 }
 .divclass{
+  background-color: #ffffff;
+  height: 50px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
 }
+.divclass > input{
+  width: 250px;
+  height: 25px;
+  font-size: 20px;
+  background-color: var(--main-theme-100);
+  border-radius: 20px;
+  border:none;
+  justify-content: center;
+}.divclass > input:focus{
+  outline: none;
+  border: 1px solid blueviolet;
+  z-index: 0; 
+}
+.divclass > button{
+  margin-left: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: var(--main-theme-100);
+  cursor: pointer;
+  outline: none;
+  box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
+  border: none;
+}
+.divclass > button:active{
+  background-color: var(--main-theme-300);
+  box-shadow: inset 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1.5px;
+}
+
+.font{
+  
+}
+.font > * {padding-left: 10px;}
 
 .font_size{
-  /* border: 3px solid #4dff00; */
-  /* font-size: 35px; */
-  background-color: #ffffff;
-  border-radius: 20px;
-  height: 130px;
+  
 }
-.font_size > div{
-  border-radius: 20px 20px 0px 0px;
-  display: flex;
-  color:#ffffff;
-  background-color: var(--main-theme);
-  padding: 10px;
-}
-.font_size > input{
-  width: 500px;
-  height: 50px;
-  font-size: 23px;
-  margin: 7px;
-  border-radius: 20px;
-}
-.font_size > button{
-  font-size: 20px;
-  border-radius: 10px;
-  background-color: var(--main-theme-000);
-  cursor: pointer;
-  outline: none;
-  box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
-  border: none;
-}
-.font_size > button:active{
-  background-color: var(--main-theme-100);
-  box-shadow: inset 1px 1px 0 rgb(0, 0, 0, 0.5);
-  position: relative;
-  top: 1.5px;
-}
+.font_size > * {padding-left: 10px;}
 
 .start_addr{
-  /* font-size: 35px; */
-  background-color: #ffffff;
-  border-radius: 20px;
-  height: 130px;
+  
 }
-.start_addr > div{
-  border-radius: 20px 20px 0px 0px;
-  display: flex;
-  color:#ffffff;
-  background-color: var(--main-theme);
-  padding: 10px;
-}
-.start_addr > input{
-  width: 500px;
-  height: 50px;
-  font-size: 23px;
-  margin: 7px;
-  border-radius: 20px;
-}
-.start_addr > button{
-  font-size: 20px;
-  border-radius: 10px;
-  background-color: var(--main-theme-000);
-  cursor: pointer;
-  outline: none;
-  box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
-  border: none;
-}
-.start_addr > button:active{
-  background-color: var(--main-theme-100);
-  box-shadow: inset 1px 1px 0 rgb(0, 0, 0, 0.5);
-  position: relative;
-  top: 1.5px;
-}
+.start_addr > * {padding-left: 10px;}
+
 
 .darkmode_btn{
-  /* font-size: 35px; */
-  background-color: #ffffff;
-  border-radius: 20px;
-  height: 130px;
+ 
 }
-.darkmode_btn > div{
-  border-radius: 20px 20px 0px 0px;
-  display: flex;
-  color:#ffffff;
-  background-color: var(--main-theme);
-  padding: 10px;
-  
+.darkmode_btn > * {padding-left: 10px;}
+
+.toggleSwitch {
+  border-radius: 30px;
+  background-color:var(--main-theme-300);
+  width: 70px;
+  height: 40px;
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.toggleSwitch > .toggleButton{
+  width: 30px;
+  height: 30px;
+  top: 50%;
+  left: 4px;
+  position: absolute;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+}
+#toggle:checked ~ .toggleSwitch{
+  background-color:black;
+}
+#toggle:checked ~ .toggleSwitch > .toggleButton{
+  left: calc(100% - 34px);
+  background-color: var(--main-theme-300);
+}
+.toggleSwitch, .toggleButton {
+  transition: all 0.2s ease-in;
 }
