@@ -21,10 +21,6 @@ function ManageTeam() {
   const roomId = state.roomId;
   const teamName = state.teamName;
   const [members, setMembers] = useState([
-    {
-      userId: "members1",
-      Owner: true
-    },
   ]);
 
 

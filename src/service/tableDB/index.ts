@@ -15,20 +15,34 @@ async function createRoom(uid: String, roomName: String): Promise<String | null>
     })
 
     push(ref(db, 'users/' + uid + "/belongs"), unique_key)
-
+    addMember(unique_key!, uid, true);
     return unique_key;
 }
 
 async function DeleteRoom(roomId: String) { }
 
-async function getUserRooms(uid: String): Promise<String[] | null> {
-    let rooms = null;
-    get(ref(db, 'users/' + uid + 'belong')).then((ss) => {
-        rooms = Object.entries(ss.exportVal());
-        console.log(Object.entries(ss.exportVal()));
-    })
+type roomInfo = {
+    roomId: String,
+    roomName: String,
+}
 
-    return rooms;
+async function getUserRooms(uid: String): Promise<roomInfo[]> {
+    return get(ref(db, 'users/' + uid)).then((ss) => {
+        let belongs = Object.values(ss.exportVal())[0] as Object;
+        let arr = Object.values(belongs);
+        let list: roomInfo[] = [];
+        for (let i = 0; i < arr.length; i++) {
+            let rid = arr[i];
+            get(ref(db, 'rooms/' + rid)).then((ss) => {
+                let temp = {
+                    roomId: rid as String,
+                    roomName: Object.values(ss.exportVal())[0] as String,
+                }
+                list.push(temp);
+            })
+        }
+        return list;
+    })
 }
 
 //==========User==========
@@ -87,8 +101,8 @@ async function removeMember(roomId: String, uid: String) {
 }
 
 async function getMembers(roomId: String): Promise<String[]> {
-    return get(ref(db, 'rooms/' + roomId + '/users/')).then((ss) => {
-        console.log(Object.entries(ss.exportVal()));
+    return get(ref(db, 'rooms/' + roomId)).then((ss) => {
+        console.log("roomusers:", ss.exportVal());
         return [];
         // members = Object.entries(ss.exportVal());
     })
@@ -108,3 +122,4 @@ async function createTimeBlock() {
 }
 
 export { createRoom, DeleteRoom, getUserRooms, getUserName, createUser, deleteUser, addMember, removeMember, getMembers };
+export type { roomInfo };

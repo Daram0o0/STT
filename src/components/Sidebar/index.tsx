@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './styles.css';
-import { getUserRooms } from '../../service/tableDB';
+import { getUserRooms, roomInfo } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
@@ -19,36 +19,33 @@ const Team = (props: any) => {
       navigate('/manageteam', {
         state: {
           roomId: props.roomId,
-          teamName: props.teamName,
+          roomName: props.roomName,
         }
       });
     }}>
       <div className="icon">
-        <p style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>{props.teamName[0].toUpperCase()}</p>
+        <p style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>{props.roomName[0].toUpperCase()}</p>
       </div>
-      <p>{props.teamName}</p>
+      <p>{props.roomName}</p>
     </div>
   );
 }
 
-interface test {
-  roomId: {
-    isOwner: boolean,
-    roomName: String,
-  }
-}
+
 
 function Sidebar(props: ISidebar) {
 
   const [cookies] = useCookies();
 
-  const [teams, setTeams] = useState<String[]>([]);
+  const [teams, setTeams] = useState<roomInfo[]>([]);
 
   useEffect(() => {
     if (cookies.uidToken) {
-      getUserRooms(cookies.uidToken).then((v) => {
-        setTeams(v!); // 조심!!!
+      getUserRooms(cookies.uidToken).then((roomInfos) => {
+        console.log(roomInfos);
+        setTeams(roomInfos); // 조심!!!
       });
+      console.log("teams:", teams);
     } else {
       console.log("login need");
     }
@@ -73,11 +70,10 @@ function Sidebar(props: ISidebar) {
         </div>
         <div className='teams'>
           {
-            teams ? Object.entries(teams).map((v, i) => {
-              const roomId = v[0];
-              const t = v[1];
-              console.log(Object.values(t)[1]);
-              return <Team roomId={roomId} teamName={Object.values(t)[1]} />
+
+            teams ? Object.values(teams).map((info, i) => {
+              console.log("info:", info);
+              return <Team key={i} roomId={info.roomId} roomName={info.roomName} />
             }) : <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>서버 협박하는 중 ...</p>
           }
         </div>

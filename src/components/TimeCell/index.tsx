@@ -1,7 +1,7 @@
 import './styles.css'
 import { useState } from 'react';
 
-function TimeCell(props?:any) {
+function TimeCell(props?: any) {
 
   function addTime() {
     console.log("모달창 뜨게 하기")
@@ -10,7 +10,7 @@ function TimeCell(props?:any) {
   function TimeCell() {
     var arr = [];
     for (var i = 0; i < 7; i++) {
-      arr.push(<td onClick={addTime}></td>)
+      arr.push(<td key={i} onClick={addTime}></td>)
     }
     return arr;
   }
@@ -33,59 +33,64 @@ function TimeCell(props?:any) {
   //   )
   // }
 
-  return(
+  return (
     <div className="TimeCell">
       <table>
-        <tr>
-          <td></td>
-          <td>월</td>
-          <td>화</td>
-          <td>수</td>
-          <td>목</td>
-          <td>금</td>
-          <td>토</td>
-          <td>일</td>
-        </tr>
-        <tr>
-          <td>09:00 ~ 10:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>10:00 ~ 11:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>11:00 ~ 12:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>12:00 ~ 13:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>12:00 ~ 13:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>13:00 ~ 14:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>15:00 ~ 16:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>17:00 ~ 18:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>19:00 ~ 20:00</td>
-          {TimeCell()}
-        </tr>
-        <tr>
-          <td>20:00 ~ 21:00</td>
-          {TimeCell()}
-        </tr>
+        <thead>
+          <tr>
+            <td></td>
+            <td>월</td>
+            <td>화</td>
+            <td>수</td>
+            <td>목</td>
+            <td>금</td>
+            <td>토</td>
+            <td>일</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>09:00 ~ 10:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>10:00 ~ 11:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>11:00 ~ 12:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>12:00 ~ 13:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>12:00 ~ 13:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>13:00 ~ 14:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>15:00 ~ 16:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>17:00 ~ 18:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>19:00 ~ 20:00</td>
+            {TimeCell()}
+          </tr>
+          <tr>
+            <td>20:00 ~ 21:00</td>
+            {TimeCell()}
+          </tr>
+        </tbody>
+
       </table>
     </div>
   )
