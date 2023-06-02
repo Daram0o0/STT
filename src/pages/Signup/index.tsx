@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../components/firebase';
 import GoogleLogin from './../../components/GoogleLogin';
+import Header from '../../components/Header';
 
 function Signup() {
     const navigate = useNavigate();
@@ -36,6 +37,7 @@ function Signup() {
 
     return (
         <div className="Signup">
+            <Header />
             <div className="body">
                 <div className="deco_title"></div>
 
