@@ -1,6 +1,4 @@
-node_moudles
-Dockerfile
 .git
-.gitignore
-.dockerignore
+.DS_Store
 .env
+node_modules
