@@ -1,0 +1,6 @@
+node_moudles
+Dockerfile
+.git
+.gitignore
+.dockerignore
+.env

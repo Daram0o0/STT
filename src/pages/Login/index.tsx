@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../../components/firebase";
 import { createUser } from './../../service/tableDB';
 import { useCookies } from "react-cookie";
+import Header from "../../components/Header";
 
 function Login() {
     const navigate = useNavigate();
@@ -50,6 +51,7 @@ function Login() {
 
     return (
         <div className="Login">
+            <Header />
             <div className="body">
                 <div className="deco_title"></div>
 
