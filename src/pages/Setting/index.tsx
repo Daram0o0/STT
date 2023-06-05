@@ -25,21 +25,21 @@ function Setting() {
                 <input type="text" />
                 <button>확인</button>
               </div>
-          </div>
-          <div className="font_size">
-            <div className="divname">text-size</div>
-            <div className="divclass">
-              <input type="text" />
-              <button>확인</button>
             </div>
-          </div>
-          <div className="start_addr">
-            <div className="divname">http://localhost:3000/STT + ?</div>
-            <div className="divclass">
-              <input type="text" />
-              <button>확인</button>
+            <div className="font_size">
+              <div className="divname">text-size</div>
+              <div className="divclass">
+                <input type="text" />
+                <button>확인</button>
+              </div>
             </div>
-          </div>
+            <div className="start_addr">
+              <div className="divname">http://localhost:3000/STT + ?</div>
+              <div className="divclass">
+                <input type="text" />
+                <button>확인</button>
+              </div>
+            </div>
           <div className="darkmode_btn">
             <div className="divname">dark mode</div>
             <div className="divclass">

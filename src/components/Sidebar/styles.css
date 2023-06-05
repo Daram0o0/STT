@@ -1,7 +1,7 @@
 .Sidebar {
   display: flex;
   flex-direction: row;
-  border-right: 1px solid rgb(204, 204, 204);
+  border-right: 1px solid rgb(230, 230, 230);
   flex: 0 0 auto;
 }
 

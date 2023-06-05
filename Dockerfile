@@ -20,6 +20,3 @@ EXPOSE 3000
 
 # npm start 스크립트 실행
 CMD ["npm", "start"]
-
-# 그리고 Dockerfile로 dock
-# $ docker build .

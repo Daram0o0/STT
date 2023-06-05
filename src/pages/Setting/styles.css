@@ -1,15 +1,16 @@
-.Setting{
-  font-family:'Arial Narrow Bold', sans-serif;
+.Setting {
+  font-family: 'Arial Narrow Bold', sans-serif;
 }
-.setting_container{
+
+.setting_container {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: row;
-  
+
 }
 
-.setting_subcontainer{
+.setting_subcontainer {
   /* border: 3px solid red; */
   width: 90%;
   display: flex;
@@ -17,108 +18,126 @@
   /* background-color:var(--main-theme-400); */
 }
 
-.logout{
+.logout {
   /* font-size: 50px; */
   /* margin: 20px; */
   /* width: 100%; */
-  height:100px;
+  height: 100px;
   /* border: 1px solid #000000; */
-  background-color:var(--main-theme-000);
-}
-.logout > div {
-  float: right;
-  margin:10px;
-  color: gray;
-  font-size: 20px;
-  cursor:pointer;
+  background-color: var(--main-theme-000);
 }
 
-.setting_page{
-  font-size: 30px;
-  background-color:var(--main-theme-100);
-  width: 100%;
-  height:100%;
+.logout>div {
+  float: right;
+
+  margin: 10px;
+  /* border: 3px solid rgb(0, 217, 255); */
+  color: gray;
+  font-size: 20px;
+  cursor: pointer;
 }
-.setting_page > div{
+
+
+.setting_page {
+  /* border: 3px solid #000000; */
+  font-size: 30px;
+  background-color: var(--main-theme-100);
+  width: 100%;
+  height: 100%;
+}
+
+.setting_page>div {
   margin: 20px;
 }
 
-.divname{
+.divname {
   border-radius: 20px 20px 0px 0px;
-  color:#ffffff;
+  color: #ffffff;
   background-color: var(--main-theme);
   display: flex;
   align-items: center;
   height: 50px;
 }
-.divclass{
+
+.divclass {
   background-color: #ffffff;
   height: 50px;
   display: flex;
   align-items: center;
   border-radius: 0px 0px 20px 20px;
 }
-.divclass > input{
-  width: 250px;
+
+.divclass>input {
+  width: 240px;
   height: 25px;
   font-size: 20px;
   background-color: var(--main-theme-100);
   border-radius: 20px;
-  border:none;
+  border: 1px solid var(--main-theme-100);
+  padding-left: 10px;
   justify-content: center;
-}.divclass > input:focus{
+}
+
+.divclass>input:focus {
   outline: none;
   border: 1px solid blueviolet;
-  z-index: 0; 
+  z-index: 0;
 }
-.divclass > button{
+
+.divclass>button {
   margin-left: 10px;
   font-size: 20px;
   border-radius: 10px;
   background-color: var(--main-theme-100);
   cursor: pointer;
   outline: none;
-  box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
   border: none;
 }
-.divclass > button:active{
+
+.divclass>button:active {
   background-color: var(--main-theme-300);
   box-shadow: inset 1px 1px 0 rgb(0, 0, 0, 0.5);
   position: relative;
   top: 1.5px;
 }
 
-.font{
-  
-}
-.font > * {padding-left: 10px;}
+.font {}
 
-.font_size{
-  
+.font>* {
+  padding-left: 10px;
 }
-.font_size > * {padding-left: 10px;}
 
-.start_addr{
-  
+.font_size {}
+
+.font_size>* {
+  padding-left: 10px;
 }
-.start_addr > * {padding-left: 10px;}
 
+.start_addr {}
 
-.darkmode_btn{
- 
+.start_addr>* {
+  padding-left: 10px;
 }
-.darkmode_btn > * {padding-left: 10px;}
+
+
+.darkmode_btn {}
+
+.darkmode_btn>* {
+  padding-left: 10px;
+}
 
 .toggleSwitch {
   border-radius: 30px;
-  background-color:var(--main-theme-300);
+  background-color: var(--main-theme-300);
   width: 70px;
   height: 40px;
   display: block;
   position: relative;
   cursor: pointer;
 }
-.toggleSwitch > .toggleButton{
+
+.toggleSwitch>.toggleButton {
   width: 30px;
   height: 30px;
   top: 50%;
@@ -128,13 +147,17 @@
   transform: translateY(-50%);
   background-color: #ffffff;
 }
-#toggle:checked ~ .toggleSwitch{
-  background-color:black;
+
+#toggle:checked~.toggleSwitch {
+  background-color: black;
 }
-#toggle:checked ~ .toggleSwitch > .toggleButton{
+
+#toggle:checked~.toggleSwitch>.toggleButton {
   left: calc(100% - 34px);
   background-color: var(--main-theme-300);
 }
-.toggleSwitch, .toggleButton {
+
+.toggleSwitch,
+.toggleButton {
   transition: all 0.2s ease-in;
 }
