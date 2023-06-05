@@ -28,14 +28,12 @@
 .logout > div {
   float: right;
   margin:10px;
-  /* border: 3px solid rgb(0, 217, 255); */
   color: gray;
   font-size: 20px;
   cursor:pointer;
 }
 
 .setting_page{
-  /* border: 3px solid #000000; */
   font-size: 30px;
   background-color:var(--main-theme-100);
   width: 100%;
