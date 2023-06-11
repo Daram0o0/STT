@@ -2,14 +2,15 @@ import "./styles.css";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import { createContext, useContext, useState } from 'react';
-const themeDefault = {backgroundcolor: 'black', color: 'white'};
+const themeDefault = {backgroundColor: '#3C3C43', color: 'white'};
 const themeContext = createContext(themeDefault);
 
 function Setting() {
 // 글꼴, 글자 크기, 로그아웃, 처음 시작할 페이지, 다크모드설정
+//light mode -> setting_subcontainer : white
   const [isChecked, setIsChecked] = useState(false);
   const theme = useContext(themeContext);
-  console.log(theme)
+  // console.log(theme)
   return (
     // <themeContext.Provider value={theme}>
     <div className="Setting" style={theme}>
@@ -55,7 +56,7 @@ function Setting() {
         </div>
         </div>
       </div>
-      // </themeContext.Provider>
+    // </themeContext.Provider>
   )
 }
 export default Setting

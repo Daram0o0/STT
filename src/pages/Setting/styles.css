@@ -7,41 +7,18 @@
   height: 100vh;
   display: flex;
   flex-direction: row;
-
 }
 
 .setting_subcontainer {
-  /* border: 3px solid red; */
   width: 90%;
   display: flex;
   flex-direction: column;
-  /* background-color:var(--main-theme-400); */
+  background-color: var(--dark-theme-500);
 }
-
-.logout {
-  /* font-size: 50px; */
-  /* margin: 20px; */
-  /* width: 100%; */
-  height: 100px;
-  /* border: 1px solid #000000; */
-  background-color: var(--main-theme-000);
-}
-
-.logout>div {
-  float: right;
-
-  margin: 10px;
-  /* border: 3px solid rgb(0, 217, 255); */
-  color: gray;
-  font-size: 20px;
-  cursor: pointer;
-}
-
 
 .setting_page {
-  /* border: 3px solid #000000; */
-  font-size: 30px;
-  background-color: var(--main-theme-100);
+  font-size: 20px;
+  /* font-weight: bold; */
   width: 100%;
   height: 100%;
 }
@@ -51,16 +28,22 @@
 }
 
 .divname {
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 20px;
+  /* border-top: 1px solid rgb(184, 184, 184);
+  border-right: 1px solid rgb(184, 184, 184);
+  border-left: 1px solid rgb(184, 184, 184); */
   color: #ffffff;
   background-color: var(--main-theme);
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 40px;
 }
 
 .divclass {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  /* border-bottom: 1px solid rgb(184, 184, 184);
+  border-right: 1px solid rgb(184, 184, 184);
+  border-left: 1px solid rgb(184, 184, 184); */
   height: 50px;
   display: flex;
   align-items: center;
@@ -120,7 +103,6 @@
   padding-left: 10px;
 }
 
-
 .darkmode_btn {}
 
 .darkmode_btn>* {
@@ -130,18 +112,18 @@
 .toggleSwitch {
   border-radius: 30px;
   background-color: var(--main-theme-300);
-  width: 70px;
-  height: 40px;
+  width: 60px;
+  height: 20px;
   display: block;
   position: relative;
   cursor: pointer;
 }
 
 .toggleSwitch>.toggleButton {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   top: 50%;
-  left: 4px;
+  left: 0px;
   position: absolute;
   border-radius: 50%;
   transform: translateY(-50%);
@@ -149,11 +131,12 @@
 }
 
 #toggle:checked~.toggleSwitch {
-  background-color: black;
+  background-color: var(--dark-theme);
 }
 
 #toggle:checked~.toggleSwitch>.toggleButton {
-  left: calc(100% - 34px);
+  left: calc(100% - 28px);
+  /* margin-left: 30px; */
   background-color: var(--main-theme-300);
 }
 
