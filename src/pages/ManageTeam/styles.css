@@ -5,6 +5,7 @@
   flex-direction: column;
   /* flex-direction: row; */
   /* align-items: center; */
+
 }
 
 .ManageTeam .container {
@@ -12,52 +13,78 @@
   min-height: 800px;
   margin-bottom: auto;
   flex-direction: row;
+  /* border: 5px dotted salmon; */
 }
 
 .ManageTeam .main {
+  width: 70%; 
   display: flex;
   flex-direction: column;
-  /* background-color: var(--main-theme-000); */
-  border: 5px solid red;
+  /* border: 5px solid red; */
+  align-items: center;
 }
 
-.ManageTeam .main>div {
-  margin-right: 30px;
+.ManageTeam .sub > div {
+  margin-left: 50px;
+  margin-top: 15px;
+}
+
+.ManageTeam .team_title {
+  font-size: 20px;
+  width:100%;
+  /* justify-content:flex-start; */
+  display: flex;
+  /* border: 5px solid violet; */
+  /* margin-bottom: 10px; */
+  /* margin-left: 50px; */
+  /* background-color: var(--main-theme-100); */
 }
 
 .ManageTeam .timetables {
   display: flex;
+  width:100%;
   flex-direction: row;
-  /* align-items: center; */
-  border: 5px solid blue;
+  /* border: 5px solid blue; */
+  /* margin-left: 50px; */
+  /* background-color: var(--main-theme-000); */
 }
 
 .ManageTeam .timetables>div {
   width: 80px;
   height: 80px;
-  margin: 10px;
-  border: 1px solid black;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 30px;
-  background-color: #ffffff;
+  background-color: var(--main-theme-000);
   cursor: pointer;
 }
-
-.ManageTeam .team_timetable {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
+.ManageTeam .timetables>div >div{
+  color: #fff;
 }
 
+.ManageTeam .sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: 5px solid hotpink; */
+  height: 100%;
+  width: 100%;
+}
+
+.ManageTeam .timecell {
+  display: flex;
+  justify-content: center;
+  /* border: 5px dotted black; */
+  width: 100%;
+  height: 100%;
+}
 .ManageTeam .members {
   display: flex;
-  /* align-items: center; */
+  width: 250px;
   flex-direction: column;
-  background-color: var(--main-theme-200);
+  background-color: var(--main-theme-000);
 }
 
 .ManageTeam .member {

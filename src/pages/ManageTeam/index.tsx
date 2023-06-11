@@ -36,26 +36,30 @@ function ManageTeam() {
     <div className="ManageTeam">
       <Header />
       <div className="container">
-        <Sidebar />
+      <Sidebar />
         <div className="main">
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
-          <div className="timetables">
-            {members.map((userId, isOwner) => {
-              console.log(userId, isOwner);
-              return (
-                <Timetable alias={userId} />
-              )
-            })}
-
-            <div style={{ cursor: "pointer" }} onClick={() => {
-              addMember(roomId, "zizon_jiho", false);
-              // setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
-            }}>
-              <div>+</div>
+          <div className="sub">
+            <div className="team_title">team name : </div>
+            <div className="timetables">
+              {members.map((userId, isOwner) => {
+                console.log(userId, isOwner);
+                return (
+                  <Timetable alias={userId} />
+                )
+              })}
+              <div style={{ cursor: "pointer" }} onClick={() => {
+                addMember(roomId, "zizon_jiho", false);
+                // setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
+              }}>
+                {/* 아래로 기운 것 같음ㅠㅠ */}
+                <div>+</div>
+              </div>
             </div>
-          </div>
-          <div className="team_timetable">
+            <div className="timecell">
             <TimeCell />
+            </div>
+            
           </div>
           {roomId}
         </div>
