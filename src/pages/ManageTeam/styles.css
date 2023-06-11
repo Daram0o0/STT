@@ -17,8 +17,8 @@
 .ManageTeam .main {
   display: flex;
   flex-direction: column;
-  background-color: var(--main-theme-000);
-  border: 1px solid black;
+  /* background-color: var(--main-theme-000); */
+  border: 5px solid red;
 }
 
 .ManageTeam .main>div {
@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: row;
   /* align-items: center; */
-  border: 1px solid black;
+  border: 5px solid blue;
 }
 
 .ManageTeam .timetables>div {
@@ -75,7 +75,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+  border: 1px solid rgb(0, 0, 0);
   border-radius: 50%;
 }
 

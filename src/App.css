@@ -4,7 +4,9 @@ html{
   --main-theme-200 : #cc9af2;
   --main-theme-300 : #b878ed;
   --main-theme-400 : #a255e8;
-  --main-theme: #8a2be2;
+  --main-theme : #8a2be2;
+  --dark-theme : #3C3C43;
+  --dark-theme-500 : rgb(45,45,45);
 }
 
 .App {
