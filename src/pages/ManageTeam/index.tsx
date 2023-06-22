@@ -1,6 +1,6 @@
 import "./styles.css";
 import TimeCell from '../../components/TimeCell';
-import { addMember, deleteUser, getMembers, removeMember } from '../../service/tableDB';
+import { addMember, deleteUser, getMembers, getUserName, memberInfo, removeMember } from '../../service/tableDB';
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -20,13 +20,15 @@ function ManageTeam() {
   const { state } = useLocation();
   const roomId = state.roomId;
   const teamName = state.teamName;
-  const [members, setMembers] = useState<String[]>([
+  const [members, setMembers] = useState<memberInfo[]>([
   ]);
 
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
 
   useEffect(() => {
-    console.log("gm : ", getMembers(roomId));
+    getMembers(roomId).then((arr: memberInfo[]) => {
+      setMembers(arr);
+    })
   }, [])
 
   return (
@@ -39,10 +41,10 @@ function ManageTeam() {
           <div className="sub">
             <div className="team_title">team name : {state.teamName}</div>
             <div className="timetables">
-              {members.map((userId, isOwner) => {
-                console.log(userId, isOwner);
+              {members.map((v, i) => {
+
                 return (
-                  <Timetable alias={userId} />
+                  <Timetable uid={v.uid} />
                 )
               })}
               <div style={{ cursor: "pointer" }} onClick={() => {
@@ -65,7 +67,7 @@ function ManageTeam() {
 
           {members.map((v, i) => {
             console.log(v);
-            return <Member></Member>
+            return <Member idx={i} uid={v.uid} isOwner={v.isOwner} roomId={roomId}></Member>
           })}
         </div>
       </div>
@@ -80,24 +82,40 @@ export default ManageTeam
             ) */}
 
 function Timetable(props: any) {
-  const alias = props.alias;
+  const uid = props.uid;
+  const [userName, setUserName] = useState<String>("");
+  useEffect(() => {
+
+    getUserName(uid).then((name) => {
+      setUserName(name);
+    })
+  }, [])
+
   return (
     <div>
-      <div>{alias}</div>
+      <div>{userName}</div>
       {/* <input type="checkbox"/> */}
     </div>
   )
 }
 
 function Member(props: any) {
-  const userID = props.value;
-  const isOwner = props.bool;
+  const userID = props.uid;
+  const isOwner = props.isOwner;
   const roomId = props.roomId;
   const idx = props.idx;
+
+  const [userName, setUserName] = useState<String>("");
+
+  useEffect(() => {
+    getUserName(userID).then((name) => {
+      setUserName(name);
+    });
+  }, [])
   return (
     <div className="member">
-      <div className="icons">{userID[0]}</div>
-      <p>{userID}</p>
+      <div className="icons">{userName[0]}</div>
+      <p>{userName}</p>
       {isOwner == false && <button onClick={() => { removeMember(roomId, "zizon_jiho",); console.log(idx); }}>강퇴</button>}
     </div>
   )

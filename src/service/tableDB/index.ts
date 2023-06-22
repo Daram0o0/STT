@@ -69,7 +69,6 @@ async function getUserRooms(uid: String): Promise<roomInfo[]> {
 async function getRoomName(roomId: String) {
     let snapshot = await get(ref(db, 'rooms/' + roomId));
     let t = snapshot.exportVal().roomName;
-    console.log(t);
     return t;
 }
 
@@ -125,14 +124,10 @@ async function addMember(roomId: String, uid: String, isOwner: boolean) {
     })
 
     if (!exist) {
-        getUserName(uid).then((user_name) => {
-            update(ref(db, 'rooms/' + roomId + '/users/' + uid), {
-                userName: user_name,
-                isOwner: isOwner,
-                timeTable: {}, // 시간표
-            });
-
-        })
+        update(ref(db, 'rooms/' + roomId + '/users/' + uid), {
+            isOwner: isOwner,
+            timeTable: {}, // 시간표
+        });
     } else {
         console.log('이미 존재하는 유저입니다.');
     }
@@ -146,20 +141,33 @@ async function removeMember(roomId: String, uid: String) {
     remove(ref(db, 'rooms/' + roomId + '/users/' + uid));
 }
 
+interface memberInfo {
+    uid: String,
+    isOwner: boolean,
+}
+
 /**
  * 방의 멤버들을 가져옵니다.
  * @param roomId 방 ID
  * @returns uid 문자열 배열로 반환합니다.
  */
-function getMembers(roomId: String): String[] {
-    var t: String[] = [];
-    get(ref(db, 'rooms/' + roomId)).then((ss) => {
-        t = ss.exportVal();
-        console.log("t : ", t);
-        // members = Object.entries(ss.exportVal());
-    })
+async function getMembers(roomId: String) {
+    let snapshot = await get(ref(db, 'rooms/' + roomId + '/users'));
+    let t = snapshot.exportVal();
+    let entries = Object.entries(t);
+    let members: memberInfo[] = [];
+    for (let i = 0; i < entries.length; i++) {
+        let info = entries[0];
+        let uid = info[0];
 
-    return t;
+        let isOwner = Object.values(info[1] as Object)[0];
+        members.push({
+            uid: uid,
+            isOwner: isOwner,
+        });
+    }
+
+    return members;
 }
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정
@@ -176,4 +184,4 @@ async function createTimeBlock() {
 }
 
 export { createRoom, DeleteRoom, getUserRooms, getUserName, createUser, deleteUser, addMember, removeMember, getMembers };
-export type { roomInfo };
+export type { roomInfo, memberInfo };

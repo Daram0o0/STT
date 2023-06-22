@@ -8,6 +8,8 @@ function Main() {
   const [text, setText] = useState('');
   const [count, setCount] = useState(0);
 
+  const [displayAccountPopup, setDisplayAccountPopup] = useState(false);
+
   useEffect(() => {
     const Interval = setInterval(() => {
       setText(text + txt[count]);
@@ -21,7 +23,10 @@ function Main() {
 
 
   return (
-    <div className="Main">
+    <div className="Main" onClick={(e) => {
+      e.preventDefault();
+      setDisplayAccountPopup(false);
+    }}>
       <Header />
       <div className="container">
         <Sidebar />

@@ -12,6 +12,21 @@ function CreateTeam() {
 
     const navigate = useNavigate();
 
+    const createSubmit = () => {
+        if (teamName == "") {
+            console.log("team name is blank!");
+            return;
+        }
+        createRoom(cookies.uidToken, teamName).then((roomId: String | null) => {
+            navigate('/manageteam', {
+                state: {
+                    roomId: roomId,
+                    teamName: teamName,
+                }
+            });
+        });
+    }
+
     return (
         <div className="CreateTeam">
             <div className="container">
@@ -29,16 +44,7 @@ function CreateTeam() {
                 </div>
 
                 <div className="outer">
-                    <button onClick={() => {
-                        createRoom(cookies.uidToken, teamName).then((roomId: String | null) => {
-                            navigate('/manageteam', {
-                                state: {
-                                    roomId: roomId,
-                                    teamName: teamName,
-                                }
-                            });
-                        });
-                    }}>make</button>
+                    <button onClick={createSubmit}>make</button>
                 </div>
             </div>
         </div>
