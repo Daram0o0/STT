@@ -26,9 +26,9 @@ function Main() {
       <div className="container">
         <Sidebar />
         <div className="body">
-        <div className="typing">
-          {text}
-        </div>
+          <div className="typing">
+            {text}
+          </div>
         </div>
 
       </div>

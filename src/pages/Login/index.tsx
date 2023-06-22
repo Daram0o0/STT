@@ -4,16 +4,17 @@ import "../Signup";
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from './../../components/GoogleLogin';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, AuthError } from "firebase/auth";
 import { auth } from "./../../components/firebase";
 import { createUser } from './../../service/tableDB';
 import { useCookies } from "react-cookie";
 import Header from "../../components/Header";
+import { ErrorCallback } from "typescript";
 
 function Login() {
     const navigate = useNavigate();
 
-    const [errMsg, setErrMsg] = useState();
+    const [errMsg, setErrMsg] = useState("");
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -27,7 +28,20 @@ function Login() {
                 // localStorage.setItem('uid', user.uid);
                 navigate('/');
             }
-        ).catch((error) => { console.log(error) });
+        ).catch((err: AuthError) => {
+            let errStr = err.code.toString();
+            if (errStr == "auth/network-request-failed") {
+                setErrMsg("인터넷이 연결되지 않았습니다.");
+            } else if (errStr == "auth/wrong-password") {
+                setErrMsg("잘못된 비밀번호입니다.");
+            } else if (errStr == "auth/user-not-found") {
+                setErrMsg("존재하지 않는 사용자입니다. 회원가입을 해주십시오.")
+            }
+            else {
+                setErrMsg(errStr);
+            }
+            console.log("error : ", err.code.toString());
+        });
     }
 
     const idFocusRef = useRef<HTMLInputElement>(null);

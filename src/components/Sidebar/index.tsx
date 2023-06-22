@@ -39,13 +39,16 @@ function Sidebar(props: ISidebar) {
 
   const [teams, setTeams] = useState<roomInfo[]>([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (cookies.uidToken) {
-      getUserRooms(cookies.uidToken).then((roomInfos) => {
-        console.log(roomInfos);
-        setTeams(roomInfos); // 조심!!!
+      console.log('uid');
+      getUserRooms(cookies.uidToken).then((rooms) => {
+        console.log("res : ", rooms);
+        setTeams(rooms);
       });
-      console.log("teams:", teams);
+
     } else {
       console.log("login need");
     }
@@ -70,12 +73,14 @@ function Sidebar(props: ISidebar) {
         </div>
         <div className='teams'>
           {
-
-            teams ? Object.values(teams).map((info, i) => {
-              console.log("info:", info);
+            teams ? teams.map((info, i) => {
+              // console.log("info:", info);
               return <Team key={i} roomId={info.roomId} roomName={info.roomName} />
             }) : <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>서버 협박하는 중 ...</p>
           }
+          <div className="create-team" onClick={() => {
+            navigate('/createTeam');
+          }}>+ 팀 만들기</div>
         </div>
       </div>
     </div>
