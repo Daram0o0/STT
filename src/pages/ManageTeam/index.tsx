@@ -23,13 +23,11 @@ function ManageTeam() {
   const [members, setMembers] = useState<String[]>([
   ]);
 
-
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
 
   useEffect(() => {
     console.log("gm : ", getMembers(roomId));
   }, [])
-
 
   return (
     <div className="ManageTeam">

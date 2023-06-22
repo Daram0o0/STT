@@ -7,6 +7,15 @@ import { db } from '../../components/firebase';
 //==========Room==========
 //Room은 다른 사람들과 시간표를 공유할 수 있는 가상 공간입니다.
 //Create, Delete
+
+/**
+ * 방을 생성합니다. 만든 사람은 방의 생성자가 됩니다 (isOwner = true)
+ * @param uid 유저 ID -> 방의 생성자가 됩니다.
+ * @param roomName 방 이름
+ * const a = await createRoom('NgWIeqwe-Fjs8bhf9Ne', '까미일정');
+ * 
+ * @returns 만들어진 방의 ID를 반환합니다.
+ */
 async function createRoom(uid: String, roomName: String): Promise<String | null> {
     const unique_key = push(ref(db, 'rooms/')).key;
 
@@ -26,6 +35,11 @@ type roomInfo = {
     roomName: String,
 }
 
+/**
+ * 해당 유저가 속해있는 방의 리스트를 반환합니다. 
+ * @param uid 유저 ID
+ * @returns roomInfo 배열로 반환합니다.
+ */
 async function getUserRooms(uid: String): Promise<roomInfo[]> {
 
     let roomSnapshots = await get(ref(db, 'users/' + uid + "/belongs"));
@@ -46,6 +60,11 @@ async function getUserRooms(uid: String): Promise<roomInfo[]> {
     return roomInfos;
 }
 
+/**
+ * 방 ID로 방 이름을 가져옵니다.
+ * @param roomId 방 ID
+ * @returns 방 이름 (문자열)
+ */
 async function getRoomName(roomId: String) {
     let snapshot = await get(ref(db, 'rooms/' + roomId));
     let t = snapshot.exportVal().roomName;
@@ -56,20 +75,30 @@ async function getRoomName(roomId: String) {
 //==========User==========
 //User는 STT 서비스를 사용하는 유저입니다.
 //Create, Delete, getUserName
+
+/**
+ * 유저 닉네임을 받아 유저를 생성합니다.
+ * @param uid 유저 ID
+ * @param userName 유저 닉네임
+ */
 async function createUser(uid: String, userName: String): Promise<void> {
     set(ref(db, 'users/' + uid), {
         userName: userName,
     })
 }
 
-//user를 삭제합니다.
-//rooms 에 있는 해당 유저도 삭제됩니다.
+/**user를 삭제합니다.
+ * @param uid 유저 아이디 문자열
+ * rooms 에 있는 해당 유저도 삭제됩니다.
+ */
 async function deleteUser(uid: String): Promise<void> {
     //rooms 에 있는 해당 유저도 삭제됩니다.
     remove(ref(db, 'users/' + uid));
 }
 
-//uid에 해당하는 닉네임을 가져옵니다.
+/** uid에 해당하는 닉네임을 가져옵니다.
+ * @param uid 유저 아이디 문자열
+ */
 async function getUserName(uid: String): Promise<String> {
     return get(ref(db, 'users/' + uid)).then((e) => {
         return Object.entries(e.exportVal())[1] && "";
@@ -80,8 +109,14 @@ async function getUserName(uid: String): Promise<String> {
 
 //==========Member==========
 //Member는 Room에 속하는 유저들입니다.
-//addMember, removeMember, 
+//addMember, removeMember
 
+/**
+ * Room에 멤버를 추가합니다
+ * @param roomId 방 ID
+ * @param uid 추가할 유저 아이디
+ * @param isOwner 추가할 유저가 방의 생성자인지 여부
+ */
 async function addMember(roomId: String, uid: String, isOwner: boolean) {
     let exist = false;
 
@@ -103,11 +138,20 @@ async function addMember(roomId: String, uid: String, isOwner: boolean) {
         console.log('이미 존재하는 유저입니다.');
     }
 }
-
+/**
+ * 방에서 멤버를 삭제합니다.
+ * @param roomId 방 ID
+ * @param uid 삭제할 유저 아이디
+ */
 async function removeMember(roomId: String, uid: String) {
     remove(ref(db, 'rooms/' + roomId + '/users/' + uid));
 }
 
+/**
+ * 방의 멤버들을 가져옵니다.
+ * @param roomId 방 ID
+ * @returns uid 문자열 배열로 반환합니다.
+ */
 function getMembers(roomId: String): String[] {
     var t: String[] = [];
     get(ref(db, 'rooms/' + roomId)).then((ss) => {
