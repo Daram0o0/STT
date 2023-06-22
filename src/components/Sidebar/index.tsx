@@ -49,12 +49,12 @@ function Sidebar(props: ISidebar) {
         setNickName(name);
       })
       getUserRooms(cookies.uidToken).then((rooms) => {
-        console.log("res : ", rooms);
         setTeams(rooms);
       });
 
     } else {
       console.log("login need");
+      alert("로그인이 필요합니다.");
     }
 
   }, [])
