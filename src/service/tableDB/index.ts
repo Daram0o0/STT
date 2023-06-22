@@ -27,22 +27,30 @@ type roomInfo = {
 }
 
 async function getUserRooms(uid: String): Promise<roomInfo[]> {
-    return get(ref(db, 'users/' + uid)).then((ss) => {
-        let belongs = Object.values(ss.exportVal())[0] as Object;
-        let arr = Object.values(belongs);
-        let list: roomInfo[] = [];
-        for (let i = 0; i < arr.length; i++) {
-            let rid = arr[i];
-            get(ref(db, 'rooms/' + rid)).then((ss) => {
-                let temp = {
-                    roomId: rid as String,
-                    roomName: Object.values(ss.exportVal())[0] as String,
-                }
-                list.push(temp);
-            })
+
+    let roomSnapshots = await get(ref(db, 'users/' + uid + "/belongs"));
+    let roomIds = Object.values(roomSnapshots.exportVal() as Object);
+    let roomInfos: roomInfo[] = [];
+
+    for (let i = 0; i < roomIds.length; i++) {
+        let room_name = await getRoomName(roomIds[i]);
+
+        let info: roomInfo = {
+            roomId: roomIds[i],
+            roomName: room_name,
         }
-        return list;
-    })
+
+        roomInfos.push(info);
+    }
+
+    return roomInfos;
+}
+
+async function getRoomName(roomId: String) {
+    let snapshot = await get(ref(db, 'rooms/' + roomId));
+    let t = snapshot.exportVal().roomName;
+    console.log(t);
+    return t;
 }
 
 //==========User==========
@@ -100,12 +108,15 @@ async function removeMember(roomId: String, uid: String) {
     remove(ref(db, 'rooms/' + roomId + '/users/' + uid));
 }
 
-async function getMembers(roomId: String): Promise<String[]> {
-    return get(ref(db, 'rooms/' + roomId)).then((ss) => {
-        console.log("roomusers:", ss.exportVal());
-        return [];
+function getMembers(roomId: String): String[] {
+    var t: String[] = [];
+    get(ref(db, 'rooms/' + roomId)).then((ss) => {
+        t = ss.exportVal();
+        console.log("t : ", t);
         // members = Object.entries(ss.exportVal());
     })
+
+    return t;
 }
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { AuthError, createUserWithEmailAndPassword } from 'firebase/auth';
 import { createUser } from './../../service/tableDB';
 import './styles.css';
 import { useRef, useState } from 'react';
@@ -24,14 +24,19 @@ function Signup() {
         console.log("회원가입 시도");
         console.log(auth.currentUser);
 
-        try {
-            const res = await createUserWithEmailAndPassword(auth, email, password);
+        const res = createUserWithEmailAndPassword(auth, email, password).then((cred) => {
             console.log("create user!");
-            createUser(res.user.uid, nickname);
+            createUser(cred.user.uid, nickname);
             navigate('/login');
-        } catch (e) {
+        }).catch((err: AuthError) => {
+            let errStr = err.code.toString();
+            if (errStr == "auth/email-already-in-use") {
+                setErrMsg("이미 사용 중인 이메일입니다.");
+            } else {
+                setErrMsg(errStr);
+            }
             console.log(e);
-        }
+        })
 
     }
 

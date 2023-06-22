@@ -20,27 +20,26 @@ function ManageTeam() {
   const { state } = useLocation();
   const roomId = state.roomId;
   const teamName = state.teamName;
-  const [members, setMembers] = useState([
+  const [members, setMembers] = useState<String[]>([
   ]);
 
 
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
 
   useEffect(() => {
-    getMembers(roomId).then((members) => {
-      console.log(members);
-    });
+    console.log("gm : ", getMembers(roomId));
   }, [])
+
 
   return (
     <div className="ManageTeam">
       <Header />
       <div className="container">
-      <Sidebar />
+        <Sidebar />
         <div className="main">
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
           <div className="sub">
-            <div className="team_title">team name : </div>
+            <div className="team_title">team name : {state.teamName}</div>
             <div className="timetables">
               {members.map((userId, isOwner) => {
                 console.log(userId, isOwner);
@@ -57,18 +56,18 @@ function ManageTeam() {
               </div>
             </div>
             <div className="timecell">
-            <TimeCell />
+              <TimeCell />
             </div>
-            
+
           </div>
           {roomId}
         </div>
         <div className="members">
           오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기
-          {members.map((k, v) => {
-            return (
-              <Member value={k} bool={Object.values(k)[0]} roomId={roomId} />
-            )
+
+          {members.map((v, i) => {
+            console.log(v);
+            return <Member></Member>
           })}
         </div>
       </div>
@@ -76,6 +75,11 @@ function ManageTeam() {
   )
 }
 export default ManageTeam
+
+{/* {members.map((k, v) => {
+            return (
+              <Member value={k} bool={Object.values(k)[0]} roomId={roomId} />
+            ) */}
 
 function Timetable(props: any) {
   const alias = props.alias;

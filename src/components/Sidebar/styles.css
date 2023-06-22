@@ -33,11 +33,24 @@
 
 .Sidebar .team {
   display: flex;
-  width: calc(100%-5px);
+  width: 240px;
   height: 70px;
   cursor: pointer;
   align-items: center;
   padding-left: 10px;
+}
+
+.Sidebar .create-team {
+  display: flex;
+  width: calc(100% - 5px);
+  height: 70px;
+  cursor: pointer;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.Sidebar .create-team:hover {
+  background-color: rgb(226, 226, 226);
 }
 
 .Sidebar .team .icon {
@@ -81,6 +94,10 @@
   border: 1px solid white;
   background-color: none;
   border-radius: 15px;
+}
+
+.Sidebar .sidebar-container {
+  width: calc(100% - 5px);
 }
 
 .Sidebar .settings:hover {
