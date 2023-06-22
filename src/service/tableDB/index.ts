@@ -12,6 +12,7 @@ import { db } from '../../components/firebase';
  * 방을 생성합니다. 만든 사람은 방의 생성자가 됩니다 (isOwner = true)
  * @param uid 유저 ID -> 방의 생성자가 됩니다.
  * @param roomName 방 이름
+ * @example
  * const a = await createRoom('NgWIeqwe-Fjs8bhf9Ne', '까미일정');
  * 
  * @returns 만들어진 방의 ID를 반환합니다.
@@ -100,11 +101,9 @@ async function deleteUser(uid: String): Promise<void> {
  * @param uid 유저 아이디 문자열
  */
 async function getUserName(uid: String): Promise<String> {
-    return get(ref(db, 'users/' + uid)).then((e) => {
-        return Object.entries(e.exportVal())[1] && "";
-    }).catch((err) => {
-        throw new Error(err);
-    });
+    const snapshot = await get(ref(db, 'users/' + uid + '/userName'));
+    const t = snapshot.exportVal();
+    return t;
 }
 
 //==========Member==========

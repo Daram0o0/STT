@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './styles.css';
-import { getUserRooms, roomInfo } from '../../service/tableDB';
+import { getUserRooms, roomInfo, getUserName } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
@@ -38,12 +38,16 @@ function Sidebar(props: ISidebar) {
   const [cookies] = useCookies();
 
   const [teams, setTeams] = useState<roomInfo[]>([]);
+  const [nickname, setNickName] = useState<String>("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    //uid 토큰이 유효할 경우 == 로그인 되어 있다면
     if (cookies.uidToken) {
-      console.log('uid');
+      getUserName(cookies.uidToken).then((name) => {
+        setNickName(name);
+      })
       getUserRooms(cookies.uidToken).then((rooms) => {
         console.log("res : ", rooms);
         setTeams(rooms);
@@ -65,7 +69,7 @@ function Sidebar(props: ISidebar) {
       <div className='sidebar-container'>
         <div className='profile'>
           <div className='icon'></div>
-          <div style={{ marginRight: "10px" }}>{"Zizon jiho"}</div>
+          <div style={{ marginRight: "10px" }}>{nickname}</div>
           <RiSettings5Fill className="settings" size={24} onClick={() => {
             //navigate settings pages
           }} />
