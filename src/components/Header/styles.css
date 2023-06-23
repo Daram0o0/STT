@@ -29,10 +29,11 @@
   top: 70px;
   width: 180px;
   padding: 10px;
-  height: 300px;
+  height: 200px;
   border: 1px solid rgb(230, 230, 230);
-  z-index: 2;
+  z-index: 999;
   box-shadow: 0px 0px 10px 1px rgb(219, 219, 219);
+  background-color: white;
 }
 
 .Header .account-popup p {
@@ -60,7 +61,7 @@
 }
 
 .Header #logout:hover {
-  background-color: rgb(230, 205, 205);
+  background-color: rgb(237, 180, 180);
 }
 
 .Header .home {}

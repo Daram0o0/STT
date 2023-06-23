@@ -23,13 +23,11 @@ async function createRoom(uid: String, roomName: String): Promise<String | null>
     update(ref(db, 'rooms/' + unique_key), {
         roomName: roomName
     })
-
-    push(ref(db, 'users/' + uid + "/belongs"), unique_key)
     addMember(unique_key!, uid, true);
     return unique_key;
 }
 
-async function DeleteRoom(roomId: String) { }
+async function deleteRoom(roomId: String) { }
 
 type roomInfo = {
     roomId: String,
@@ -45,6 +43,7 @@ async function getUserRooms(uid: String): Promise<roomInfo[]> {
 
     let roomSnapshots = await get(ref(db, 'users/' + uid + "/belongs"));
     let roomIds = Object.values(roomSnapshots.exportVal() as Object);
+
     let roomInfos: roomInfo[] = [];
 
     for (let i = 0; i < roomIds.length; i++) {
@@ -66,7 +65,7 @@ async function getUserRooms(uid: String): Promise<roomInfo[]> {
  * @param roomId 방 ID
  * @returns 방 이름 (문자열)
  */
-async function getRoomName(roomId: String) {
+async function getRoomName(roomId: String): Promise<String> {
     let snapshot = await get(ref(db, 'rooms/' + roomId));
     let t = snapshot.exportVal().roomName;
     return t;
@@ -128,6 +127,8 @@ async function addMember(roomId: String, uid: String, isOwner: boolean) {
             isOwner: isOwner,
             timeTable: {}, // 시간표
         });
+
+        push(ref(db, 'users/' + uid + '/belongs'), roomId)
     } else {
         console.log('이미 존재하는 유저입니다.');
     }
@@ -183,5 +184,5 @@ async function createTimeBlock() {
 
 }
 
-export { createRoom, DeleteRoom, getUserRooms, getUserName, createUser, deleteUser, addMember, removeMember, getMembers };
+export { createRoom, deleteRoom, getUserRooms, getRoomName, getUserName, createUser, deleteUser, addMember, removeMember, getMembers };
 export type { roomInfo, memberInfo };

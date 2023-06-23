@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 function Header() {
   const navigate = useNavigate();
-  const [cookies] = useCookies();
+  const [cookies, setCookies, removeCookie] = useCookies();
 
   const [accountPopup, setAccountPopup] = useState(false);
 
@@ -30,7 +30,11 @@ function Header() {
           <div className="account-btn">계정</div>
           <div className="account-btn">계정 정보 수정</div>
           <div className="account-btn">계정 정보 수정</div>
-          <div className="account-btn" id="logout" style={{ color: "red", marginTop: "auto" }}>로그 아웃</div>
+          <div className="account-btn" id="logout" style={{ color: "red", marginTop: "auto" }}
+            onClick={() => {
+              removeCookie("uidToken");
+              window.location.reload();
+            }}>로그 아웃</div>
         </div>
       }
     </div>
