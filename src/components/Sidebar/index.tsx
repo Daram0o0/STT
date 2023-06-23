@@ -4,6 +4,7 @@ import { getUserRooms, roomInfo, getUserName } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
+import { RxDotsVertical } from 'react-icons/rx';
 
 interface ISidebar {
   width?: string,
@@ -13,20 +14,51 @@ interface ISidebar {
 
 const Team = (props: any) => {
 
+  const [hover, setHover] = useState(false);
+  const [roomOption, setRoomOption] = useState(false);
+
+  const [mouseY, setMouseY] = useState(0);
+
   const navigate = useNavigate();
   return (
-    <div className="team" onClick={() => {
-      navigate('/manageteam', {
-        state: {
-          roomId: props.roomId,
-          roomName: props.roomName,
-        }
-      });
-    }}>
+    <div className="team"
+      onMouseEnter={() => { setHover(true); }}
+      onMouseLeave={() => { setHover(false); }}
+      onClick={() => {
+        navigate('/manageteam', {
+          state: {
+            roomId: props.roomId,
+            roomName: props.roomName,
+          }
+        });
+      }}>
       <div className="icon">
         <p style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>{props.roomName[0].toUpperCase()}</p>
       </div>
       <p>{props.roomName}</p>
+      {
+        hover &&
+        <div className="room-option" style={{ marginLeft: 'auto', marginRight: '20px' }}
+          // onMouseLeave={(e) => {
+          //   setTimeout(() => {
+          //     setRoomOption(false);
+          //   }, 500)
+          // }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setMouseY(e.clientY);
+            setRoomOption(!roomOption);
+          }}><RxDotsVertical size={16} /></div>
+      }
+      {
+        roomOption &&
+        <div className="room-option-popup" style={{ top: mouseY - 15 }} onClick={(e) => {
+          e.stopPropagation();
+        }}>
+          <div className="popup-btn">방 설정</div>
+          <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}>방 삭제</div>
+        </div>
+      }
     </div>
   );
 }
@@ -39,6 +71,7 @@ function Sidebar(props: ISidebar) {
 
   const [teams, setTeams] = useState<roomInfo[]>([]);
   const [nickname, setNickName] = useState<String>("");
+
 
   const navigate = useNavigate();
 
