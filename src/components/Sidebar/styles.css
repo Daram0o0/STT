@@ -81,7 +81,7 @@
 }
 
 .Sidebar .team:hover {
-  background-color: rgb(226, 226, 226);
+  background-color: rgb(242, 242, 242);
 }
 
 .Sidebar .settings {
@@ -106,4 +106,55 @@
   transform: rotate(90deg);
   background-color: rgb(214, 214, 214);
   border: 1px solid rgb(214, 214, 214);
+}
+
+.Sidebar .room-option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  background-color: rgb(226, 226, 226);
+  border: 1px solid rgb(226, 226, 226);
+  border-radius: 25px;
+
+}
+
+.Sidebr .room-option:hover {
+  border: 1px solid gray;
+  background-color: gray;
+}
+
+.Sidebar .room-option-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: 240px;
+  top: 200px;
+  width: 200px;
+  height: 300px;
+  border: 1px solid rgb(244, 244, 244);
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0px 0px 10px 1px rgb(205, 205, 205);
+}
+
+.Sidebar .popup-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 25px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.Sidebar .popup-btn:hover:not(#deleteRoom) {
+  background-color: rgb(230, 230, 230);
+  border: 1px solid rgb(230, 230, 230);
+}
+
+.Sidebar #deleteRoom:hover {
+  background-color: rgb(237, 180, 180);
 }
