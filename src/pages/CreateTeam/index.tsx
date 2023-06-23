@@ -8,20 +8,21 @@ import { useNavigate } from "react-router-dom";
 
 function CreateTeam() {
     const [cookies, setCookie, removeCookie] = useCookies();
-    const [teamName, setTeamName] = useState('');
+    const [roomName, setroomName] = useState('');
 
     const navigate = useNavigate();
 
     const createSubmit = () => {
-        if (teamName == "") {
+        if (roomName == "") {
             console.log("team name is blank!");
             return;
         }
-        createRoom(cookies.uidToken, teamName).then((roomId: String | null) => {
+        console.log("create room!");
+        createRoom(cookies.uidToken, roomName).then((roomId: String | null) => {
             navigate('/manageteam', {
                 state: {
                     roomId: roomId,
-                    teamName: teamName,
+                    roomName: roomName,
                 }
             });
         });
@@ -34,10 +35,9 @@ function CreateTeam() {
                     <div>팀 이름</div>
                     <input className="outer_input" type="text"
                         placeholder="팀 명"
-                        value={teamName}
-                        onChange={(e) => { setTeamName(e.target.value) }} />
+                        value={roomName}
+                        onChange={(e) => { setroomName(e.target.value) }} />
                 </div>
-
                 <div className="outer">
                     <div>팀 설명</div>
                     <textarea className="outer_input" placeholder="simple is best!"></textarea>

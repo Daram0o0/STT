@@ -36,6 +36,8 @@ function Login() {
                 setErrMsg("잘못된 비밀번호입니다.");
             } else if (errStr == "auth/user-not-found") {
                 setErrMsg("존재하지 않는 사용자입니다. 회원가입을 해주십시오.")
+            } else if (errStr == "auth/invalid-email") {
+                setErrMsg("유효하지 않는 이메일입니다.");
             }
             else {
                 setErrMsg(errStr);
@@ -74,11 +76,35 @@ function Login() {
                 <div className="login_form">
                     <input className="id_input" type="text" placeholder="email"
                         value={email} onChange={(e) => { setEmail(e.target.value) }}
-                        onKeyDown={(e) => { if (e.key === 'Enter') { inputHandler(e) } }}
+                        onFocus={(e) => {
+                            console.log("f");
+                            let t = email;
+                            setEmail("");
+                            setEmail(t);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                inputHandler(e)
+                            } else if (e.key === 'ArrowDown') {
+                                pwFocusRef.current?.focus();
+                            }
+                        }}
                         ref={idFocusRef}></input>
                     <input className="pw_input" type="password" placeholder="password"
                         value={password} onChange={(e) => { setPassword(e.target.value) }}
-                        onKeyDown={(e) => { if (e.key === 'Enter') { inputHandler(e) } }}
+                        onFocus={(e) => { e.currentTarget.selectionStart = password.length }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                inputHandler(e);
+                            }
+                            else if (e.key === 'ArrowUp') {
+                                idFocusRef.current?.focus();
+                                if (idFocusRef.current) {
+                                    console.log(email.length);
+                                    // idFocusRef.current.selectionStart = email.length;
+                                }
+                            }
+                        }}
                         ref={pwFocusRef}></input>
                     <p style={{ color: "red", height: "22px" }}>{errMsg && errMsg}</p>
                     <button className="submit" onClick={(e) => { submit(e) }}>로그인</button>

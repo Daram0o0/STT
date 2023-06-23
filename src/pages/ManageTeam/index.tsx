@@ -3,7 +3,7 @@ import TimeCell from '../../components/TimeCell';
 import { addMember, deleteUser, getMembers, getUserName, memberInfo, removeMember } from '../../service/tableDB';
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 
@@ -19,14 +19,16 @@ function ManageTeam() {
   const [cookies] = useCookies();
   const { state } = useLocation();
   const roomId = state.roomId;
-  const teamName = state.teamName;
-  const [members, setMembers] = useState<memberInfo[]>([
-  ]);
+  const roomName = state.roomName;
+  const [members, setMembers] = useState<memberInfo[]>([]);
+  const [addMemberPopup, setAddMemberPopup] = useState(false);
 
+  const addMemPopupRef = useRef<HTMLDivElement>(null);
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
 
   useEffect(() => {
     getMembers(roomId).then((arr: memberInfo[]) => {
+      console.log("get members");
       setMembers(arr);
     })
   }, [])
@@ -34,12 +36,43 @@ function ManageTeam() {
   return (
     <div className="ManageTeam">
       <Header />
-      <div className="container">
+      <div className="container"
+        tabIndex={0}
+        onKeyUp={(e) => {
+          // e.isPropagationStopped();
+          if (e.key === "Escape") {
+            console.log('main key');
+            setAddMemberPopup(false);
+          }
+        }}>
         <Sidebar />
+        {
+          addMemberPopup &&
+          <div className="addmember-popup"
+            ref={addMemPopupRef}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              console.log("keydown");
+              if (e.key === "Escape") {
+                console.log('escpae');
+                setAddMemberPopup(false);
+              }
+            }}>
+            멤버 추가
+            <br />
+            <div>초대 링크를 전송하여 초대하기</div>
+            <div className="invite">
+              <div className="invite-box">{"http://localhost:3000/invite/" + roomId}</div>
+              <div className="invite-check">✔</div>
+
+            </div>
+
+          </div>
+        }
         <div className="main">
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
           <div className="sub">
-            <div className="team_title">team name : {state.teamName}</div>
+            <div className="team_title">{roomName}</div>
             <div className="timetables">
               {members.map((v, i) => {
 
@@ -48,8 +81,10 @@ function ManageTeam() {
                 )
               })}
               <div style={{ cursor: "pointer" }} onClick={() => {
-                addMember(roomId, "zizon_jiho", false);
-                // setMembers([...members, { userId: "zizon_jiho", Owner: false, }]);
+                setAddMemberPopup(true);
+                addMemPopupRef.current?.focus();
+                // addMember(roomId, "zizon_jiho", false);
+
               }}>
                 {/* 아래로 기운 것 같음ㅠㅠ */}
                 <div>+</div>
@@ -66,7 +101,6 @@ function ManageTeam() {
           오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기
 
           {members.map((v, i) => {
-            console.log(v);
             return <Member idx={i} uid={v.uid} isOwner={v.isOwner} roomId={roomId}></Member>
           })}
         </div>

@@ -54,7 +54,7 @@ function Sidebar(props: ISidebar) {
 
     } else {
       console.log("login need");
-      alert("로그인이 필요합니다.");
+      // alert("로그인이 필요합니다.");
     }
 
   }, [])
@@ -70,12 +70,15 @@ function Sidebar(props: ISidebar) {
         <div className='profile'>
           <div className='icon'></div>
           <div style={{ marginRight: "10px" }}>{nickname}</div>
+
           <RiSettings5Fill className="settings" size={24} onClick={() => {
             //navigate settings pages
           }} />
+          <p>팀 설정</p>
 
         </div>
         <div className='teams'>
+          <p style={{ marginLeft: "20px", color: "gray" }}>내 팀</p>
           {
             teams ? teams.map((info, i) => {
               // console.log("info:", info);
