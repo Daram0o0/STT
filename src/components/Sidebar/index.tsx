@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './styles.css';
-import { getUserRooms, roomInfo, getUserName } from '../../service/tableDB';
+import { getUserRooms, roomInfo, getUserName, deleteRoom, getMembers } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
@@ -18,6 +18,7 @@ const Team = (props: any) => {
   const [hover, setHover] = useState(false);
   const [roomOption, setRoomOption] = useState(false);
   const [mouseY, setMouseY] = useState(0);
+  const [cookies] = useCookies();
 
   const navigate = useNavigate();
   return (
@@ -62,10 +63,27 @@ const Team = (props: any) => {
             e.stopPropagation();
           }}>
           <div className="popup-btn">방 설정</div>
-          <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}>방 삭제</div>
+          <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}
+            onClick={() => {
+              getMembers(props.roomId).then((members) => {
+                let uid = cookies.uidToken;
+                console.log("members : ", members);
+                for (let i = 0; i < members.length; i++) {
+                  console.log(members[i].uid);
+                  if (members[i].uid == uid) {
+                    console.log("uid : ", uid);
+                    if (members[i].isOwner) {
+                      deleteRoom(props.roomId);
+                    } else {
+                      alert("권한이 없습니다!");
+                    }
+                  }
+                }
+              })
+            }}>방 삭제</div>
         </div>
       }
-    </div>
+    </div >
   );
 }
 
@@ -77,13 +95,15 @@ function Sidebar(props: ISidebar) {
 
   const [teams, setTeams] = useState<roomInfo[]>([]);
   const [nickname, setNickName] = useState<String>("");
+  const [roomsGetDone, setRoomsGetDone] = useState(false);
+
   // const rooms = useSelector((state: any) => state.counter.value);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("sidbare useEffect!");
+    console.log("sidㄷbar useEffect!");
     dispatch(getRooms);
     //uid 토큰이 유효할 경우 == 로그인 되어 있다면
     if (cookies.uidToken) {
@@ -91,7 +111,11 @@ function Sidebar(props: ISidebar) {
         setNickName(name);
       })
       getUserRooms(cookies.uidToken).then((rooms) => {
-        setTeams(rooms);
+        setRoomsGetDone(true);
+        if (rooms.length > 0) {
+          setTeams(rooms);
+        }
+
       });
 
     } else {
@@ -122,10 +146,11 @@ function Sidebar(props: ISidebar) {
         <div className='teams'>
           <p style={{ marginLeft: "20px", color: "gray" }}>내 팀</p>
           {
-            teams ? teams.map((info, i) => {
+            teams.length > 0 ? teams.map((info, i) => {
               // console.log("info:", info);
               return <Team key={i} roomId={info.roomId} roomName={info.roomName} />
-            }) : <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>서버 협박하는 중 ...</p>
+            }) : roomsGetDone ? <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>  서버 협박하는 중 ...</p> :
+              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}> 팀이 없습니다.</p>
           }
           {
             cookies.uidToken ? <div className="create-team" onClick={() => {
