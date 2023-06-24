@@ -27,7 +27,29 @@ async function createRoom(uid: String, roomName: String): Promise<String | null>
     return unique_key;
 }
 
-async function deleteRoom(roomId: String) { }
+async function deleteRoom(roomId: String) {
+
+    let members = await getMembers(roomId);
+    for (let i = 0; i < members.length; i++) {
+        let t = await get(ref(db, 'users/' + members[i].uid + '/belongs/'));
+        let arrays = Object.entries(t.exportVal());
+        // console.log(arrays);
+        let filtered = arrays.filter((v, i) => {
+            // console.log(i, v[1], roomId, v[1] == roomId);
+            return v[1] != roomId;
+        })
+        // console.log(filtered);
+        update(ref(db, 'users/' + members[i].uid + '/belongs/'), Object.fromEntries(filtered));
+
+        for (let j = 0; j < arrays.length; j++) {
+            if (arrays[j][1] == roomId) {
+                console.log((await set(ref(db, 'users/' + members[i].uid + '/belongs/' + arrays[j][0]), null)));
+            }
+        }
+    }
+
+    remove(ref(db, 'rooms/' + roomId));
+}
 
 type roomInfo = {
     roomId: String,
@@ -42,7 +64,14 @@ type roomInfo = {
 async function getUserRooms(uid: String): Promise<roomInfo[]> {
 
     let roomSnapshots = await get(ref(db, 'users/' + uid + "/belongs"));
+    if (!roomSnapshots) {
+        return [];
+    }
+
     let roomIds = Object.values(roomSnapshots.exportVal() as Object);
+    if (!roomIds) {
+        return [];
+    }
 
     let roomInfos: roomInfo[] = [];
 
@@ -158,7 +187,7 @@ async function getMembers(roomId: String) {
     let entries = Object.entries(t);
     let members: memberInfo[] = [];
     for (let i = 0; i < entries.length; i++) {
-        let info = entries[0];
+        let info = entries[i];
         let uid = info[0];
 
         let isOwner = Object.values(info[1] as Object)[0];
