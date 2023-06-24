@@ -5,7 +5,8 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
 import { RxDotsVertical } from 'react-icons/rx';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getRooms } from '../../service/redux/counterSlice';
 interface ISidebar {
   width?: string,
   sticky?: string,
@@ -16,7 +17,6 @@ const Team = (props: any) => {
 
   const [hover, setHover] = useState(false);
   const [roomOption, setRoomOption] = useState(false);
-
   const [mouseY, setMouseY] = useState(0);
 
   const navigate = useNavigate();
@@ -52,9 +52,15 @@ const Team = (props: any) => {
       }
       {
         roomOption &&
-        <div className="room-option-popup" style={{ top: mouseY - 15 }} onClick={(e) => {
-          e.stopPropagation();
-        }}>
+        <div className="room-option-popup" style={{ top: mouseY - 15 }}
+          onMouseLeave={(e) => {
+            e.stopPropagation();
+            setRoomOption(false);
+            setHover(false);
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}>
           <div className="popup-btn">방 설정</div>
           <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}>방 삭제</div>
         </div>
@@ -71,11 +77,14 @@ function Sidebar(props: ISidebar) {
 
   const [teams, setTeams] = useState<roomInfo[]>([]);
   const [nickname, setNickName] = useState<String>("");
-
+  // const rooms = useSelector((state: any) => state.counter.value);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("sidbare useEffect!");
+    dispatch(getRooms);
     //uid 토큰이 유효할 경우 == 로그인 되어 있다면
     if (cookies.uidToken) {
       getUserName(cookies.uidToken).then((name) => {
@@ -118,9 +127,12 @@ function Sidebar(props: ISidebar) {
               return <Team key={i} roomId={info.roomId} roomName={info.roomName} />
             }) : <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>서버 협박하는 중 ...</p>
           }
-          <div className="create-team" onClick={() => {
-            navigate('/createTeam');
-          }}>+ 팀 만들기</div>
+          {
+            cookies.uidToken ? <div className="create-team" onClick={() => {
+              navigate('/createTeam');
+            }}>+ 팀 만들기</div>
+              : <p style={{ color: 'gray', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로그인이 필요합니다</p>
+          }
         </div>
       </div>
     </div>

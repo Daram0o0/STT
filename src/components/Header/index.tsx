@@ -26,7 +26,10 @@ function Header() {
           setAccountPopup(false);
         }}>{cookies.uidToken ? <p>Account</p> : <p>Login</p>}</div>
       {accountPopup &&
-        <div className="account-popup">
+        <div className="account-popup" onMouseLeave={(e) => {
+          e.stopPropagation();
+          setAccountPopup(false);
+        }}>
           <div className="account-btn">계정</div>
           <div className="account-btn">계정 정보 수정</div>
           <div className="account-btn">계정 정보 수정</div>
