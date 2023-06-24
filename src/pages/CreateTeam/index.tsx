@@ -17,6 +17,10 @@ function CreateTeam() {
             console.log("team name is blank!");
             return;
         }
+        if (!cookies.uidToken) {
+            console.log("login need for create Room");
+            return;
+        }
         console.log("create room!");
         createRoom(cookies.uidToken, roomName).then((roomId: String | null) => {
             navigate('/manageteam', {
