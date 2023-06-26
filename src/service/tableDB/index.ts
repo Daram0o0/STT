@@ -64,14 +64,14 @@ type roomInfo = {
 async function getUserRooms(uid: String): Promise<roomInfo[]> {
 
     let roomSnapshots = await get(ref(db, 'users/' + uid + "/belongs"));
-    if (!roomSnapshots) {
+
+    let ssObj = roomSnapshots.exportVal() as Object;
+    if (ssObj == null || ssObj == undefined) {
+        console.assert("no rooms");
         return [];
     }
 
-    let roomIds = Object.values(roomSnapshots.exportVal() as Object);
-    if (!roomIds) {
-        return [];
-    }
+    let roomIds = Object.values(ssObj);
 
     let roomInfos: roomInfo[] = [];
 

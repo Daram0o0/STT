@@ -37,7 +37,7 @@ function Login() {
             } else if (errStr == "auth/user-not-found") {
                 setErrMsg("존재하지 않는 사용자입니다. 회원가입을 해주십시오.")
             } else if (errStr == "auth/invalid-email") {
-                setErrMsg("유효하지 않는 이메일입니다.");
+                setErrMsg("유효하지 않은 이메일입니다.");
             }
             else {
                 setErrMsg(errStr);
@@ -64,6 +64,7 @@ function Login() {
             // alert('login');
         }
     }
+
 
     return (
         <div className="Login">
@@ -111,9 +112,9 @@ function Login() {
                 </div>
 
                 <p style={{ color: "gray", whiteSpace: "pre" }}>
-                    <a href="" style={{ textDecoration: "none", color: "gray" }}>ID 찾기</a>
-                    <a href="" style={{ textDecoration: "none", color: "gray" }}> | 비밀번호 찾기</a>
-                    <a href="" style={{ textDecoration: "none", color: "gray" }} onClick={() => { navigate('/signup'); }}> | 회원가입</a>
+                    <a style={{ textDecoration: "none", color: "gray" }}>ID 찾기</a>
+                    <a style={{ textDecoration: "none", color: "gray" }}> | 비밀번호 찾기</a>
+                    <a style={{ textDecoration: "none", color: "gray" }} onClick={(e) => { navigate('/signup'); }}> | 회원가입</a>
                 </p>
                 <GoogleLogin width="340px" text="Sign in with Google" />
                 <div className="deco_end"></div>
