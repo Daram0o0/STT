@@ -12,8 +12,8 @@ function Header() {
 
   return (
     <div className="Header">
-      <div className="home" onClick={() => { navigate("/") }}>Home</div>
-      <div className="setting" onClick={() => { navigate("/setting") }}>Setting</div>
+      <div className="home" onClick={() => { navigate("/"); }}>Home</div>
+      <div className="setting" onClick={() => { navigate("/setting") }}>설정</div>
       <div className="account" onClick={() => {
         if (cookies.uidToken) {
           // navigate("/")
@@ -24,14 +24,14 @@ function Header() {
       }}
         onBlur={() => {
           setAccountPopup(false);
-        }}>{cookies.uidToken ? <p>Account</p> : <p>Login</p>}</div>
+        }}>{cookies.uidToken ? <p>계정</p> : <p>로그인</p>}</div>
       {accountPopup &&
         <div className="account-popup" onMouseLeave={(e) => {
           e.stopPropagation();
           setAccountPopup(false);
         }}>
           <div className="account-btn">계정</div>
-          <div className="account-btn">계정 정보 수정</div>
+          <div className="account-btn">내 시간표</div>
           <div className="account-btn">계정 정보 수정</div>
           <div className="account-btn" id="logout" style={{ color: "red", marginTop: "auto" }}
             onClick={() => {

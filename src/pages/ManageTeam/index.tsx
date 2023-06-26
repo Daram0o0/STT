@@ -30,8 +30,9 @@ function ManageTeam() {
     getMembers(roomId).then((arr: memberInfo[]) => {
       console.log("get members");
       setMembers(arr);
-    })
-  }, [])
+    });
+
+  }, [roomId])
 
   return (
     <div className="ManageTeam">
@@ -77,7 +78,7 @@ function ManageTeam() {
               {members.map((v, i) => {
 
                 return (
-                  <Timetable uid={v.uid} />
+                  <Timetable key={i} uid={v.uid} />
                 )
               })}
               <div style={{ cursor: "pointer" }} onClick={() => {
@@ -101,7 +102,7 @@ function ManageTeam() {
           오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기
 
           {members.map((v, i) => {
-            return <Member idx={i} uid={v.uid} isOwner={v.isOwner} roomId={roomId}></Member>
+            return <Member key={i} idx={i} uid={v.uid} isOwner={v.isOwner} roomId={roomId}></Member>
           })}
         </div>
       </div>

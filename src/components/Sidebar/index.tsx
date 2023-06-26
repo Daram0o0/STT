@@ -21,6 +21,7 @@ const Team = (props: any) => {
   const [cookies] = useCookies();
 
   const navigate = useNavigate();
+
   return (
     <div className="team"
       onMouseEnter={() => { setHover(true); }}
@@ -64,23 +65,7 @@ const Team = (props: any) => {
           }}>
           <div className="popup-btn">방 설정</div>
           <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}
-            onClick={() => {
-              getMembers(props.roomId).then((members) => {
-                let uid = cookies.uidToken;
-                console.log("members : ", members);
-                for (let i = 0; i < members.length; i++) {
-                  console.log(members[i].uid);
-                  if (members[i].uid == uid) {
-                    console.log("uid : ", uid);
-                    if (members[i].isOwner) {
-                      deleteRoom(props.roomId);
-                    } else {
-                      alert("권한이 없습니다!");
-                    }
-                  }
-                }
-              })
-            }}>방 삭제</div>
+            onClick={() => { props.removeRoom(props.roomId); }}>방 삭제</div>
         </div>
       }
     </div >
@@ -102,8 +87,32 @@ function Sidebar(props: ISidebar) {
 
   const navigate = useNavigate();
 
+  const removeRoom = (roomId: String) => {
+    getMembers(roomId).then((members) => {
+      let uid = cookies.uidToken;
+      console.log("members : ", members);
+      for (let i = 0; i < members.length; i++) {
+        console.log(members[i].uid);
+        if (members[i].uid == uid) {
+          console.log("uid : ", uid);
+          if (members[i].isOwner) {
+            deleteRoom(roomId);
+          } else {
+            alert("권한이 없습니다!");
+          }
+        }
+      }
+    })
+
+    let t = teams.filter((v) => {
+      return v.roomId != roomId;
+    })
+
+    setTeams(t);
+  }
+
   useEffect(() => {
-    console.log("sidㄷbar useEffect!");
+    console.log("sidebar useEffect!");
     dispatch(getRooms);
     //uid 토큰이 유효할 경우 == 로그인 되어 있다면
     if (cookies.uidToken) {
@@ -148,8 +157,8 @@ function Sidebar(props: ISidebar) {
           {
             teams.length > 0 ? teams.map((info, i) => {
               // console.log("info:", info);
-              return <Team key={i} roomId={info.roomId} roomName={info.roomName} />
-            }) : roomsGetDone ? <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>  서버 협박하는 중 ...</p> :
+              return <Team key={i} roomId={info.roomId} roomName={info.roomName} removeRoom={removeRoom} />
+            }) : !roomsGetDone ? <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>  서버 협박하는 중 ...</p> :
               <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}> 팀이 없습니다.</p>
           }
           {
@@ -163,7 +172,6 @@ function Sidebar(props: ISidebar) {
     </div>
   );
 }
-
 
 export default Sidebar;
 export { };

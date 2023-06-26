@@ -15,10 +15,8 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Link to="/"></Link>
-        <Link to="/invite"></Link>
         <Routes>
-          <Route path="/" element={<Main />}></Route>
+          <Route path="/" element={<Main />} ></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/createteam" element={<CreateTeam />}></Route>
