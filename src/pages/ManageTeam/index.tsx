@@ -81,7 +81,7 @@ function ManageTeam() {
                   <Timetable key={i} uid={v.uid} />
                 )
               })}
-              <div style={{ cursor: "pointer" }} onClick={() => {
+              <div className="member" style={{ cursor: "pointer" }} onClick={() => {
                 setAddMemberPopup(true);
                 addMemPopupRef.current?.focus();
                 // addMember(roomId, "zizon_jiho", false);
@@ -119,6 +119,8 @@ export default ManageTeam
 function Timetable(props: any) {
   const uid = props.uid;
   const [userName, setUserName] = useState<String>("");
+  const [select, setSelect] = useState(false);
+
   useEffect(() => {
 
     getUserName(uid).then((name) => {
@@ -127,10 +129,12 @@ function Timetable(props: any) {
   }, [])
 
   return (
-    <div>
+    <div style={select ? { border: "1px solid red" } : { border: "1px solid var(--main-theme-000)" }} onClick={() => {
+      setSelect(!select);
+    }}>
       <div>{userName}</div>
       {/* <input type="checkbox"/> */}
-    </div>
+    </div >
   )
 }
 

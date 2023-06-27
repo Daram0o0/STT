@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './styles.css';
-import { getUserRooms, roomInfo, getUserName, deleteRoom, getMembers } from '../../service/tableDB';
+import { getUserRooms, roomInfo, getUserName, deleteRoom, getMembers, getRoomName } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
@@ -65,7 +65,7 @@ const Team = (props: any) => {
           }}>
           <div className="popup-btn">방 설정</div>
           <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}
-            onClick={() => { props.removeRoom(props.roomId); }}>방 삭제</div>
+            onClick={() => { props.removeRoom(props.roomId, props.roomName); }}>방 삭제</div>
         </div>
       }
     </div >
@@ -87,7 +87,11 @@ function Sidebar(props: ISidebar) {
 
   const navigate = useNavigate();
 
-  const removeRoom = (roomId: String) => {
+  const removeRoom = (roomId: String, roomName: String) => {
+    let msg = "정말로 " + roomName + "을 삭제 하시겠습니까?";
+    if (!window.confirm(msg)) {
+      return;
+    }
     getMembers(roomId).then((members) => {
       let uid = cookies.uidToken;
       console.log("members : ", members);
@@ -109,6 +113,7 @@ function Sidebar(props: ISidebar) {
     })
 
     setTeams(t);
+
   }
 
   useEffect(() => {

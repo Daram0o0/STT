@@ -106,6 +106,7 @@
   font-size: 30px;
   background-color: var(--main-theme-000);
   cursor: pointer;
+  border: 1px solid var(--main-theme-000);
 }
 
 .ManageTeam .timetables>div>div {
