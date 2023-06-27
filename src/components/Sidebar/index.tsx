@@ -19,8 +19,28 @@ const Team = (props: any) => {
   const [roomOption, setRoomOption] = useState(false);
   const [mouseY, setMouseY] = useState(0);
   const [cookies] = useCookies();
-
+  const [isOwner, setIsOwner] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+
+    //권한 여부
+    getMembers(props.roomId).then((members) => {
+      let uid = cookies.uidToken;
+
+      for (let i = 0; i < members.length; i++) {
+        console.log(members[i].uid);
+        if (members[i].uid == uid) {
+          console.log("uid : ", uid);
+          if (members[i].isOwner) {
+            setIsOwner(true);
+          } else {
+            setIsOwner(false);
+          }
+        }
+      }
+    })
+  }, [])
 
   return (
     <div className="team"
@@ -64,8 +84,12 @@ const Team = (props: any) => {
             e.stopPropagation();
           }}>
           <div className="popup-btn">방 설정</div>
-          <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}
-            onClick={() => { props.removeRoom(props.roomId, props.roomName); }}>방 삭제</div>
+          {
+            isOwner ?
+              <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}
+                onClick={() => { props.removeRoom(props.roomId, props.roomName); }}> 방 삭제 </div> :
+              <div className="popup-btn" id="exitRoom" style={{ color: 'red', marginTop: "auto" }}>방 나가기</div>
+          }
         </div>
       }
     </div >
@@ -90,6 +114,9 @@ function Sidebar(props: ISidebar) {
     if (!window.confirm(msg)) {
       return;
     }
+
+    let permission = false;
+
     getMembers(roomId).then((members) => {
       let uid = cookies.uidToken;
       console.log("members : ", members);
@@ -98,6 +125,7 @@ function Sidebar(props: ISidebar) {
         if (members[i].uid == uid) {
           console.log("uid : ", uid);
           if (members[i].isOwner) {
+            permission = true;
             deleteRoom(roomId);
           } else {
             alert("권한이 없습니다!");
@@ -106,12 +134,13 @@ function Sidebar(props: ISidebar) {
       }
     })
 
-    let t = teams.filter((v) => {
-      return v.roomId != roomId;
-    })
+    if (permission) {
+      let t = teams.filter((v) => {
+        return v.roomId != roomId;
+      })
 
-    setTeams(t);
-
+      setTeams(t);
+    }
   }
 
   useEffect(() => {

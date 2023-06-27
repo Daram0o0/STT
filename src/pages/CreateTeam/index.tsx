@@ -40,25 +40,28 @@ function CreateTeam() {
             <div className="wrapper">
                 <Sidebar />
                 <div className="container">
-                    <div className="outer">
-                        <div>팀 이름</div>
-                        <input className="outer_input" type="text"
-                            placeholder="팀 명"
-                            value={roomName}
-                            onChange={(e) => { setroomName(e.target.value) }} />
-                    </div>
-                    <div className="outer">
-                        <div>팀 설명</div>
-                        <textarea className="outer_input" placeholder="simple is best!"></textarea>
-                    </div>
+                    <div className="createbox">
+                        <div className="outer">
+                            <div>팀 이름</div>
+                            <input className="outer_input" type="text"
+                                placeholder="팀 명"
+                                value={roomName}
+                                onChange={(e) => { setroomName(e.target.value) }} />
+                        </div>
+                        <div className="outer">
+                            <div>팀 설명</div>
+                            <textarea className="outer_input" placeholder="simple is best!"></textarea>
+                        </div>
 
-                    <div className="outer">
-                        <button onClick={createSubmit}>make</button>
+                        <div className="outer">
+                            <button onClick={createSubmit}>make</button>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
+
     )
 }
 

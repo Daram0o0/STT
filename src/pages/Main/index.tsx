@@ -22,6 +22,7 @@ function Card(props: any) {
   let style = {
     width: width + "px",
     height: height + "px",
+
     // marginLeft: marginLeft + "px",
     // marginRight: marginRight + "px",
   }
