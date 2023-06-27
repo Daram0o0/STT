@@ -1,4 +1,4 @@
-interface time_table { // time_block - type( Object )
+interface schedule { // time_block - type( Object )
   className: String, //수업 이름
   where: String, // 수업 장소
   week: number, // 수업 요일
@@ -6,4 +6,11 @@ interface time_table { // time_block - type( Object )
   endTime: number, // 수업 종료 시간
 }
 
-export type { time_table };
+interface time_table {
+  name: String,
+  ownerId: String,
+  description: String,
+  schedules: schedule[],
+}
+
+export type { schedule, time_table };

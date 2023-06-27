@@ -34,7 +34,7 @@ function TimeCell(props?: any) {
   // }
 
   return (
-    <div className="TimeCell">
+    <div className="TimeCell" style={props.style}>
       <table>
         <thead>
           <tr>
