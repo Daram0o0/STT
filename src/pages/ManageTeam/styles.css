@@ -25,6 +25,16 @@
 
 }
 
+.ManageTeam .close-btn {
+  margin-right: auto;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgb(255, 71, 71);
+  border-radius: 50%;
+  background-color: rgb(255, 71, 71);
+  cursor: pointer;
+}
+
 .ManageTeam .addmember-popup {
   display: flex;
   flex-direction: column;
@@ -32,11 +42,13 @@
   position: fixed;
   width: 500px;
   height: 700px;
+  margin-top: 100px;
   background-color: white;
   outline: none;
   z-index: 999;
-  border: 1px solid gray;
-  border-radius: 20px;
+  border: 1px solid var(--main-border-light);
+  box-shadow: 0px 0px 10px 1px rgb(198, 198, 198);
+  border-radius: 30px;
   padding: 15px;
 
 }

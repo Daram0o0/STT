@@ -67,15 +67,15 @@ function ManageTeam() {
                 setAddMemberPopup(false);
               }
             }}>
-            멤버 추가
+            <div className="close-btn" onClick={() => { setAddMemberPopup(false); }}></div>
+            <h1 style={{ color: "rgb(60, 60, 60)" }}>멤버 추가</h1>
             <br />
             <div>초대 링크를 전송하여 초대하기</div>
+            <br />
             <div className="invite">
               <div className="invite-box">{"http://localhost:3000/invite/" + roomId}</div>
               <div className="invite-check">✔</div>
-
             </div>
-
           </div>
         }
         <div className="main">
