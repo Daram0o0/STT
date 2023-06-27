@@ -31,7 +31,9 @@ function Header() {
           setAccountPopup(false);
         }}>
           <div className="account-btn">계정</div>
-          <div className="account-btn">내 시간표</div>
+          <div className="account-btn" onClick={() => {
+            navigate('/home');
+          }}>내 시간표</div>
           <div className="account-btn">계정 정보 수정</div>
           <div className="account-btn" id="logout" style={{ color: "red", marginTop: "auto" }}
             onClick={() => {

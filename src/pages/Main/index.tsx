@@ -2,6 +2,23 @@ import './styles.css';
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
+import TimeCell from '../../components/TimeCell';
+
+function Card(props: any) {
+
+  const style = {
+    width: props.width,
+    height: props.height,
+  }
+  return (
+    <div className="card" style={style}>
+      <div className="card-title">{props.title}</div>
+      {
+        props.element
+      }
+    </div>
+  )
+}
 
 function Main() {
   const txt = "Shared-Time-Table";
@@ -9,18 +26,6 @@ function Main() {
   const [count, setCount] = useState(0);
 
   const [displayAccountPopup, setDisplayAccountPopup] = useState(false);
-
-  useEffect(() => {
-    const Interval = setInterval(() => {
-      setText(text + txt[count]);
-      setCount(count + 1);
-    }, 300);
-    if (count === txt.length) {
-      clearInterval(Interval);
-    }
-    return () => clearInterval(Interval);
-  })
-
 
   return (
     <div className="Main" onClick={(e) => {
@@ -31,11 +36,13 @@ function Main() {
       <div className="container">
         <Sidebar />
         <div className="body">
-          <div className="typing">
-            {text}
+          <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
+          <div className="cards">
+            <Card width="640px" height="570px" title="내 시간표" element={
+              <TimeCell />
+            } />
           </div>
         </div>
-
       </div>
     </div>
   );

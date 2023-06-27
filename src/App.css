@@ -1,12 +1,14 @@
-html{
-  --main-theme-000 : #efddfb;
-  --main-theme-100 : #debbf7;
-  --main-theme-200 : #cc9af2;
-  --main-theme-300 : #b878ed;
-  --main-theme-400 : #a255e8;
-  --main-theme : #8a2be2;
-  --dark-theme : #3C3C43;
-  --dark-theme-500 : rgb(45,45,45);
+html {
+  --main-theme-000: #efddfb;
+  --main-theme-100: #debbf7;
+  --main-theme-200: #cc9af2;
+  --main-theme-300: #b878ed;
+  --main-theme-400: #a255e8;
+  --main-theme: #8a2be2;
+  --dark-theme: #3C3C43;
+  --dark-theme-500: rgb(45, 45, 45);
+
+  --main-border-light: rgb(230, 230, 230);
 }
 
 .App {
@@ -43,6 +45,7 @@ html{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

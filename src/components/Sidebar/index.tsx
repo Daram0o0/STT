@@ -72,8 +72,6 @@ const Team = (props: any) => {
   );
 }
 
-
-
 function Sidebar(props: ISidebar) {
 
   const [cookies] = useCookies();
