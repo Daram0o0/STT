@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import { ref, set, push, update, get, remove } from 'firebase/database';
 import { db } from '../../components/firebase';
-import { time_table } from '../../interfaces';
+import { schedule, time_table } from '../../interfaces';
 
 //Room User Member
 
@@ -202,7 +202,7 @@ async function getMembers(roomId: String) {
 }
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정
-async function addTimeTable(timeTables: time_table[], uid: String) {
+async function addTimeTable(timeTables: time_table, uid: String) {
     update(ref(db, "users/" + uid + "/timeTables"), timeTables);
 }
 

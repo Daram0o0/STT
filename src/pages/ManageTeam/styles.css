@@ -10,6 +10,7 @@
   display: flex;
   width: 100%;
   min-height: 800px;
+  height: 100%;
   margin-bottom: auto;
   flex-direction: row;
   outline: none;
@@ -70,11 +71,6 @@
   cursor: pointer;
 }
 
-.ManageTeam .sub>div {
-  margin-left: 50px;
-  margin-top: 15px;
-}
-
 .ManageTeam .team_title {
   font-size: 40px;
   width: 100%;
@@ -90,12 +86,20 @@
   display: flex;
   width: 100%;
   flex-direction: row;
+  align-items: center;
   /* border: 5px solid blue; */
   /* margin-left: 50px; */
   /* background-color: var(--main-theme-000); */
 }
 
-.ManageTeam .timetables>div {
+.ManageTeam .top-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.ManageTeam .top-member-icon {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -106,10 +110,8 @@
   background-color: var(--main-theme-000);
   cursor: pointer;
   border: 1px solid var(--main-theme-000);
-}
-
-.ManageTeam .timetables>div>div {
-  color: #fff;
+  user-select: none;
+  color: white;
 }
 
 .ManageTeam .sub {
@@ -117,12 +119,14 @@
   flex-direction: column;
   align-items: center;
   /* border: 5px solid hotpink; */
-  height: 100%;
-  width: 100%;
+  height: calc(100%-40px);
+  width: calc(100%-40px);
+  padding: 20px;
 }
 
-.ManageTeam .timecell {
+.ManageTeam .timecell-wrapper {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   /* border: 5px dotted black; */
   width: 100%;
@@ -133,11 +137,12 @@
   display: flex;
   width: 250px;
   flex-direction: column;
-  background-color: var(--main-theme-000);
+  border-left: 1px solid var(--main-border-light);
+  /* background-color: var(--main-theme-000); */
 }
 
 .ManageTeam .member {
-  width: 200px;
+  width: 80px;
   height: 30px;
   display: flex;
   flex-direction: row;
@@ -151,7 +156,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid rgb(178, 178, 178);
+  margin-right: 5px;
   border-radius: 50%;
 }
 
