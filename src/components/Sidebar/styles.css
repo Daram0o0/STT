@@ -5,6 +5,7 @@
   border-right: 1px solid var(--main-border-light);
   flex: 0 0 auto;
   user-select: none;
+  overflow: scroll;
 }
 
 .Sidebar .profile {
