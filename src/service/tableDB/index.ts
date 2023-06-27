@@ -2,6 +2,14 @@ import firebase from 'firebase/app';
 import { ref, set, push, update, get, remove } from 'firebase/database';
 import { db } from '../../components/firebase';
 
+interface time_table { // time_block - type( Object )
+    className: String, //수업 이름
+    where: String, // 수업 장소
+    week: number, // 수업 요일
+    startTime: number, // 수업 시작 시간
+    endTime: number, // 수업 종료 시간
+}
+
 //Room User Member
 
 //==========Room==========
@@ -201,8 +209,8 @@ async function getMembers(roomId: String) {
 }
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정
-async function createTimeTable() {
-
+async function addTimeTable(timeTables: time_table[], uid: String) {
+    update(ref(db, "users/" + uid + "/ "), timeTables);
 }
 
 async function deleteTimeTable() {
@@ -213,5 +221,9 @@ async function createTimeBlock() {
 
 }
 
-export { createRoom, deleteRoom, getUserRooms, getRoomName, getUserName, createUser, deleteUser, addMember, removeMember, getMembers };
+export {
+    createRoom, deleteRoom, getUserRooms, getRoomName, //Room
+    getUserName, createUser, deleteUser, //User
+    addMember, removeMember, getMembers //Member
+};
 export type { roomInfo, memberInfo };
