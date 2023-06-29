@@ -1,26 +1,38 @@
+import { time_table } from '../../interfaces';
 import './styles.css'
 import { useEffect, useRef, useState } from 'react';
 
+interface ITimeCell {
+  time_table: time_table,
+  style: React.CSSProperties,
+}
+
 function TimeCell(props?: any) {
 
-  const timeCellRef = useRef<HTMLDivElement>(null);
-  const trRef = useRef<HTMLTableRowElement>(null);
-  const tdRef = useRef<HTMLTableDataCellElement>(null);
-
-  const [cellWidth, setCellWidth] = useState(0);
-  const [cellHeight, setCellHeight] = useState(0);
-  const [trHeight, setTrHeight] = useState(0);
-  const [tdHeight, setTdHeight] = useState(0);
-
-  const colors = ["yellow", "red", "black", "blue"];
+  const colors = ["yellow", "skyblue", "orange", "aliceblue"];
 
   const [contains, setContains] = useState(
     [
       // 월 화 수 목 금 토 일
-      ["", "yellow", "gray", "", "", "", ""], // 9
-      ["", "yellow", "gray", "", "", "", ""], // 10
-      ["", "", "gray", "", "", "", ""], // 11
-      ["", "", "gray", "", "", "", ""], // 12
+      ["", "", "", "", "", "", ""], // 9
+      ["", "", "", "", "", "", ""], // 10
+      ["", "", "", "", "", "", ""], // 11
+      ["", "", "", "", "", "", ""], // 12
+      ["", "", "", "", "", "", ""], // 13
+      ["", "", "", "", "", "", ""], // 14
+      ["", "", "", "", "", "", ""], // 15
+      ["", "", "", "", "", "", ""], // 16
+      ["", "", "", "", "", "", ""], // 17
+      ["", "", "", "", "", "", ""], // 18
+    ])
+
+  const [text, setText] = useState(
+    [
+      // 월 화 수 목 금 토 일
+      ["", "", "", "", "", "", ""], // 9
+      ["", "", "", "", "", "", ""], // 10
+      ["", "", "", "", "", "", ""], // 11
+      ["", "", "", "", "", "", ""], // 12
       ["", "", "", "", "", "", ""], // 13
       ["", "", "", "", "", "", ""], // 14
       ["", "", "", "", "", "", ""], // 15
@@ -30,25 +42,31 @@ function TimeCell(props?: any) {
     ])
   const week = ["", "월", "화", "수", "목", "금", "토", "일"];
 
-  function addTime() {
-    console.log("모달창 뜨게 하기")
-  }
-
-  function TimeCell() {
-    var arr = [];
-    for (var i = 0; i < 7; i++) {
-      arr.push(<td key={i} onClick={addTime}></td>)
-    }
-    return arr;
-  }
 
   useEffect(() => {
-    setCellWidth(timeCellRef.current?.clientWidth! / 8);
-    setCellHeight(timeCellRef.current?.clientHeight! / 11);
-    setTrHeight(trRef.current?.clientHeight!);
-    setTdHeight(tdRef.current?.clientHeight!);
-    console.log(tdHeight);
-  }, [timeCellRef.current?.clientWidth, timeCellRef.current?.clientHeight]);
+    console.log("time_table : ", props.time_table);
+    let schedules = props.time_table.schedules;
+    let tempText = text;
+    let tempContains = contains;
+
+    for (let i = 0; i < schedules.length; i++) {
+      console.log(i);
+      let week = schedules[i].week;
+      let startTime = schedules[i].startTime;
+      let endTime = schedules[i].endTime;
+      let className = schedules[i].className;
+      let where = schedules[i].where;
+
+      const block_color = colors[Math.floor(Math.random() * colors.length)];
+
+      for (let j = 0; j < endTime - startTime + 1; j++) {
+        tempContains[startTime - 9 + j][week] = block_color;
+      }
+      tempText[startTime - 9][week] = `${className}\n${where}`;
+      console.log(tempText);
+    }
+    setText(tempText);
+  }, [props.time_table]);
 
   // function Test() {
   //   let [test, setTest] = useState(["09:00 ~ 10:00", "10:00 ~ 11:00", "11:00 ~ 12:00", "12:00 ~ 13:00", 
@@ -70,7 +88,7 @@ function TimeCell(props?: any) {
 
 
   return (
-    <div className="TimeCell" style={props.style} ref={timeCellRef}>
+    <div className="TimeCell" style={props.style} >
       <table>
         <tbody>
           {week.map((v, i) => {
@@ -92,15 +110,15 @@ function TimeCell(props?: any) {
                       <div className="table-time" id="last-table-time">18</div>
                     </div> :
                     <div className="table-times">
-                      <div className="table-time" style={contains[0][i - 1] != "" ? { backgroundColor: contains[0][i - 1], borderColor: contains[0][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[1][i - 1] != "" ? { backgroundColor: contains[1][i - 1], borderColor: contains[1][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[2][i - 1] != "" ? { backgroundColor: contains[2][i - 1], borderColor: contains[2][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[3][i - 1] != "" ? { backgroundColor: contains[3][i - 1], borderColor: contains[3][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[4][i - 1] != "" ? { backgroundColor: contains[4][i - 1], borderColor: contains[4][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[5][i - 1] != "" ? { backgroundColor: contains[5][i - 1], borderColor: contains[5][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[6][i - 1] != "" ? { backgroundColor: contains[6][i - 1], borderColor: contains[6][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[7][i - 1] != "" ? { backgroundColor: contains[7][i - 1], borderColor: contains[7][i - 1], cursor: "pointer" } : {}}></div>
-                      <div className="table-time" style={contains[8][i - 1] != "" ? { backgroundColor: contains[8][i - 1], borderColor: contains[8][i - 1], cursor: "pointer" } : {}}></div>
+                      <div className="table-time" style={contains[0][i - 1] != "" ? { backgroundColor: contains[0][i - 1], borderColor: contains[0][i - 1], cursor: "pointer" } : {}}>{text[0][i - 1]}</div>
+                      <div className="table-time" style={contains[1][i - 1] != "" ? { backgroundColor: contains[1][i - 1], borderColor: contains[1][i - 1], cursor: "pointer" } : {}}>{text[1][i - 1]}</div>
+                      <div className="table-time" style={contains[2][i - 1] != "" ? { backgroundColor: contains[2][i - 1], borderColor: contains[2][i - 1], cursor: "pointer" } : {}}>{text[2][i - 1]}</div>
+                      <div className="table-time" style={contains[3][i - 1] != "" ? { backgroundColor: contains[3][i - 1], borderColor: contains[3][i - 1], cursor: "pointer" } : {}}>{text[3][i - 1]}</div>
+                      <div className="table-time" style={contains[4][i - 1] != "" ? { backgroundColor: contains[4][i - 1], borderColor: contains[4][i - 1], cursor: "pointer" } : {}}>{text[4][i - 1]}</div>
+                      <div className="table-time" style={contains[5][i - 1] != "" ? { backgroundColor: contains[5][i - 1], borderColor: contains[5][i - 1], cursor: "pointer" } : {}}>{text[5][i - 1]}</div>
+                      <div className="table-time" style={contains[6][i - 1] != "" ? { backgroundColor: contains[6][i - 1], borderColor: contains[6][i - 1], cursor: "pointer" } : {}}>{text[6][i - 1]}</div>
+                      <div className="table-time" style={contains[7][i - 1] != "" ? { backgroundColor: contains[7][i - 1], borderColor: contains[7][i - 1], cursor: "pointer" } : {}}>{text[7][i - 1]}</div>
+                      <div className="table-time" style={contains[8][i - 1] != "" ? { backgroundColor: contains[8][i - 1], borderColor: contains[8][i - 1], cursor: "pointer" } : {}}>{text[8][i - 1]}</div>
                       <div className="table-time" id="last-table-time"></div>
                     </div>
                   }
