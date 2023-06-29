@@ -34,13 +34,29 @@ function ManageTeam() {
   const addMemPopupRef = useRef<HTMLDivElement>(null);
   // DB에서 불러와서 페이지 열릴 때 멤버 추가
 
+  const deleteMember = (_roomId: String, _userId: String) => {
+    console.log(_userId);
+
+    getUserName(_userId).then((name) => {
+      if (window.confirm("정말로 " + name + " 님을 퇴장 시키겠습니까?")) {
+        console.log(members);
+        removeMember(_roomId, _userId);
+        let t = members;
+        let temp = t.filter((v, i) => {
+          return v.uid != _userId;
+        })
+        console.log(temp);
+        setMembers(temp);
+      }
+    })
+  }
+
   useEffect(() => {
     getMembers(roomId).then((arr: memberInfo[]) => {
-      console.log("get members");
       setMembers(arr);
     });
 
-  }, [roomId])
+  }, [roomId, members])
 
   return (
     <div className="ManageTeam">
@@ -50,7 +66,6 @@ function ManageTeam() {
         onKeyUp={(e) => {
           // e.isPropagationStopped();
           if (e.key === "Escape") {
-            console.log('main key');
             setAddMemberPopup(false);
           }
         }}>
@@ -61,9 +76,7 @@ function ManageTeam() {
             ref={addMemPopupRef}
             tabIndex={0}
             onKeyDown={(e) => {
-              console.log("keydown");
               if (e.key === "Escape") {
-                console.log('escpae');
                 setAddMemberPopup(false);
               }
             }}>
@@ -103,8 +116,8 @@ function ManageTeam() {
             </div>
             <br />
             <div className="timecell-wrapper">
-              <TimeCell style={{ margin: "10px" }} />
-              <TimeCell style={{ margin: "10px" }} time_table={currentTimeTable} />
+              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} />
+              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} />
             </div>
           </div>
           {roomId}
@@ -114,7 +127,7 @@ function ManageTeam() {
           <p style={{ marginLeft: "20px", color: "gray" }}>멤버</p>
 
           {members.map((v, i) => {
-            return <Member key={i} idx={i} uid={v.uid} isOwner={v.isOwner} roomId={roomId}></Member>
+            return <Member key={i} idx={i} uid={v.uid} isOwner={v.isOwner} roomId={roomId} deleteMember={deleteMember}></Member>
           })}
         </div>
       </div>
@@ -159,16 +172,19 @@ function Member(props: any) {
 
   const [userName, setUserName] = useState<String>("");
 
+
+
   useEffect(() => {
     getUserName(userID).then((name) => {
       setUserName(name);
     });
   }, [])
+
   return (
     <div className="member">
       <div className="icons">{userName[0]}</div>
       <p style={{ marginRight: "5px" }}>{userName}</p>
-      {isOwner == false && <button onClick={() => { removeMember(roomId, "zizon_jiho",); console.log(idx); }}>강퇴</button>}
+      {isOwner == false && <button onClick={() => { props.deleteMember(roomId, userID); }}>강퇴</button>}
     </div>
   )
 }

@@ -44,7 +44,7 @@ async function deleteRoom(roomId: String) {
 
         for (let j = 0; j < arrays.length; j++) {
             if (arrays[j][1] == roomId) {
-                console.log((await set(ref(db, 'users/' + members[i].uid + '/belongs/' + arrays[j][0]), null)));
+                await set(ref(db, 'users/' + members[i].uid + '/belongs/' + arrays[j][0]), null);
             }
         }
     }

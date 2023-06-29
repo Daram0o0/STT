@@ -1,12 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import { useCookies } from 'react-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getUserName } from '../../service/tableDB';
 
 
 function Header() {
   const navigate = useNavigate();
   const [cookies, setCookies, removeCookie] = useCookies();
+  const [userName, setUserName] = useState<String>("");
+
+  useEffect(() => {
+    getUserName(cookies.uidToken).then((name) => {
+      setUserName(name);
+    });
+  }, [])
 
   const [accountPopup, setAccountPopup] = useState(false);
 
@@ -30,6 +38,7 @@ function Header() {
           e.stopPropagation();
           setAccountPopup(false);
         }}>
+          <h3 style={{ margin: "0px 0px 10px 0px", userSelect: "none", cursor: "default" }}> {userName} </h3>
           <div className="account-btn">계정</div>
           <div className="account-btn" onClick={() => {
             navigate('/home');

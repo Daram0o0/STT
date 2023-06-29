@@ -116,15 +116,15 @@
   align-items: center;
   width: 25px;
   height: 25px;
-  background-color: rgb(226, 226, 226);
-  border: 1px solid rgb(226, 226, 226);
+  background-color: rgb(242, 242, 242);
+  border: 1px solid rgb(242, 242, 242);
   border-radius: 25px;
 
 }
 
-.Sidebr .room-option:hover {
-  border: 1px solid gray;
-  background-color: gray;
+.Sidebar .room-option:hover {
+  border: 1px solid rgb(226, 226, 226);
+  background-color: rgb(226, 226, 226);
 }
 
 .Sidebar .room-option-popup {

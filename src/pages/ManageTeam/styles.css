@@ -154,7 +154,7 @@
 }
 
 .ManageTeam .member {
-  width: 80px;
+  width: auto;
   height: 30px;
   display: flex;
   flex-direction: row;

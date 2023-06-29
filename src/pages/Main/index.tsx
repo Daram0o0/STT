@@ -62,7 +62,7 @@ function Main() {
         <div className="body">
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <div className="cards">
-            <Card width={700} height={540} title="내 시간표" style={{ cursor: "pointer" }} element={
+            <Card width={600} title="내 시간표" style={{ cursor: "pointer" }} element={
               <TimeCell />
             } />
 
