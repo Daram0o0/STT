@@ -1,16 +1,46 @@
 table {
   border-collapse: collapse;
-  margin-top: 10px;
   text-align: center;
+  table-layout: fixed;
+  height: 100%;
 }
 
 td {
-  border: 2px solid black;
+  border: 1px solid var(--main-border-light);
   width: 100px;
   height: 30px;
-  cursor: progress;
+  padding: 0px;
 }
 
 td:hover {
   background-color: rgb(255, 255, 255);
+}
+
+tbody {
+  height: 100%;
+}
+
+.TimeCell .table-week {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  margin: 0;
+}
+
+.TimeCell .table-week-head {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--main-border-light);
+}
+
+.TimeCell .table-time {
+  width: 100%;
+
+  height: 70px !important;
+}
+
+.TimeCell .table-time:not(#last-table-time) {
+  border-bottom: 1px solid var(--main-border-light);
 }

@@ -29,9 +29,9 @@ const Team = (props: any) => {
       let uid = cookies.uidToken;
 
       for (let i = 0; i < members.length; i++) {
-        console.log(members[i].uid);
+        // console.log(members[i].uid);
         if (members[i].uid == uid) {
-          console.log("uid : ", uid);
+          // console.log("uid : ", uid);
           if (members[i].isOwner) {
             setIsOwner(true);
           } else {
@@ -87,7 +87,10 @@ const Team = (props: any) => {
           {
             isOwner ?
               <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}
-                onClick={() => { props.removeRoom(props.roomId, props.roomName); }}> 방 삭제 </div> :
+                onClick={() => {
+                  props.removeRoom(props.roomId, props.roomName);
+
+                }}> 방 삭제 </div> :
               <div className="popup-btn" id="exitRoom" style={{ color: 'red', marginTop: "auto" }}>방 나가기</div>
           }
         </div>
@@ -119,32 +122,26 @@ function Sidebar(props: ISidebar) {
 
     getMembers(roomId).then((members) => {
       let uid = cookies.uidToken;
-      console.log("members : ", members);
+      // console.log("members : ", members);
       for (let i = 0; i < members.length; i++) {
-        console.log(members[i].uid);
+        // console.log(members[i].uid);
         if (members[i].uid == uid) {
-          console.log("uid : ", uid);
+          // console.log("uid : ", uid);
           if (members[i].isOwner) {
-            permission = true;
             deleteRoom(roomId);
+            let t = teams.filter((v) => {
+              return v.roomId != roomId;
+            })
+            setTeams(t);
           } else {
             alert("권한이 없습니다!");
           }
         }
       }
     })
-
-    if (permission) {
-      let t = teams.filter((v) => {
-        return v.roomId != roomId;
-      })
-
-      setTeams(t);
-    }
   }
 
   useEffect(() => {
-    console.log("sidebar useEffect!");
     dispatch(getRooms);
     //uid 토큰이 유효할 경우 == 로그인 되어 있다면
     if (cookies.uidToken) {

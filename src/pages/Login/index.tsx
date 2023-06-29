@@ -78,7 +78,6 @@ function Login() {
                     <input className="id_input" type="text" placeholder="email"
                         value={email} onChange={(e) => { setEmail(e.target.value) }}
                         onFocus={(e) => {
-                            console.log("f");
                             let t = email;
                             setEmail("");
                             setEmail(t);
@@ -101,8 +100,8 @@ function Login() {
                             else if (e.key === 'ArrowUp') {
                                 idFocusRef.current?.focus();
                                 if (idFocusRef.current) {
-                                    console.log(email.length);
-                                    // idFocusRef.current.selectionStart = email.length;
+                                    // console.log(email.length);
+                                    idFocusRef.current.selectionStart = email.length;
                                 }
                             }
                         }}
