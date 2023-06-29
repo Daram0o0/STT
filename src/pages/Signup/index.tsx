@@ -1,9 +1,11 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { AuthError, createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUser } from './../../service/tableDB';
 import './styles.css';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../components/firebase';
 import GoogleLogin from './../../components/GoogleLogin';
+import Header from '../../components/Header';
 
 function Signup() {
     const navigate = useNavigate();
@@ -14,6 +16,7 @@ function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState("");
+    const [nickname, setNickname] = useState("");
 
     const onSubmit = async (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e?.preventDefault();
@@ -21,27 +24,43 @@ function Signup() {
         console.log("회원가입 시도");
         console.log(auth.currentUser);
 
-        try {
-            const res = await createUserWithEmailAndPassword(auth, email, password);
+        const res = createUserWithEmailAndPassword(auth, email, password).then((cred) => {
             console.log("create user!");
-            localStorage.setItem('uid', res.user.uid);
-        } catch (e) {
+            createUser(cred.user.uid, nickname);
+            navigate('/login');
+        }).catch((err: AuthError) => {
+            let errStr = err.code.toString();
+            if (errStr == "auth/email-already-in-use") {
+                setErrMsg("이미 사용 중인 이메일입니다.");
+            } else {
+                setErrMsg(errStr);
+            }
             console.log(e);
-        }
+        })
 
     }
 
     return (
         <div className="Signup">
+            <Header />
             <div className="body">
                 <div className="deco_title"></div>
 
                 <h1 className="title">회원 가입</h1>
 
                 <div className="signup_form">
+                    <input className="nickname_input" value={nickname}
+                        placeholder='nickname'
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                id_input.current?.focus();
+                            }
+                        }}
+                        onChange={(e) => {
+                            setNickname(e.target.value);
+                        }}></input>
                     <input className="id_input" ref={id_input} value={email} onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            id_input.current?.blur();
                             pw_input.current?.focus();
                         }
                     }} onChange={(e) => { setEmail(e.target.value) }} type="text" placeholder='email'></input>
@@ -60,6 +79,5 @@ function Signup() {
         </div>
     )
 }
-
 
 export default Signup;
