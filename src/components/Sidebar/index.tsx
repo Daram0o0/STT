@@ -20,10 +20,13 @@ const Team = (props: any) => {
   const [mouseY, setMouseY] = useState(0);
   const [cookies] = useCookies();
   const [isOwner, setIsOwner] = useState(false);
+
+  const [selected, setSelected] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-
+    setSelected(props.id == props.select);
     //권한 여부
     getMembers(props.roomId).then((members) => {
       let uid = cookies.uidToken;
@@ -40,20 +43,23 @@ const Team = (props: any) => {
         }
       }
     })
-  }, [])
+  }, [props.select])
 
   return (
     <div className="team"
       onMouseEnter={() => { setHover(true); }}
       onMouseLeave={() => { setHover(false); }}
       onClick={() => {
+        props.setSelect(props.id);
         navigate('/manageteam', {
           state: {
             roomId: props.roomId,
             roomName: props.roomName,
           }
         });
-      }}>
+      }}
+      style={selected ? { backgroundColor: "rgb(230, 230, 230)" } : {}}
+    >
       <div className="icon">
         <p style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>{props.roomName[0].toUpperCase()}</p>
       </div>
@@ -89,7 +95,6 @@ const Team = (props: any) => {
               <div className="popup-btn" id="deleteRoom" style={{ color: 'red', marginTop: "auto" }}
                 onClick={() => {
                   props.removeRoom(props.roomId, props.roomName);
-
                 }}> 방 삭제 </div> :
               <div className="popup-btn" id="exitRoom" style={{ color: 'red', marginTop: "auto" }}>방 나가기</div>
           }
@@ -106,6 +111,7 @@ function Sidebar(props: ISidebar) {
   const [teams, setTeams] = useState<roomInfo[]>([]);
   const [nickname, setNickName] = useState<String>("");
   const [roomsGetDone, setRoomsGetDone] = useState(false);
+  const [select, setSelect] = useState(0);
 
   // const rooms = useSelector((state: any) => state.counter.value);
   const dispatch = useDispatch();
@@ -142,6 +148,7 @@ function Sidebar(props: ISidebar) {
   }
 
   useEffect(() => {
+    console.log(select);
     dispatch(getRooms);
     //uid 토큰이 유효할 경우 == 로그인 되어 있다면
     if (cookies.uidToken) {
@@ -161,7 +168,7 @@ function Sidebar(props: ISidebar) {
       // alert("로그인이 필요합니다.");
     }
 
-  }, [])
+  }, [select])
 
   const styles = {
     width: props.width ? props.width : '250px',
@@ -186,7 +193,7 @@ function Sidebar(props: ISidebar) {
           {
             teams.length > 0 ? teams.map((info, i) => {
               // console.log("info:", info);
-              return <Team key={i} roomId={info.roomId} roomName={info.roomName} removeRoom={removeRoom} />
+              return <Team key={i} id={i} roomId={info.roomId} roomName={info.roomName} removeRoom={removeRoom} setSelect={setSelect} select={select} />
             }) : !roomsGetDone ? <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>  서버 협박하는 중 ...</p> :
               <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}> 팀이 없습니다.</p>
           }

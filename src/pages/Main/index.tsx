@@ -63,7 +63,21 @@ function Main() {
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <div className="cards">
             <Card width={600} title="내 시간표" style={{ cursor: "pointer" }} element={
-              <TimeCell />
+              <TimeCell readonly={true} time_table={{
+                name: "",
+                ownerId: "",
+                description: "",
+                schedules: [
+                  {
+                    id: 0,
+                    className: "프밍언어 1",
+                    where: "1-432",
+                    week: 3,
+                    startTime: 9,
+                    endTime: 12,
+                  }
+                ]
+              }} />
             } />
 
           </div>

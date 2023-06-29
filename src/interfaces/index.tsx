@@ -1,4 +1,5 @@
 interface schedule { // time_block - type( Object )
+  id: number, // 수업 구분할 id값
   className: String, //수업 이름
   where: String, // 수업 장소
   week: number, // 수업 요일
