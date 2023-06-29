@@ -69,7 +69,7 @@ function TimeCell(props: ITimeCell) {
       setText(tempText);
     }
 
-  }, [props.time_table]);
+  }, [props]);
 
   return (
     <div className="TimeCell" style={props.style} >

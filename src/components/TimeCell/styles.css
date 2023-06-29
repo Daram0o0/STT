@@ -12,10 +12,6 @@ td {
   padding: 0px;
 }
 
-td:hover {
-  background-color: rgb(255, 255, 255);
-}
-
 tbody {
   height: 100%;
 }
