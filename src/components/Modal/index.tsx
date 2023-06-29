@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import './styles.css';
 import Openmodal from'./OpenModal';
 
-function OpenModal() {
+function Modal(props:any) {
     const [modal, setModal] = useState<boolean>(false);
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
@@ -20,11 +20,6 @@ function OpenModal() {
         document.body.classList.remove('active-modal')
       }
 
-
-    // const onClikToggleModal = useCallback(() => {
-    //     setOpenModal(!isOpenModal);
-    // }, [isOpenModal]);
-
     return(
         <div>
             <button onClick={toggleModal}>시간표 추가하기</button>
@@ -34,23 +29,14 @@ function OpenModal() {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <h2>시간표 추가</h2>
-                        <Openmodal></Openmodal>
+                        <Openmodal toggleModal={toggleModal} schedules={props.schedules} setSchedules={props.setSchedules} time_table={props.time_table} setTime_table={props.setTime_table}></Openmodal>
                         <button className="close-modal" onClick={toggleModal}> X </button>
                         <button onClick={() => {Test()}}>Test</button>
                     </div>
                 </div>
             )}
-
-            {/* {
-                isOpenModal && (
-                    <Modal onClickToggleModal={onClikToggleModal}>
-                        이곳에 children이 들어갑니다.
-                    </Modal>
-                )
-            }
-            <button className="dialog" onClick={onClikToggleModal}>add time</button> */}
         </div>
     )
 }
 
-export default OpenModal;
+export default Modal;
