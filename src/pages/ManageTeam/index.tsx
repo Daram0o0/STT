@@ -134,7 +134,9 @@ function ManageTeam() {
             <br />
             <div className="timecell-wrapper">
               <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} />
-              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} />
+              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} clickEvent={(info: any) => {
+                console.log(info);
+              }} />
             </div>
           </div>
           {roomId}
@@ -188,8 +190,6 @@ function Member(props: any) {
   const idx = props.idx;
 
   const [userName, setUserName] = useState<String>("");
-
-
 
   useEffect(() => {
     getUserName(userID).then((name) => {
