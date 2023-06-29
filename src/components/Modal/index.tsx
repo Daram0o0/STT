@@ -10,6 +10,10 @@ function OpenModal() {
         setModal(!modal)
     }
 
+    function Test() {
+        console.log("Test")
+    }
+
     if(modal) {
         document.body.classList.add('active-modal')
       } else {
@@ -32,6 +36,7 @@ function OpenModal() {
                         <h2>시간표 추가</h2>
                         <Openmodal></Openmodal>
                         <button className="close-modal" onClick={toggleModal}> X </button>
+                        <button onClick={() => {Test()}}>Test</button>
                     </div>
                 </div>
             )}
