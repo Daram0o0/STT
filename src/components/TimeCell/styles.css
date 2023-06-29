@@ -6,7 +6,7 @@ table {
 }
 
 td {
-  border: 1px solid var(--main-border-light);
+  border: 1px solid rgb(164, 164, 164);
   width: 100px;
   height: 30px;
   padding: 0px;
@@ -32,15 +32,16 @@ tbody {
   height: 100%;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid var(--main-border-light);
+  border-bottom: 1px solid rgb(164, 164, 164);
 }
 
 .TimeCell .table-time {
   width: 100%;
-
+  font-size: 12px;
+  white-space: pre-line;
   height: 70px !important;
 }
 
 .TimeCell .table-time:not(#last-table-time) {
-  border-bottom: 1px solid var(--main-border-light);
+  border-bottom: 1px solid rgb(164, 164, 164);
 }

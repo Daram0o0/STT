@@ -25,10 +25,25 @@ function ManageTeam() {
   const [addMemberPopup, setAddMemberPopup] = useState(false);
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
-    name: "empty",
+    name: "qwer's timetable",
     ownerId: "",
-    description: "",
-    schedules: [],
+    description: "qwer의 시간표입니다.",
+    schedules: [
+      {
+        className: "프로그래밍 언어(1)",
+        where: "1-432",
+        week: 0,
+        startTime: 9,
+        endTime: 10,
+      },
+      {
+        className: "리눅스",
+        where: "1-515",
+        week: 3,
+        startTime: 12,
+        endTime: 16,
+      }
+    ],
   });
 
   const addMemPopupRef = useRef<HTMLDivElement>(null);
@@ -116,7 +131,7 @@ function ManageTeam() {
             </div>
             <br />
             <div className="timecell-wrapper">
-              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} />
+              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} />
               <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} />
             </div>
           </div>
