@@ -30,6 +30,7 @@ function ManageTeam() {
     description: "qwer의 시간표입니다.",
     schedules: [
       {
+        id: 0,
         className: "프로그래밍 언어(1)",
         where: "1-432",
         week: 0,
@@ -37,6 +38,7 @@ function ManageTeam() {
         endTime: 10,
       },
       {
+        id: 1,
         className: "리눅스",
         where: "1-515",
         week: 3,

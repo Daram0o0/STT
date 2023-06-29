@@ -3,11 +3,12 @@ import './styles.css'
 import { useEffect, useRef, useState } from 'react';
 
 interface ITimeCell {
-  time_table: time_table,
-  style: React.CSSProperties,
+  time_table?: time_table,
+  style?: React.CSSProperties,
+  readonly?: boolean,
 }
 
-function TimeCell(props?: any) {
+function TimeCell(props: ITimeCell) {
 
   const colors = ["yellow", "skyblue", "orange", "aliceblue"];
 
@@ -45,47 +46,30 @@ function TimeCell(props?: any) {
 
   useEffect(() => {
     console.log("time_table : ", props.time_table);
-    let schedules = props.time_table.schedules;
-    let tempText = text;
-    let tempContains = contains;
+    let schedules = props.time_table?.schedules;
+    if (schedules != undefined) {
+      let tempText = text;
+      let tempContains = contains;
+      for (let i = 0; i < schedules.length; i++) {
+        console.log(i);
+        let week = schedules[i].week;
+        let startTime = schedules[i].startTime;
+        let endTime = schedules[i].endTime;
+        let className = schedules[i].className;
+        let where = schedules[i].where;
 
-    for (let i = 0; i < schedules.length; i++) {
-      console.log(i);
-      let week = schedules[i].week;
-      let startTime = schedules[i].startTime;
-      let endTime = schedules[i].endTime;
-      let className = schedules[i].className;
-      let where = schedules[i].where;
+        const block_color = colors[Math.floor(Math.random() * colors.length)];
 
-      const block_color = colors[Math.floor(Math.random() * colors.length)];
-
-      for (let j = 0; j < endTime - startTime + 1; j++) {
-        tempContains[startTime - 9 + j][week] = block_color;
+        for (let j = 0; j < endTime - startTime + 1; j++) {
+          tempContains[startTime - 9 + j][week] = block_color;
+        }
+        tempText[startTime - 9][week] = `${className}\n${where}`;
+        console.log(tempText);
       }
-      tempText[startTime - 9][week] = `${className}\n${where}`;
-      console.log(tempText);
+      setText(tempText);
     }
-    setText(tempText);
+
   }, [props.time_table]);
-
-  // function Test() {
-  //   let [test, setTest] = useState(["09:00 ~ 10:00", "10:00 ~ 11:00", "11:00 ~ 12:00", "12:00 ~ 13:00", 
-  //   "12:00 ~ 13:00", "13:00 ~ 14:00", "14:00 ~ 15:00", "15:00 ~ 16:00", "16:00 ~ 17:00","17:00 ~ 18:00",
-  //   "18:00 ~ 19:00", "19:00 ~ 20:00", "20:00 ~ 21:00"]);
-  //   return (
-  //     <div>
-  //       {test.map((time) => {
-  //         return(
-  //           <tr>
-  //             <td>{time}</td>
-  //             <td></td>
-  //           </tr>
-  //         )
-  //       })}
-  //     </div>
-  //   )
-  // }
-
 
   return (
     <div className="TimeCell" style={props.style} >
@@ -110,7 +94,8 @@ function TimeCell(props?: any) {
                       <div className="table-time" id="last-table-time">18</div>
                     </div> :
                     <div className="table-times">
-                      <div className="table-time" style={contains[0][i - 1] != "" ? { backgroundColor: contains[0][i - 1], borderColor: contains[0][i - 1], cursor: "pointer" } : {}}>{text[0][i - 1]}</div>
+                      <div className="table-time" style={contains[0][i - 1] != "" ? props.readonly ? { backgroundColor: contains[0][i - 1], borderColor: contains[0][i - 1] }
+                        : { backgroundColor: contains[0][i - 1], borderColor: contains[0][i - 1], cursor: "pointer" } : {}}>{text[0][i - 1]}</div>
                       <div className="table-time" style={contains[1][i - 1] != "" ? { backgroundColor: contains[1][i - 1], borderColor: contains[1][i - 1], cursor: "pointer" } : {}}>{text[1][i - 1]}</div>
                       <div className="table-time" style={contains[2][i - 1] != "" ? { backgroundColor: contains[2][i - 1], borderColor: contains[2][i - 1], cursor: "pointer" } : {}}>{text[2][i - 1]}</div>
                       <div className="table-time" style={contains[3][i - 1] != "" ? { backgroundColor: contains[3][i - 1], borderColor: contains[3][i - 1], cursor: "pointer" } : {}}>{text[3][i - 1]}</div>
@@ -119,7 +104,9 @@ function TimeCell(props?: any) {
                       <div className="table-time" style={contains[6][i - 1] != "" ? { backgroundColor: contains[6][i - 1], borderColor: contains[6][i - 1], cursor: "pointer" } : {}}>{text[6][i - 1]}</div>
                       <div className="table-time" style={contains[7][i - 1] != "" ? { backgroundColor: contains[7][i - 1], borderColor: contains[7][i - 1], cursor: "pointer" } : {}}>{text[7][i - 1]}</div>
                       <div className="table-time" style={contains[8][i - 1] != "" ? { backgroundColor: contains[8][i - 1], borderColor: contains[8][i - 1], cursor: "pointer" } : {}}>{text[8][i - 1]}</div>
-                      <div className="table-time" id="last-table-time"></div>
+                      <div className="table-time" id="last-table-time" style={contains[9][i - 1] != "" ? { backgroundColor: contains[9][i - 1], borderColor: contains[9][i - 1], cursor: "pointer" } : {}}>
+                        {text[9][i - 1]}
+                      </div>
                     </div>
                   }
                 </div>
