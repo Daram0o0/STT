@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './styles.css';
 import { createRoom } from '../../service/tableDB';
 import TimeCell from '../../components/TimeCell';
-import Modal from '../Modal/index'
+import Modal from '../../components/Modal'
 
 function Home() {
 
