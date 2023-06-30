@@ -1,0 +1,15 @@
+.MyTimeTable {
+  width: 100vw;
+  height: 100vh;
+}
+
+.MyTimeTable .mtt-container {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.MyTimeTable .mtt-body {
+  display: flex;
+  padding: 30px;
+}

@@ -6,9 +6,10 @@ import TimeCell from '../../components/TimeCell';
 import Modal from '../../components/Modal'
 import { time_table, schedule } from '../../interfaces';
 import Header from '../../components/Header';
-import OpenModal from '../../components/Modal/OpenModal';
+import OpenModal from '../../components/Modal/TimeTableChange';
+import Sidebar from '../../components/Sidebar';
 
-function Home() {
+function MyTimeTable() {
     const [schedules, setSchedules] = useState<schedule[]>([])
     const [toggle, setToggle] = useState<boolean>(false);
 
@@ -31,25 +32,22 @@ function Home() {
     const [tables, setTables] = useState({});
 
     return (
-        <>
-            <Header></Header>
-            <div className='Home'>
-                <div className='top'>
-                    <Modal schedules={schedules} toggle={toggle} setSchedules={setSchedules} time_table={time_table} setTime_table={setTime_table} />
-                    <button type='button' onClick={() => { console.log(time_table) }}>출력창</button>
-                </div>
-                <div className='middle'>
-                    <div className='middle_1'>
-                        {/* 여기에 공용 시간표가 보이게 하기 */}
-                        <TimeCell time_table={time_table} clickEvent={(info: any) => {
-                            setToggle(true);
-                            console.log(info);
-                        }}></TimeCell>
-                    </div>
+        <div className='MyTimeTable'>
+            <Modal element={<div>Hello</div>} />
+            <Header />
+
+            <div className="mtt-container">
+                <Sidebar />
+                <div className="mtt-body">
+                    <TimeCell time_table={time_table} clickEvent={(info: any) => {
+                        setToggle(true);
+                        console.log(info);
+                    }} />
                 </div>
             </div>
-        </>
+
+        </div>
     );
 }
 
-export default Home;
+export default MyTimeTable;
