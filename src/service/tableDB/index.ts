@@ -202,22 +202,24 @@ async function getMembers(roomId: String) {
 }
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정
-async function addTimeTable(timeTables: time_table, uid: String) {
+async function addTimeTable(uid: String, timeTables: time_table) {
     update(ref(db, "users/" + uid + "/timeTables"), timeTables);
 }
 
-async function deleteTimeTable() {
-
+async function getTimeTable(uid: String) {
+    let snapshot = await get(ref(db, 'users/' + uid + '/timeTables'));
+    let obj = snapshot.exportVal() as time_table;
+    return obj;
 }
 
-async function createTimeBlock() {
-
+async function deleteTimeTable(uid: String) {
+    update(ref(db, "users/" + uid + "/timeTables"), {});
 }
 
 export {
     createRoom, deleteRoom, getUserRooms, getRoomName, //Room
     getUserName, createUser, deleteUser, //User
     addMember, removeMember, getMembers, //Member
-    addTimeTable, //TimeTable
+    addTimeTable, getTimeTable, deleteTimeTable //TimeTable
 };
 export type { roomInfo, memberInfo };
