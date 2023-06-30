@@ -9,12 +9,8 @@ function Modal(props: any) {
     function toggleModal() {
         setModal(!modal)
     }
-
-    function Test() {
-        console.log("Test")
-    }
-
     if (modal) {
+
         document.body.classList.add('active-modal')
     } else {
         document.body.classList.remove('active-modal')
@@ -31,7 +27,6 @@ function Modal(props: any) {
                         <h2>시간표 추가</h2>
                         <Openmodal toggleModal={toggleModal} schedules={props.schedules} setSchedules={props.setSchedules} time_table={props.time_table} setTime_table={props.setTime_table}></Openmodal>
                         <button className="close-modal" onClick={toggleModal}> X </button>
-                        <button onClick={() => { Test() }}>Test</button>
                     </div>
                 </div>
             )}
