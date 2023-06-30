@@ -1,24 +1,8 @@
-import { time_table } from '../../interfaces';
+import { ITimeCell, info, time_table } from '../../interfaces';
 import './styles.css'
 import { useEffect, useRef, useState } from 'react';
 
-interface ITimeCell {
-  time_table?: time_table,
-  style?: React.CSSProperties,
-  readonly?: boolean,
-  clickEvent?: (info: info) => void,
-}
 
-interface info {
-  id?: number,
-  week?: number,
-  startTime?: number,
-  endTime?: number,
-  className?: String,
-  where?: String,
-  color?: string,
-  text?: string,
-}
 
 function TimeCell(props: ITimeCell) {
 
@@ -47,7 +31,6 @@ function TimeCell(props: ITimeCell) {
   useEffect(() => {
 
     let schedules = props.time_table?.schedules;
-    console.log(schedules);
     if (schedules != undefined) {
 
       let tempInfos: info[][] = defaultInfos;
@@ -90,8 +73,6 @@ function TimeCell(props: ITimeCell) {
       <table>
         <tbody>
           <tr>
-
-
             {week.map((v, i) => {
               return (
                 <td key={i}>

@@ -1,12 +1,12 @@
 import "./styles.css";
 import TimeCell from '../../components/TimeCell';
-import { addMember, deleteUser, getMembers, getUserName, memberInfo, removeMember } from '../../service/tableDB';
+import { addMember, deleteUser, getMembers, getTimeTable, getUserName, memberInfo, removeMember } from '../../service/tableDB';
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
-import { time_table } from "../../interfaces";
+import { schedule, time_table } from "../../interfaces";
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
@@ -23,29 +23,15 @@ function ManageTeam() {
   const roomName = state.roomName;
   const [members, setMembers] = useState<memberInfo[]>([]);
   const [addMemberPopup, setAddMemberPopup] = useState(false);
+  const [select, setSelect] = useState(99999999);
+
+  const [fusion, setFusion] = useState<schedule[]>([]);
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
-    name: "qwer's timetable",
+    name: "",
     ownerId: "",
-    description: "qwer의 시간표입니다.",
-    schedules: [
-      {
-        id: 0,
-        className: "프로그래밍 언어(1)",
-        where: "1-432",
-        week: 0,
-        startTime: 9,
-        endTime: 10,
-      },
-      {
-        id: 1,
-        className: "리눅스",
-        where: "1-515",
-        week: 3,
-        startTime: 12,
-        endTime: 16,
-      }
-    ],
+    description: "",
+    schedules: [],
   });
 
   const addMemPopupRef = useRef<HTMLDivElement>(null);
@@ -68,7 +54,17 @@ function ManageTeam() {
     })
   }
 
+  const setSelected = (id: number) => {
+    setSelect(id);
+  }
+
+  const mixTimeTable = (time_table: time_table) => {
+    let temp = [...fusion, ...time_table.schedules];
+    setFusion(temp);
+  }
+
   useEffect(() => {
+    console.log(fusion);
     getMembers(roomId).then((arr: memberInfo[]) => {
       setMembers(arr);
     });
@@ -118,7 +114,7 @@ function ManageTeam() {
               {members.map((v, i) => {
 
                 return (
-                  <Timetable key={i} uid={v.uid} />
+                  <Timetable key={i} id={i} uid={v.uid} select={select} setSelected={setSelected} setCurrentTimeTable={setCurrentTimeTable} mixTimeTable={mixTimeTable} />
                 )
               })}
               <div className="top-member" style={{ cursor: "pointer" }} onClick={() => {
@@ -129,12 +125,22 @@ function ManageTeam() {
                 {/* 아래로 기운 것 같음ㅠㅠ */}
                 <div className="top-member-icon"><div>+</div></div>
                 <div style={{ color: "gray" }}> 추가 </div>
+                <div style={{ width: "10px", height: "22  px" }}></div>
               </div>
             </div>
             <br />
             <div className="timecell-wrapper">
-              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
-              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
+              {/* 합친 시간표 */}
+              <div>
+                <div style={{ marginLeft: "10px", color: "gray" }}>합친 시간표</div>
+                <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={{ name: "fusion", ownerId: "", description: "fusion", schedules: fusion }} />
+              </div>
+
+              {/* 선택된 시간표 */}
+              <div>
+                <div style={{ marginLeft: "10px", color: "gray" }}>현재 시간표</div>
+                <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
+              </div>
             </div>
           </div>
           {roomId}
@@ -161,9 +167,20 @@ function ManageTeam() {
 function Timetable(props: any) {
   const uid = props.uid;
   const [userName, setUserName] = useState<String>("");
-  const [select, setSelect] = useState(false);
+  const [timeTable, setTimeTable] = useState<time_table>({
+    name: "",
+    ownerId: "",
+    description: "",
+    schedules: [],
+  });
+
+  const [fusioned, setFusioned] = useState(false);
 
   useEffect(() => {
+    getTimeTable(uid).then((time_table) => {
+      console.log(time_table);
+      setTimeTable(time_table);
+    });
 
     getUserName(uid).then((name) => {
       setUserName(name);
@@ -172,10 +189,18 @@ function Timetable(props: any) {
 
   return (
     <div className="top-member">
-      <div className="top-member-icon" style={select ? { border: "1px solid var(--main-theme-300)" } : { border: "1px solid var(--main-theme-000)" }} onClick={() => {
-        setSelect(!select);
+      <div className="top-member-icon" style={props.select == props.id ? { border: "1px solid var(--main-theme-300)" } : { border: "1px solid var(--main-theme-000)" }} onClick={() => {
+        props.setSelected(props.id);
+        props.setCurrentTimeTable(timeTable);
       }}><div>{userName}</div></div>
       <div style={{ color: "gray" }}>{userName}</div>
+      <div className="fusion" onClick={() => {
+        if (!fusioned) {
+          props.mixTimeTable(timeTable);
+          setFusioned(true);
+        }
+      }}>합치기</div>
+
       {/* <input type="checkbox"/> */}
     </div >
   )
