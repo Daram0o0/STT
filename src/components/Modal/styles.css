@@ -50,7 +50,8 @@ body.active-modal {
     overflow-y: hidden;
 }
 
-.modal, .overlay {
+.Modal,
+.Modal .overlay {
     min-width: 100vw;
     min-height: 100vh;
     top: 0;
@@ -60,11 +61,14 @@ body.active-modal {
     position: fixed;
 }
 
-.overlay {
-    background: rgba(49,49,49,0.8);
+.Modal .overlay {
+    background: rgba(49, 49, 49, 0.8);
 }
 
-.modal-content {
+.Modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 60%;
     min-height: 50%;
     position: absolute;
@@ -81,7 +85,7 @@ body.active-modal {
     overflow: auto;
 }
 
-.close-modal {
+.Modal .close-modal {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -166,58 +170,67 @@ dl, dt {
     height: 102px;
 } */
 
-.formcon {
+.Modal .formcon {
     display: block;
 }
 
-.ol > li {
+.Modal .ol>li {
     list-style: none;
     margin: 1px;
     cursor: pointer;
 }
 
-.container {
+.OpenModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.OpenModal .container {
     /* background-color: var(--main-theme-300); */
-    display: block;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
     justify-content: center;
 }
 
-.ol {
+.Modal .ol {
     /* background-color: darkcyan; */
     display: flex;
     justify-content: flex-start;
 
 }
 
-.ol > .active {
+.Modal .ol>.active {
     color: #fff;
     background-color: var(--main-theme-400);
     /* border: solid 1px black; */
 }
 
-.timeselect {
+.Modal .timeselect {
     /* background-color: khaki; */
     margin-left: 30px;
 }
 
-.starttime, .endtime {
+.Modal .starttime,
+.Modal .endtime {
     width: 50px;
     height: 30px;
 }
 
-.select {
+.Modal .select {
     display: flex;
     justify-content: center;
 }
 
-.subject {
+.Modal .subject {
     /* background-color: var(--main-theme-400); */
     /* width: 400px; */
     display: flex;
     justify-content: center;
 }
 
-.subject > .delete {
+.Modal .subject>.delete {
     border-radius: 25px;
     width: 60px;
     height: 25px;
@@ -226,12 +239,17 @@ dl, dt {
     outline: none;
     position: relative;
     left: 80px;
-    box-shadow: 1px 4px 0 rgb(0,0,0,0.5);
+    box-shadow: 1px 4px 0 rgb(0, 0, 0, 0.5);
 }
 
-.subject > .delete:hover {
+.Modal .subject>.delete:hover {
     background-color: var(--main-theme-300);
-    box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
+    box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
     position: relative;
-    top:2px;
+    top: 2px;
+}
+
+.OpenModal .time-place {
+    display: flex;
+    justify-content: center;
 }

@@ -14,4 +14,22 @@ interface time_table {
   schedules: schedule[],
 }
 
-export type { schedule, time_table };
+interface ITimeCell {
+  time_table?: time_table,
+  style?: React.CSSProperties,
+  readonly?: boolean,
+  clickEvent?: (info: info) => void,
+}
+
+interface info {
+  id?: number,
+  week?: number,
+  startTime?: number,
+  endTime?: number,
+  className?: String,
+  where?: String,
+  color?: string,
+  text?: string,
+}
+
+export type { schedule, time_table, ITimeCell, info };

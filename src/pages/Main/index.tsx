@@ -6,6 +6,7 @@ import TimeCell from '../../components/TimeCell';
 import { addTimeTable, getTimeTable } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { time_table } from '../../interfaces';
+import Modal from '../../components/Modal';
 
 interface ICard {
   width: Number,
@@ -51,7 +52,9 @@ function Main() {
   const txt = "Shared-Time-Table";
   const [text, setText] = useState('');
   const [count, setCount] = useState(0);
+  const [toggleModal, setToggleModal] = useState(false);
   const [cookie] = useCookies();
+  const [currentInfo, setCurrentInfo] = useState({});
 
   const [testTT, setTestTT] = useState<time_table>({
     name: "",
@@ -63,7 +66,6 @@ function Main() {
   useEffect(() => {
     if (cookie.uidToken != undefined) {
       getTimeTable(cookie.uidToken).then((time_table) => {
-        time_table.schedules = Object.values(time_table.schedules);
         console.log("time_Table : ", time_table);
         setTestTT(time_table);
       })
@@ -82,6 +84,7 @@ function Main() {
       <div className="container">
         <Sidebar />
         <div className="body">
+          <Modal toggle={toggleModal} info={currentInfo} />
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <button onClick={() => {
             console.log(testTT);
@@ -132,6 +135,8 @@ function Main() {
           <div className="cards">
             <Card width={600} title="내 시간표" style={{ cursor: "pointer" }} element={
               <TimeCell readonly={false} time_table={testTT} clickEvent={(info) => {
+                setToggleModal(true);
+                setCurrentInfo(info);
                 console.log(info);
               }} />
             } />

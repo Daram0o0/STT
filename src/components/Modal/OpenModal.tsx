@@ -1,14 +1,19 @@
 import { useState, useEffect, PropsWithChildren } from "react";
 import { JsxElement } from "typescript";
-import {useRef} from "react";
-import { time_table, schedule } from "../../interfaces";
+import { useRef } from "react";
+import { time_table, schedule, info } from "../../interfaces";
 import { HasMatchFunction } from "@reduxjs/toolkit/dist/tsHelpers";
 import { useResolvedPath } from "react-router";
 
-function ModalDetail(props:any) {
+interface IModal {
+    toggle: boolean,
+    info: info,
+}
 
-    const [id, setId] = useState<number>(0); // 수업 구분할 id값
-    const [classtext, setClasstext] = useState<string>(""); // 강의명
+function ModalDetail(props: IModal) {
+
+    const [id, setId] = useState<number>(props.info.id || 0); // 수업 구분할 id값
+    const [classtext, setClasstext] = useState<string>(props.info.className || ""); // 강의명
     const [wheretext, setWheretext] = useState<string>(""); // 강의실 위치
     const [week, setWeek] = useState<number>(0); // 요일
     const [startTime, setStartTime] = useState<number>(9); // 시작 시간
@@ -21,30 +26,30 @@ function ModalDetail(props:any) {
     // setTem([...tem, props.time]);
 
     // time_table 인터페이스 선언
-    
+
 
     // 수업 이름 저장 함수
-    function Saveclass(e:any) {
+    function Saveclass(e: any) {
         setClasstext(e.target.value);
     }
 
     // 교실 위치 저장 함수
-    function Savewhere(e:any) {
+    function Savewhere(e: any) {
         setWheretext(e.target.value);
     }
-    
+
     // 수업 요일 저장함수
-    function Saveweek(week:number) {
+    function Saveweek(week: number) {
         setWeek(week);
     }
 
     // 시작 시간 저장 함수
-    function Savestart(e:any) {
+    function Savestart(e: any) {
         setStartTime(Number(e.target.value));
     }
 
     // 종료 시간 저장 함수
-    function Saveend(e:any) {
+    function Saveend(e: any) {
         setEndtime(Number(e.target.value));
     }
 
@@ -213,7 +218,6 @@ function ModalDetail(props:any) {
                 }
             }}>삭제</button>
         </div>
-    </>
     )
 }
 
