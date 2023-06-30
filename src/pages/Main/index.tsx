@@ -85,7 +85,6 @@ function Main() {
         <Sidebar />
         <div className="body">
           <Modal toggle={toggleModal} info={currentInfo} />
-          <></>
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <button onClick={() => {
             console.log(testTT);
