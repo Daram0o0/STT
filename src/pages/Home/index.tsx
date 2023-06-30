@@ -6,6 +6,7 @@ import TimeCell from '../../components/TimeCell';
 import Modal from '../../components/Modal'
 import { time_table, schedule } from '../../interfaces';
 import Header from '../../components/Header';
+import OpenModal from '../../components/Modal/OpenModal';
 
 function Home() {
     const [schedules, setSchedules] = useState<schedule[]>([])
@@ -18,8 +19,13 @@ function Home() {
     });
 
     useEffect(() => {
-
-    })
+        setTime_table({
+            name: "test",
+            ownerId: "",
+            description: "",
+            schedules: schedules
+        })
+    },[schedules])
 
     const [tables, setTables] = useState({});
 
@@ -35,17 +41,25 @@ function Home() {
                 <div className='middle_1'>
                     {/* 여기에 공용 시간표가 보이게 하기 */}
                     <TimeCell time_table={time_table}  clickEvent={(info: any) => {
-                        console.log("id",info.id);
-                        console.log("where",info.where);
-                        console.log("className",info.className);
+                        if (info.id != undefined && info.where != undefined && info.where != undefined) {
+                            let tempboolean = true;
+                            setModal(tempboolean);
+                            if (modal === true) {
+                                console.log("modal창 뜨게 하기")
+                                console.log("info",info);
+                                console.log("id",info.id);
+                                console.log("where",info.where);
+                                console.log("className",info.className);
+                                <OpenModal></OpenModal>
+                            }
+                            else {
+                                console.log("modal창 안뜨지요");
+                            }
+                        }
+                        else {
+                            console.log("아무것도 없는 부분");
+                        }
                     }}></TimeCell>
-                </div>
-            </div>
-            <div className='bottom'>
-                <div className='bottom-box'>
-                    <a href="" style={{ textDecoration: "none", color: "gray" }}>내 시간표</a>
-                    <a href="" style={{ textDecoration: "none", color: "gray" }}>| 홈</a>
-                    <a href="" style={{ textDecoration: "none", color: "gray" }}>| 설정</a>
                 </div>
             </div>
         </div>
