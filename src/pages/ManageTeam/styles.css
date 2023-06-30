@@ -1,0 +1,190 @@
+.ManageTeam {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+
+.ManageTeam .container {
+  display: flex;
+  width: 100%;
+  min-height: 800px;
+  height: 100%;
+  margin-bottom: auto;
+  flex-direction: row;
+  outline: none;
+  /* border: 5px dotted salmon; */
+}
+
+.ManageTeam .main {
+  width: calc(100% - 251px - 250px);
+  display: flex;
+  flex-direction: column;
+  /* border: 5px solid red; */
+
+}
+
+.ManageTeam .close-btn {
+  margin-right: auto;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgb(255, 71, 71);
+  border-radius: 50%;
+  background-color: rgb(255, 71, 71);
+  cursor: pointer;
+}
+
+.ManageTeam .addmember-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  width: 500px;
+  height: 700px;
+  margin-top: 100px;
+  background-color: white;
+  outline: none;
+  z-index: 999;
+  border: 1px solid var(--main-border-light);
+  box-shadow: 0px 0px 10px 1px rgb(198, 198, 198);
+  border-radius: 30px;
+  padding: 15px;
+
+}
+
+.ManageTeam .invite {
+  display: flex;
+  align-items: center;
+}
+
+.ManageTeam .invite-box {
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: 30px;
+  padding: 2px 10px 2px 10px;
+  border: 1px solid gray;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.ManageTeam .invite-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 30px;
+  padding: 2px 0px;
+  margin-left: -1px;
+  border: 1px solid gray;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  cursor: pointer;
+}
+
+.ManageTeam .team_title {
+  font-size: 40px;
+  width: 100%;
+  /* justify-content:flex-start; */
+  display: flex;
+  /* border: 5px solid violet; */
+  /* margin-bottom: 10px; */
+  /* margin-left: 50px; */
+  /* background-color: var(--main-theme-100); */
+}
+
+.ManageTeam .timetables {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  /* border: 5px solid blue; */
+  /* margin-left: 50px; */
+  /* background-color: var(--main-theme-000); */
+}
+
+.ManageTeam .top-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.ManageTeam .top-member-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  background-color: var(--main-theme-000);
+  cursor: pointer;
+  border: 1px solid var(--main-theme-000);
+  user-select: none;
+  color: white;
+}
+
+.ManageTeam .sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: 5px solid hotpink; */
+  height: calc(100%-40px);
+  width: calc(100%-40px);
+  padding: 20px;
+}
+
+.ManageTeam .timecell-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* border: 5px dotted black; */
+  width: 100%;
+  height: 100%;
+}
+
+.ManageTeam .members {
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  border-left: 1px solid var(--main-border-light);
+  /* background-color: var(--main-theme-000); */
+}
+
+.ManageTeam .member {
+  width: auto;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+}
+
+.ManageTeam .icons {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(178, 178, 178);
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.ManageTeam .fusion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 20px;
+  border: 1px solid var(--main-border-light);
+  border-radius: 10px;
+  color: gray;
+  background-color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* .ManageTeam .container > * {margin-bottom: 20px;} */

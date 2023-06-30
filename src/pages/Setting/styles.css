@@ -1,0 +1,146 @@
+.Setting {
+  font-family: 'Arial Narrow Bold', sans-serif;
+}
+
+.setting_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.setting_subcontainer {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dark-theme-500);
+}
+
+.setting_page {
+  font-size: 20px;
+  /* font-weight: bold; */
+  width: 100%;
+  height: 100%;
+}
+
+.setting_page>div {
+  margin: 20px;
+}
+
+.divname {
+  border-radius: 20px;
+  /* border-top: 1px solid rgb(184, 184, 184);
+  border-right: 1px solid rgb(184, 184, 184);
+  border-left: 1px solid rgb(184, 184, 184); */
+  color: #ffffff;
+  background-color: var(--main-theme);
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.divclass {
+  /* background-color: #ffffff; */
+  /* border-bottom: 1px solid rgb(184, 184, 184);
+  border-right: 1px solid rgb(184, 184, 184);
+  border-left: 1px solid rgb(184, 184, 184); */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+}
+
+.divclass>input {
+  width: 240px;
+  height: 25px;
+  font-size: 20px;
+  background-color: var(--main-theme-100);
+  border-radius: 20px;
+  border: 1px solid var(--main-theme-100);
+  padding-left: 10px;
+  justify-content: center;
+}
+
+.divclass>input:focus {
+  outline: none;
+  border: 1px solid blueviolet;
+  z-index: 0;
+}
+
+.divclass>button {
+  margin-left: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: var(--main-theme-100);
+  cursor: pointer;
+  outline: none;
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  border: none;
+}
+
+.divclass>button:active {
+  background-color: var(--main-theme-300);
+  box-shadow: inset 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1.5px;
+}
+
+.font {}
+
+.font>* {
+  padding-left: 10px;
+}
+
+.font_size {}
+
+.font_size>* {
+  padding-left: 10px;
+}
+
+.start_addr {}
+
+.start_addr>* {
+  padding-left: 10px;
+}
+
+.darkmode_btn {}
+
+.darkmode_btn>* {
+  padding-left: 10px;
+}
+
+.toggleSwitch {
+  border-radius: 30px;
+  background-color: var(--main-theme-300);
+  width: 60px;
+  height: 20px;
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggleSwitch>.toggleButton {
+  width: 28px;
+  height: 28px;
+  top: 50%;
+  left: 0px;
+  position: absolute;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+}
+
+#toggle:checked~.toggleSwitch {
+  background-color: var(--dark-theme);
+}
+
+#toggle:checked~.toggleSwitch>.toggleButton {
+  left: calc(100% - 28px);
+  /* margin-left: 30px; */
+  background-color: var(--main-theme-300);
+}
+
+.toggleSwitch,
+.toggleButton {
+  transition: all 0.2s ease-in;
+}
