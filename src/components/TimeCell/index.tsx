@@ -54,6 +54,7 @@ function TimeCell(props: ITimeCell) {
       let startColor = Math.floor(Math.random() * colors.length);
 
       for (let i = 0; i < schedules.length; i++) {
+
         let id = schedules[i].id;
         let week = schedules[i].week;
         let startTime = schedules[i].startTime;
