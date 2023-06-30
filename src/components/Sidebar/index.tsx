@@ -111,7 +111,7 @@ function Sidebar(props: ISidebar) {
   const [teams, setTeams] = useState<roomInfo[]>([]);
   const [nickname, setNickName] = useState<String>("");
   const [roomsGetDone, setRoomsGetDone] = useState(false);
-  const [select, setSelect] = useState(0);
+  const [select, setSelect] = useState(99999999);
 
   // const rooms = useSelector((state: any) => state.counter.value);
   const dispatch = useDispatch();
@@ -148,7 +148,6 @@ function Sidebar(props: ISidebar) {
   }
 
   useEffect(() => {
-    console.log(select);
     dispatch(getRooms);
     //uid 토큰이 유효할 경우 == 로그인 되어 있다면
     if (cookies.uidToken) {

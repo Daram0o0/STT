@@ -57,35 +57,18 @@ function Main() {
     name: "",
     ownerId: "",
     description: "",
-    schedules: [
-      {
-        id: 0,
-        className: "프밍언어 1",
-        where: "1-432",
-        week: 3,
-        startTime: 9,
-        endTime: 12,
-      },
-      {
-        id: 1,
-        className: "리눅스 1",
-        where: "1-409",
-        week: 4,
-        startTime: 13,
-        endTime: 18,
-      }
-    ]
+    schedules: []
   });
 
   useEffect(() => {
-    console.log(testTT);
-    getTimeTable(cookie.uidToken).then((time_table) => {
-      time_table.schedules = Object.values(time_table.schedules);
-      console.log(time_table);
-      setTestTT(time_table);
-    })
+    if (cookie.uidToken != undefined) {
+      getTimeTable(cookie.uidToken).then((time_table) => {
+        time_table.schedules = Object.values(time_table.schedules);
+        console.log("time_Table : ", time_table);
+        setTestTT(time_table);
+      })
+    }
 
-    console.log(testTT);
   }, [])
 
   const [displayAccountPopup, setDisplayAccountPopup] = useState(false);
@@ -101,10 +84,11 @@ function Main() {
         <div className="body">
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <button onClick={() => {
-            console.log(testTT); /*addTimeTable(cookie.uidToken, testTT)*/ setTestTT({
-              name: "",
-              ownerId: "",
-              description: "",
+            console.log(testTT);
+            let temp = {
+              name: "qwer's timetable",
+              ownerId: cookie.uidToken,
+              description: "qwer's timetable for college",
               schedules: [
                 {
                   id: 0,
@@ -139,11 +123,17 @@ function Main() {
                   endTime: 18,
                 }
               ]
-            })
+            };
+            setTestTT(temp)
+            addTimeTable(cookie.uidToken, temp);
+
+            console.log(testTT);
           }}> 시간표 추가 테스트</button>
           <div className="cards">
             <Card width={600} title="내 시간표" style={{ cursor: "pointer" }} element={
-              <TimeCell readonly={false} time_table={testTT} />
+              <TimeCell readonly={false} time_table={testTT} clickEvent={(info) => {
+                console.log(info);
+              }} />
             } />
 
           </div>

@@ -73,7 +73,7 @@ function ManageTeam() {
       setMembers(arr);
     });
 
-  }, [roomId, members])
+  }, [])
 
   return (
     <div className="ManageTeam">
@@ -133,10 +133,8 @@ function ManageTeam() {
             </div>
             <br />
             <div className="timecell-wrapper">
-              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} />
-              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} time_table={currentTimeTable} clickEvent={(info: any) => {
-                console.log(info);
-              }} />
+              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
+              <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
             </div>
           </div>
           {roomId}
