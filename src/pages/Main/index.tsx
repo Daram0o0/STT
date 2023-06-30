@@ -7,6 +7,7 @@ import { addTimeTable, getTimeTable } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { time_table } from '../../interfaces';
 import Modal from '../../components/Modal';
+import OpenModal from '../../components/Modal/OpenModal';
 
 interface ICard {
   width: Number,

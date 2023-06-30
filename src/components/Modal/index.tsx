@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import './styles.css';
 import Openmodal from './OpenModal';
 
@@ -15,6 +15,10 @@ function Modal(props: any) {
     } else {
         document.body.classList.remove('active-modal')
     }
+
+    useEffect(() => {
+        setModal(props.toggle);
+    }, [props])
 
     return (
         <div>
