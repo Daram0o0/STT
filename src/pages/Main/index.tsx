@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
 import TimeCell from '../../components/TimeCell';
+import { addTimeTable, getTimeTable } from '../../service/tableDB';
+import { useCookies } from 'react-cookie';
+import { time_table } from '../../interfaces';
 
 interface ICard {
   width: Number,
@@ -48,6 +51,42 @@ function Main() {
   const txt = "Shared-Time-Table";
   const [text, setText] = useState('');
   const [count, setCount] = useState(0);
+  const [cookie] = useCookies();
+
+  const [testTT, setTestTT] = useState<time_table>({
+    name: "",
+    ownerId: "",
+    description: "",
+    schedules: [
+      {
+        id: 0,
+        className: "프밍언어 1",
+        where: "1-432",
+        week: 3,
+        startTime: 9,
+        endTime: 12,
+      },
+      {
+        id: 1,
+        className: "리눅스 1",
+        where: "1-409",
+        week: 4,
+        startTime: 13,
+        endTime: 18,
+      }
+    ]
+  });
+
+  useEffect(() => {
+    console.log(testTT);
+    getTimeTable(cookie.uidToken).then((time_table) => {
+      time_table.schedules = Object.values(time_table.schedules);
+      console.log(time_table);
+      setTestTT(time_table);
+    })
+
+    console.log(testTT);
+  }, [])
 
   const [displayAccountPopup, setDisplayAccountPopup] = useState(false);
 
@@ -61,23 +100,50 @@ function Main() {
         <Sidebar />
         <div className="body">
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
+          <button onClick={() => {
+            console.log(testTT); /*addTimeTable(cookie.uidToken, testTT)*/ setTestTT({
+              name: "",
+              ownerId: "",
+              description: "",
+              schedules: [
+                {
+                  id: 0,
+                  className: "사진학 1",
+                  where: "3-432",
+                  week: 3,
+                  startTime: 11,
+                  endTime: 15,
+                },
+                {
+                  id: 1,
+                  className: "철학 1",
+                  where: "5-222",
+                  week: 1,
+                  startTime: 11,
+                  endTime: 15,
+                },
+                {
+                  id: 2,
+                  className: "히오스 1",
+                  where: "5-432",
+                  week: 2,
+                  startTime: 10,
+                  endTime: 14,
+                },
+                {
+                  id: 3,
+                  className: "리눅스 1",
+                  where: "1-409",
+                  week: 4,
+                  startTime: 13,
+                  endTime: 18,
+                }
+              ]
+            })
+          }}> 시간표 추가 테스트</button>
           <div className="cards">
             <Card width={600} title="내 시간표" style={{ cursor: "pointer" }} element={
-              <TimeCell readonly={true} time_table={{
-                name: "",
-                ownerId: "",
-                description: "",
-                schedules: [
-                  {
-                    id: 0,
-                    className: "프밍언어 1",
-                    where: "1-432",
-                    week: 3,
-                    startTime: 9,
-                    endTime: 12,
-                  }
-                ]
-              }} />
+              <TimeCell readonly={false} time_table={testTT} />
             } />
 
           </div>

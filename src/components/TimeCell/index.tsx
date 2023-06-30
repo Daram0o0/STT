@@ -22,10 +22,10 @@ interface info {
 
 function TimeCell(props: ITimeCell) {
 
-  const colors = ["yellow", "skyblue", "orange", "aliceblue"];
+  const colors = ["yellow", "skyblue", "orange", "indianred", "burlywood", "coral", "greenyellow"];
 
-  const [infos, setInfos] = useState<info[][]>(
-    [
+  const defaultInfos: info[][] =
+    ([
       // 월 화 수 목 금 토 일
       [{}, {}, {}, {}, {}, {}, {}], // 9
       [{}, {}, {}, {}, {}, {}, {}], // 10
@@ -37,64 +37,27 @@ function TimeCell(props: ITimeCell) {
       [{}, {}, {}, {}, {}, {}, {}], // 16
       [{}, {}, {}, {}, {}, {}, {}], // 17
       [{}, {}, {}, {}, {}, {}, {}], // 18
-    ]
+    ]);
+
+  const [infos, setInfos] = useState<info[][]>(
+    defaultInfos
   )
 
-  const [ids, setIds] = useState(
-    [
-      // 월 화 수 목 금 토 일
-      [0, 0, 0, 0, 0, 0, 0], // 9
-      [0, 0, 0, 0, 0, 0, 0], // 10
-      [0, 0, 0, 0, 0, 0, 0], // 11
-      [0, 0, 0, 0, 0, 0, 0], // 12
-      [0, 0, 0, 0, 0, 0, 0], // 13
-      [0, 0, 0, 0, 0, 0, 0], // 14
-      [0, 0, 0, 0, 0, 0, 0], // 15
-      [0, 0, 0, 0, 0, 0, 0], // 16
-      [0, 0, 0, 0, 0, 0, 0], // 17
-      [0, 0, 0, 0, 0, 0, 0], // 18
-    ])
 
-  const [contains, setContains] = useState(
-    [
-      // 월 화 수 목 금 토 일
-      ["", "", "", "", "", "", ""], // 9
-      ["", "", "", "", "", "", ""], // 10
-      ["", "", "", "", "", "", ""], // 11
-      ["", "", "", "", "", "", ""], // 12
-      ["", "", "", "", "", "", ""], // 13
-      ["", "", "", "", "", "", ""], // 14
-      ["", "", "", "", "", "", ""], // 15
-      ["", "", "", "", "", "", ""], // 16
-      ["", "", "", "", "", "", ""], // 17
-      ["", "", "", "", "", "", ""], // 18
-    ])
 
-  const [text, setText] = useState(
-    [
-      // 월 화 수 목 금 토 일
-      ["", "", "", "", "", "", ""], // 9
-      ["", "", "", "", "", "", ""], // 10
-      ["", "", "", "", "", "", ""], // 11
-      ["", "", "", "", "", "", ""], // 12
-      ["", "", "", "", "", "", ""], // 13
-      ["", "", "", "", "", "", ""], // 14
-      ["", "", "", "", "", "", ""], // 15
-      ["", "", "", "", "", "", ""], // 16
-      ["", "", "", "", "", "", ""], // 17
-      ["", "", "", "", "", "", ""], // 18
-    ])
+
   const week = ["", "월", "화", "수", "목", "금", "토", "일"];
 
   useEffect(() => {
-    console.log("time_table : ", props.time_table);
+
     let schedules = props.time_table?.schedules;
+    console.log("schedules : ", schedules);
     if (schedules != undefined) {
-      let tempText = text;
-      let tempContains = contains;
-      let tempIds = ids;
+
+      let tempInfos: info[][] = defaultInfos;
+      let startColor = Math.floor(Math.random() * colors.length);
+
       for (let i = 0; i < schedules.length; i++) {
-        console.log(i);
         let id = schedules[i].id;
         let week = schedules[i].week;
         let startTime = schedules[i].startTime;
@@ -102,8 +65,8 @@ function TimeCell(props: ITimeCell) {
         let className = schedules[i].className;
         let where = schedules[i].where;
 
-        const block_color = colors[Math.floor(Math.random() * colors.length)];
 
+        const block_color = colors[(startColor + i) % colors.length];
 
         for (let j = 0; j < endTime - startTime + 1; j++) {
           let temp = {
@@ -117,14 +80,13 @@ function TimeCell(props: ITimeCell) {
             text: "",
           }
 
-          infos[startTime - 9 + j][week] = temp;
+          tempInfos[startTime - 9 + j][week] = temp;
         }
-        infos[startTime - 9][week].text = `${className}\n${where}`;
 
+        tempInfos[startTime - 9][week].text = `${className}\n${where}`;
+        console.log(tempInfos);
       }
-      setText(tempText);
-      setContains(tempContains);
-      setIds(tempIds);
+      setInfos(tempInfos);
     }
 
   }, [props]);
@@ -155,11 +117,10 @@ function TimeCell(props: ITimeCell) {
                       {/* <div className="table-time" style={infos[0][i - 1].id ? props.readonly ? { backgroundColor: infos[0][i - 1].color!, borderColor: contains[0][i - 1] }
                         : { backgroundColor: contains[0][i - 1], borderColor: contains[0][i - 1], cursor: "pointer" } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[0][i - 1]); }}>{text[0][i - 1]}</div>
                      */}
-                      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((v) => {
-                        return <div className="table-time" style={infos[v][i - 1].id ? { backgroundColor: infos[v][i - 1].color!, borderColor: infos[v][i - 1].color!, cursor: "pointer" } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[v][i - 1]); }}>{infos[v][i - 1].text}</div>
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((num) => {
+                        return <div className="table-time" style={infos[num][i - 1].id != undefined ? { backgroundColor: infos[num][i - 1].color!, borderColor: infos[num][i - 1].color!, cursor: `${props.readonly ? "default" : "pointer"}` } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[num][i - 1]); }}>{infos[num][i - 1].text}</div>
                       })}
-                      <div className="table-time" id="last-table-time" style={infos[9][i - 1].id ? { backgroundColor: infos[9][i - 1].color!, borderColor: infos[9][i - 1].color!, cursor: "pointer" } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[9][i - 1]); }}>{infos[9][i - 1].text}</div>
-
+                      <div className="table-time" id="last-table-time" style={infos[9][i - 1].id != undefined ? { backgroundColor: infos[9][i - 1].color!, cursor: `${props.readonly ? "default" : "pointer"}` } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[9][i - 1]); }}>{infos[9][i - 1].text}</div>
                     </div>
                   }
                 </div>
