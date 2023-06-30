@@ -7,6 +7,7 @@ import { addTimeTable, getTimeTable } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { time_table } from '../../interfaces';
 import Modal from '../../components/Modal';
+import OpenModal from '../../components/Modal/TimeTableChange';
 
 interface ICard {
   width: Number,
@@ -84,7 +85,7 @@ function Main() {
       <div className="container">
         <Sidebar />
         <div className="body">
-          <Modal toggle={toggleModal} info={currentInfo} />
+          {toggleModal && <Modal element={<div>Hello</div>} />}
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <button onClick={() => {
             console.log(testTT);

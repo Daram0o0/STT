@@ -1,24 +1,23 @@
 import { useState, useEffect, PropsWithChildren } from "react";
 import { JsxElement } from "typescript";
 import { useRef } from "react";
-import { time_table, schedule, info } from "../../interfaces";
+import { time_table, schedule } from "../../interfaces";
 import { HasMatchFunction } from "@reduxjs/toolkit/dist/tsHelpers";
 import { useResolvedPath } from "react-router";
 
-interface IModal {
-    toggle: boolean,
-    info: info,
-}
+function TimeTableChange(props: any) {
 
-function ModalDetail(props: any) {
-
-    const [id, setId] = useState<number>(props.info.id || 0); // 수업 구분할 id값
-    const [classtext, setClasstext] = useState<string>(props.info.className || ""); // 강의명
+    const [id, setId] = useState<number>(0); // 수업 구분할 id값
+    const [classtext, setClasstext] = useState<string>(""); // 강의명
     const [wheretext, setWheretext] = useState<string>(""); // 강의실 위치
     const [week, setWeek] = useState<number>(0); // 요일
     const [startTime, setStartTime] = useState<number>(9); // 시작 시간
     const [endTime, setEndtime] = useState<number>(10); // 끝나는 시간
     const time_list = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]; // 시간 리스트
+
+    // useEffect(() => {
+    //     console.log("OpenModal이 렌더링 됐을 때 실행");
+    // },[classtext, wheretext, week, startTime, endTime])
 
     // 고유의 id값을 타임셀에서 받아와서 저장할곳.
     let [getid, setGetid] = useState<number>(0);
@@ -54,7 +53,7 @@ function ModalDetail(props: any) {
     }
 
     return (
-        <>
+        <div className="TimeTableChange">
             <div className="container">
                 <div className="subject">과목명
                     <input type={"text"} placeholder="강의명" value={classtext} onChange={Saveclass} autoFocus></input>
@@ -88,9 +87,6 @@ function ModalDetail(props: any) {
                                 <option value={16} > 16시 </option>
                                 <option value={17} > 17시 </option>
                                 <option value={18} > 18시 </option>
-                                <option value={19} > 19시 </option>
-                                <option value={20} > 20시 </option>
-                                <option value={21} > 21시 </option>
                             </select>
                             <span>~</span>
                             <select className="endtime" onChange={Saveend}>
@@ -109,9 +105,6 @@ function ModalDetail(props: any) {
                                 <option value={16} > 16시 </option>
                                 <option value={17} > 17시 </option>
                                 <option value={18} > 18시 </option>
-                                <option value={19} > 19시 </option>
-                                <option value={20} > 20시 </option>
-                                <option value={21} > 21시 </option>
                             </select>
                         </div>
                     </ol>
@@ -137,7 +130,7 @@ function ModalDetail(props: any) {
                                 ownerId: "",
                                 description: "",
                                 schedules: props.schedules // schedule를 새로 state에 저장
-                            });
+                            })
                             setId(id + 1); // id값을 1증가
                             // 왜 증가 안해 ㅠㅠ
                             console.log("schedules.id", id);
@@ -218,7 +211,8 @@ function ModalDetail(props: any) {
                     }
                 }}>삭제</button>
             </div>
-        </>
+        </div>
     )
 }
-export default ModalDetail;
+
+export default TimeTableChange;

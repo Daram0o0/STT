@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import Login from "./pages/Login";
-import Home from "./pages/Home";
+import Home from "./pages/MyTimeTable";
 import Signup from "./pages/Signup";
 import Invite from './pages/Invite';
 import CreateTeam from './pages/CreateTeam';
