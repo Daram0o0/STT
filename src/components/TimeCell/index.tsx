@@ -94,7 +94,7 @@ function TimeCell(props: ITimeCell) {
       let tempContains = contains;
       let tempIds = ids;
       for (let i = 0; i < schedules.length; i++) {
-        console.log(i);
+        // console.log(i);
         let id = schedules[i].id;
         let week = schedules[i].week;
         let startTime = schedules[i].startTime;

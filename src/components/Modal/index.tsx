@@ -4,14 +4,9 @@ import Openmodal from'./OpenModal';
 
 function Modal(props:any) {
     const [modal, setModal] = useState<boolean>(false);
-    const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
     function toggleModal() {
         setModal(!modal)
-    }
-
-    function Test() {
-        console.log("Test")
     }
 
     if(modal) {
@@ -31,7 +26,6 @@ function Modal(props:any) {
                         <h2>시간표 추가</h2>
                         <Openmodal toggleModal={toggleModal} schedules={props.schedules} setSchedules={props.setSchedules} time_table={props.time_table} setTime_table={props.setTime_table}></Openmodal>
                         <button className="close-modal" onClick={toggleModal}> X </button>
-                        <button onClick={() => {Test()}}>Test</button>
                     </div>
                 </div>
             )}
