@@ -212,12 +212,8 @@ async function getTimeTable(uid: String) {
     return obj;
 }
 
-async function deleteTimeTable() {
-
-}
-
-async function createTimeBlock() {
-
+async function deleteTimeTable(uid: String) {
+    update(ref(db, "users/" + uid + "/timeTables"), {});
 }
 
 export {
