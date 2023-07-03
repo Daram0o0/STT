@@ -63,10 +63,23 @@ function ManageTeam() {
     setFusion(temp);
   }
 
+
+  const [slave, setSlave] = useState();
   useEffect(() => {
     console.log(fusion);
     getMembers(roomId).then((arr: memberInfo[]) => {
-      setMembers(arr);
+      let temp: memberInfo = { uid: "123ewfw45", isOwner: false, };
+      
+      for (let i = 0; i < arr.length; i++){
+        if (arr[i].isOwner == true) {
+          temp = arr[i];
+        }
+      }
+      const arr2 = arr.filter((v) => {
+        return v != temp;
+      })
+      arr2.unshift(temp);
+      setMembers(arr2);
     });
 
   }, [])
