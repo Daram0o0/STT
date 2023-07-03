@@ -63,11 +63,11 @@ function ManageTeam() {
     setFusion(temp);
   }
 
+
   useEffect(() => {
     console.log(fusion);
     getMembers(roomId).then((arr: memberInfo[]) => {
       let temp: memberInfo = { uid: "123ewfw45", isOwner: false, };
-
       for (let i = 0; i < arr.length; i++){
         if (arr[i].isOwner == true) {
           temp = arr[i];
