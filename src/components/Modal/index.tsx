@@ -41,13 +41,22 @@ import Openmodal from './TimeTableChange';
 interface IModal {
     style?: any,
     element: ReactNode,
+    title?: String,
+    closeEvent?: Function,
 }
 
 function Modal(props: IModal) {
+
     return (
         <div className="Modal">
             <div className="overlay"></div>
             <div className="modal-body">
+                <div className="modal-header">
+                    <div className="title-wrapper">
+                        <div className="title">{props.title}</div>
+                    </div>
+                    <div className="close" onClick={() => { props.closeEvent && props.closeEvent(); }}>X</div>
+                </div>
                 {props.element}
             </div>
         </div>

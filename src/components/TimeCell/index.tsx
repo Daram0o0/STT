@@ -97,9 +97,21 @@ function TimeCell(props: ITimeCell) {
                         : { backgroundColor: contains[0][i - 1], borderColor: contains[0][i - 1], cursor: "pointer" } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[0][i - 1]); }}>{text[0][i - 1]}</div>
                      */}
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((num, idx) => {
-                          return <div key={idx} className="table-time" style={infos[num][i - 1].id != undefined ? { backgroundColor: infos[num][i - 1].color!, borderColor: infos[num][i - 1].color!, cursor: `${props.readonly ? "default" : "pointer"}` } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[num][i - 1]); }}>{infos[num][i - 1].text}</div>
+                          return <div key={idx} className="table-time"
+                            style={
+                              infos[num][i - 1].id != undefined ?
+                                {
+                                  backgroundColor: infos[num][i - 1].color!,
+                                  borderColor: infos[num][i - 1].color!,
+                                  cursor: `${props.readonly ? "default" : "pointer"}`
+                                } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[num][i - 1]); }}>{infos[num][i - 1].text}</div>
                         })}
-                        <div className="table-time" id="last-table-time" style={infos[9][i - 1].id != undefined ? { backgroundColor: infos[9][i - 1].color!, cursor: `${props.readonly ? "default" : "pointer"}` } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[9][i - 1]); }}>{infos[9][i - 1].text}</div>
+                        <div className="table-time" id="last-table-time" style={
+                          infos[9][i - 1].id != undefined ?
+                            {
+                              backgroundColor: infos[9][i - 1].color!,
+                              cursor: `${props.readonly ? "default" : "pointer"}`
+                            } : {}} onClick={() => { props.clickEvent && props.clickEvent(infos[9][i - 1]); }}>{infos[9][i - 1].text}</div>
                       </div>
                     }
                   </div>
