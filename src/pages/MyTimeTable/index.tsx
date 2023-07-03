@@ -28,20 +28,18 @@ function MyTimeTable() {
         })
     }, [schedules])
 
-    function OpenModal() {
-        setToggle(!toggle)
-    }
-
 
 
     return (
         <div className='MyTimeTable'>
             {toggle && <Modal title="일정 추가하기" closeEvent={() => { setToggle(false); }} element={<div>1</div>} />}
             <Header />
+
             <div className="mtt-container">
                 <Sidebar />
                 <div className="mtt-body">
-                    <TimeCell time_table={time_table} clickEvent={(info: any) => {
+                    <h1>내 시간표</h1>
+                    <TimeCell style={{ width: "600px", height: "700px" }} readonly={false} time_table={timeTable} clickEvent={(info: any) => {
                         setToggle(true);
                         console.log(info);
                     }} />
