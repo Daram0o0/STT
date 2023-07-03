@@ -33,7 +33,19 @@ function TimeCell(props: ITimeCell) {
     let schedules = props.time_table?.schedules;
     if (schedules != undefined) {
 
-      let tempInfos: info[][] = defaultInfos;
+      let tempInfos: info[][] = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((v1) => {
+        return [0, 1, 2, 3, 4, 5, 6].map((v2) => {
+          return {
+            week: v2,
+            startTime: v1,
+            className: "",
+            where: "",
+            text: "",
+          }
+        })
+      });
+
+      console.log(tempInfos);
       let startColor = Math.floor(Math.random() * colors.length);
 
       for (let i = 0; i < schedules.length; i++) {
