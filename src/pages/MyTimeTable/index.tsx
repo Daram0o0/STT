@@ -28,13 +28,52 @@ function MyTimeTable() {
         })
     }, [schedules])
 
+    function Test() {
+        return (
+            <>
+            <div className="subject">과목명
+            <input type={"text"} placeholder="강의명" value = {classtext} onChange = {Saveclass}></input>
+        </div>
+        <div className="time/place">시간 / 장소
+            <input type={"text"} placeholder="장소" value = {wheretext} onChange = {Savewhere}></input>
+        </div>
+        <div className="select">
+            <ol className="ol">
+                <li className={ week == 1 ? "active" : ""} onClick={() => {Saveweek(1)}}>월</li>
+                <li className={ week == 2 ? "active" : ""} onClick={() => {Saveweek(2)}}>화</li>
+                <li className={ week == 3 ? "active" : ""} onClick={() => {Saveweek(3)}}>수</li>
+                <li className={ week == 4 ? "active" : ""} onClick={() => {Saveweek(4)}}>목</li>
+                <li className={ week == 5 ? "active" : ""} onClick={() => {Saveweek(5)}}>금</li>
+                <li className={ week == 6 ? "active" : ""} onClick={() => {Saveweek(6)}}>토</li>
+                <li className={ week == 7 ? "active" : ""} onClick={() => {Saveweek(7)}}>일</li>
+                <div className="timeselect">
+                    <select className="starttime" onChange={Savestart}>
+                        {time_list.map((item) => (
+                            <option value={item} key={item}>
+                                {item}
+                            </option>
+                        ))}
+                    </select>
+                    <span>~</span>
+                    <select className="endtime" onChange={Saveend}>
+                        {time_list.map((item) => (
+                            <option value={item} key={item}>
+                                {item}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </ol>
+        </div>
+        </>
+        )
+    }
 
 
     return (
         <div className='MyTimeTable'>
             {toggle && <Modal title="일정 추가하기" closeEvent={() => { setToggle(false); }} element={<div>1</div>} />}
             <Header />
-
             <div className="mtt-container">
                 <Sidebar />
                 <div className="mtt-body">
