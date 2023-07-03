@@ -170,11 +170,6 @@ function ManageTeam() {
 }
 
 
-{/* {members.map((k, v) => {
-            return (
-              <Member value={k} bool={Object.values(k)[0]} roomId={roomId} />
-            ) */}
-
 function Timetable(props: any) {
   const uid = props.uid;
   const [userName, setUserName] = useState<String>("");
