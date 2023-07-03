@@ -29,16 +29,25 @@ function MyTimeTable() {
         })
     }, [schedules])
 
+    function OpenModal() {
+        setToggle(!toggle)
+    }
+
     const [tables, setTables] = useState({});
 
     return (
         <div className='MyTimeTable'>
-            <Modal element={<div>Hello</div>} />
+            {
+                toggle && (
+                    <Modal element={<div>오픈모달이지롱</div>}></Modal>
+                )
+            }
+            {/* <Modal element={<div>Hello</div>} /> */}
             <Header />
-
             <div className="mtt-container">
                 <Sidebar />
                 <div className="mtt-body">
+                    <button type='button' onClick={OpenModal}>시간표 추가</button>
                     <TimeCell time_table={time_table} clickEvent={(info: any) => {
                         setToggle(true);
                         console.log(info);

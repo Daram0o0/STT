@@ -81,11 +81,11 @@ function Main() {
       e.preventDefault();
       setDisplayAccountPopup(false);
     }}>
+      {toggleModal && <Modal element={<div>Hello</div>} />}
       <Header />
       <div className="container">
         <Sidebar />
         <div className="body">
-          {toggleModal && <Modal element={<div>Hello</div>} />}
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <button onClick={() => {
             console.log(testTT);

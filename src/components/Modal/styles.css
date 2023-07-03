@@ -1,6 +1,6 @@
 .Modal {
     display: flex;
-    position: fixed;
+    position: absolute;
     width: 100vw;
     height: 100vh;
     align-items: center;
@@ -8,7 +8,7 @@
 }
 
 .Modal .overlay {
-    position: fixed;
+    position: absolute;
     width: 100vw;
     height: 100vh;
     background-color: rgb(52, 52, 52);
@@ -16,7 +16,7 @@
 }
 
 .Modal .modal-body {
-    position: fixed;
+    position: absolute;
     width: 500px;
     height: 700px;
     background-color: white;
