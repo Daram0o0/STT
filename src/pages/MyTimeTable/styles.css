@@ -1,0 +1,19 @@
+.MyTimeTable {
+  width: 100vw;
+  height: 100vh;
+}
+
+.MyTimeTable .mtt-container {
+  display: flex;
+  height: calc(100% - 51px);
+  flex-direction: row;
+
+}
+
+.MyTimeTable .mtt-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  padding: 30px;
+}

@@ -1,0 +1,52 @@
+html {
+  --main-theme-000: #efddfb;
+  --main-theme-100: #debbf7;
+  --main-theme-200: #cc9af2;
+  --main-theme-300: #b878ed;
+  --main-theme-400: #a255e8;
+  --main-theme: #8a2be2;
+  --dark-theme: #3C3C43;
+  --dark-theme-500: rgb(45, 45, 45);
+
+  --main-border-light: rgb(230, 230, 230);
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
