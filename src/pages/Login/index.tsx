@@ -111,9 +111,9 @@ function Login() {
                 </div>
 
                 <p style={{ color: "gray", whiteSpace: "pre" }}>
-                    <a style={{ textDecoration: "none", color: "gray" }}>ID 찾기</a>
-                    <a style={{ textDecoration: "none", color: "gray" }}> | 비밀번호 찾기</a>
-                    <a style={{ textDecoration: "none", color: "gray" }} onClick={(e) => { navigate('/signup'); }}> | 회원가입</a>
+                    <a style={{ textDecoration: "none", color: "gray", cursor: "pointer" }}>ID 찾기</a>
+                    <a style={{ textDecoration: "none", color: "gray", cursor: "pointer" }}> | 비밀번호 찾기</a>
+                    <a style={{ textDecoration: "none", color: "gray", cursor: "pointer" }} onClick={(e) => { navigate('/signup'); }}> | 회원가입</a>
                 </p>
                 <GoogleLogin width="340px" text="Sign in with Google" />
                 <div className="deco_end"></div>
