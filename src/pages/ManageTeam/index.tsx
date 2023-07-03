@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import { schedule, time_table } from "../../interfaces";
+import { RiVipCrownFill } from "react-icons/ri";
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
@@ -62,7 +63,6 @@ function ManageTeam() {
     let temp = [...fusion, ...time_table.schedules];
     setFusion(temp);
   }
-
 
   useEffect(() => {
     console.log(fusion);
@@ -230,7 +230,9 @@ function Member(props: any) {
     <div className="member">
       <div className="icons">{userName[0]}</div>
       <p style={{ marginRight: "5px" }}>{userName}</p>
-      {isOwner == false && <button onClick={() => { props.deleteMember(roomId, userID); }}>강퇴</button>}
+      {isOwner == false ? <button onClick={() => { props.deleteMember(roomId, userID); }}>강퇴</button> :
+        <RiVipCrownFill className="crown" size={20} color="gold" onClick={() => {
+          }} />}
     </div>
   )
 }
