@@ -36,6 +36,7 @@ tbody {
   font-size: 12px;
   white-space: pre-line;
   height: 70px !important;
+  cursor: pointer;
 }
 
 .TimeCell .table-time:not(#last-table-time) {

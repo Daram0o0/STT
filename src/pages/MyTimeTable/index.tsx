@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import './styles.css';
-import { createRoom } from '../../service/tableDB';
+import { createRoom, getTimeTable } from '../../service/tableDB';
 import TimeCell from '../../components/TimeCell';
 import Modal from '../../components/Modal'
 import { time_table, schedule } from '../../interfaces';
 import Header from '../../components/Header';
 import OpenModal from '../../components/Modal/TimeTableChange';
 import Sidebar from '../../components/Sidebar';
+import { useCookies } from 'react-cookie';
 
 function MyTimeTable() {
     const [schedules, setSchedules] = useState<schedule[]>([])
     const [toggle, setToggle] = useState<boolean>(false);
+    const [cookie] = useCookies();
 
-    const [time_table, setTime_table] = useState<time_table>({
+    const [timeTable, setTimeTable] = useState<time_table>({
         name: "test",
         ownerId: "",
         description: "",
@@ -21,25 +23,23 @@ function MyTimeTable() {
     });
 
     useEffect(() => {
-        setTime_table({
-            name: "test",
-            ownerId: "",
-            description: "",
-            schedules: schedules
+        getTimeTable(cookie.uidToken).then((time_table) => {
+            setTimeTable(time_table);
         })
     }, [schedules])
 
-    const [tables, setTables] = useState({});
+
 
     return (
         <div className='MyTimeTable'>
-            <Modal element={<div>Hello</div>} />
+            {toggle && <Modal title="일정 추가하기" closeEvent={() => { setToggle(false); }} element={<div>1</div>} />}
             <Header />
 
             <div className="mtt-container">
                 <Sidebar />
                 <div className="mtt-body">
-                    <TimeCell time_table={time_table} clickEvent={(info: any) => {
+                    <h1>내 시간표</h1>
+                    <TimeCell style={{ width: "600px", height: "700px" }} readonly={false} time_table={timeTable} clickEvent={(info: any) => {
                         setToggle(true);
                         console.log(info);
                     }} />

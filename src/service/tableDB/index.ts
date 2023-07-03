@@ -209,6 +209,10 @@ async function addTimeTable(uid: String, timeTables: time_table) {
 async function getTimeTable(uid: String) {
     let snapshot = await get(ref(db, 'users/' + uid + '/timeTables'));
     let obj = snapshot.exportVal() as time_table;
+    if (obj == undefined || obj == null) {
+        throw new Error("timetable is missing.");
+    }
+    console.log(obj);
     obj.schedules = Object.values(obj.schedules);
     return obj;
 }

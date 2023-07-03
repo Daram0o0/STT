@@ -5,6 +5,7 @@
     height: 100vh;
     align-items: center;
     justify-content: center;
+
 }
 
 .Modal .overlay {
@@ -16,10 +17,52 @@
 }
 
 .Modal .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
     position: fixed;
     width: 500px;
     height: 700px;
     background-color: white;
     border: 1px solid var(--main-border-light);
     border-radius: 20px;
+}
+
+.Modal .modal-header {
+    display: flex;
+    width: 100%;
+    height: 60px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.Modal .title-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.Modal .title {
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    margin-left: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.Modal .close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--main-border-light);
+    border-radius: 25px;
+    cursor: pointer;
 }

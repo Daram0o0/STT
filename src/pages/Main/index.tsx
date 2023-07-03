@@ -59,13 +59,15 @@ function Main() {
 
   const [testTT, setTestTT] = useState<time_table>({
     name: "",
-    ownerId: "",
+    ownerId: cookie.uidToken,
     description: "",
     schedules: []
   });
 
   useEffect(() => {
     if (cookie.uidToken != undefined) {
+      addTimeTable(cookie.uidToken, testTT);
+
       getTimeTable(cookie.uidToken).then((time_table) => {
         console.log("time_Table : ", time_table);
         setTestTT(time_table);
@@ -85,7 +87,7 @@ function Main() {
       <div className="container">
         <Sidebar />
         <div className="body">
-          {toggleModal && <Modal element={<div>Hello</div>} />}
+          {/* {toggleModal == true ? <Modal element={<div>Hello</div>} /> : <></>} */}
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <button onClick={() => {
             console.log(testTT);
