@@ -163,6 +163,7 @@ async function addMember(roomId: String, uid: String, isOwner: boolean) {
         console.log('이미 존재하는 유저입니다.');
     }
 }
+
 /**
  * 방에서 멤버를 삭제합니다.
  * @param roomId 방 ID

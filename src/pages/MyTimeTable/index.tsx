@@ -33,7 +33,7 @@ function MyTimeTable() {
 
 
     return (
-        <div className='MyTimeTable'>
+        <div className='MyTimeTable' >
             {toggle && <Modal title="일정 추가하기" closeEvent={() => { setToggle(false); }} element={<div>
                 <p>수업명 : {info.className}</p>
                 <p>아이디 : {info.id}</p>
@@ -42,7 +42,7 @@ function MyTimeTable() {
             </div>} />}
             <Header />
 
-            <div className="mtt-container">
+            <div className="mtt-container" >
                 <Sidebar />
                 <div className="mtt-body">
                     <h1>내 시간표</h1>
