@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import { schedule, time_table } from "../../interfaces";
 import { RiVipCrownFill } from "react-icons/ri";
+import Modal from "../../components/Modal";
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
@@ -84,6 +85,20 @@ function ManageTeam() {
 
   return (
     <div className="ManageTeam">
+      {
+        addMemberPopup &&
+        <Modal title="멤버 추가" closeEvent={() => { setAddMemberPopup(false); }} element={
+          <div className="addmember-popup">
+            <br />
+            <div>초대 링크를 전송하여 초대하기</div>
+            <br />
+            <div className="invite">
+              <div className="invite-box">{"http://localhost:3000/invite/" + roomId}</div>
+              <div className="invite-check">✔</div>
+            </div>
+          </div>}
+        />
+      }
       <Header />
       <div className="container"
         tabIndex={0}
@@ -94,27 +109,6 @@ function ManageTeam() {
           }
         }}>
         <Sidebar />
-        {
-          addMemberPopup &&
-          <div className="addmember-popup"
-            ref={addMemPopupRef}
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") {
-                setAddMemberPopup(false);
-              }
-            }}>
-            <div className="close-btn" onClick={() => { setAddMemberPopup(false); }}></div>
-            <h1 style={{ color: "rgb(60, 60, 60)" }}>멤버 추가</h1>
-            <br />
-            <div>초대 링크를 전송하여 초대하기</div>
-            <br />
-            <div className="invite">
-              <div className="invite-box">{"http://localhost:3000/invite/" + roomId}</div>
-              <div className="invite-check">✔</div>
-            </div>
-          </div>
-        }
         <div className="main">
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
           <div className="sub">
