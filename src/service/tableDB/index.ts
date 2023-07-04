@@ -171,8 +171,19 @@ async function addMember(roomId: String, uid: String, isOwner: boolean) {
  * @param uid 삭제할 유저 아이디
  */
 async function removeMember(roomId: String, uid: String) {
+    //room에 있는 유저 삭제
     remove(ref(db, 'rooms/' + roomId + '/users/' + uid));
-    set(ref(db, 'users/' + uid + '/belongs/' + roomId), null);
+    let belongsSnapShot = await get(ref(db, 'users/' + uid + '/belongs'));
+    let belongs = Object.entries(belongsSnapShot.exportVal());
+    console.log("belongs : ", belongs);
+    let filtered = belongs.filter((v, i) => {
+        return v[1] != roomId;
+    })
+    console.log("filtered :", filtered);
+    console.log("fromentries : ", Object.fromEntries(filtered));
+    console.log('users/' + uid + '/belongs');
+    //유저의 belongs에 있는 roomId 삭제
+    set(ref(db, 'users/' + uid + '/belongs/'), Object.fromEntries(filtered));
 }
 
 interface memberInfo {
