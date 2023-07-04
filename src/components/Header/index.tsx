@@ -41,7 +41,7 @@ function Header() {
           <h3 style={{ margin: "0px 0px 10px 0px", userSelect: "none", cursor: "default" }}> {userName} </h3>
           <div className="account-btn">계정</div>
           <div className="account-btn" onClick={() => {
-            navigate('/home');
+            navigate('/mytimetable');
           }}>내 시간표</div>
           <div className="account-btn">계정 정보 수정</div>
           <div className="account-btn" id="logout" style={{ color: "red", marginTop: "auto" }}

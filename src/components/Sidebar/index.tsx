@@ -132,8 +132,8 @@ function Sidebar(props: ISidebar) {
     let filtered = tempTeams.filter((v, i) => {
       return v.roomId != roomId;
     })
-
     setTeams(filtered);
+    navigate("/");
   }
 
   const removeRoom = (roomId: String, roomName: String) => {
@@ -157,6 +157,7 @@ function Sidebar(props: ISidebar) {
               return v.roomId != roomId;
             })
             setTeams(t);
+            navigate("/");
           } else {
             alert("권한이 없습니다!");
           }
