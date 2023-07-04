@@ -29,7 +29,8 @@
   top: 70px;
   width: 180px;
   padding: 10px;
-  height: 200px;
+  min-height: 100px;
+  height: auto;
   border: 1px solid var(--main-border-light);
   border-radius: 10px;
   z-index: 999;
