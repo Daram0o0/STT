@@ -87,60 +87,12 @@ function Main() {
       <div className="container">
         <Sidebar />
         <div className="body">
-          {/* {toggleModal == true ? <Modal element={<div>Hello</div>} /> : <></>} */}
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
-          <button onClick={() => {
-            console.log(testTT);
-            let temp = {
-              name: "qwer's timetable",
-              ownerId: cookie.uidToken,
-              description: "qwer's timetable for college",
-              schedules: [
-                {
-                  id: 0,
-                  className: "사진학 1",
-                  where: "3-432",
-                  week: 3,
-                  startTime: 11,
-                  endTime: 15,
-                },
-                {
-                  id: 1,
-                  className: "철학 1",
-                  where: "5-222",
-                  week: 1,
-                  startTime: 11,
-                  endTime: 15,
-                },
-                {
-                  id: 2,
-                  className: "히오스 1",
-                  where: "5-432",
-                  week: 2,
-                  startTime: 10,
-                  endTime: 14,
-                },
-                {
-                  id: 3,
-                  className: "리눅스 1",
-                  where: "1-409",
-                  week: 4,
-                  startTime: 13,
-                  endTime: 18,
-                }
-              ]
-            };
-            setTestTT(temp)
-            addTimeTable(cookie.uidToken, temp);
-
-            console.log(testTT);
-          }}> 시간표 추가 테스트</button>
           <div className="cards">
             <Card width={600} title="내 시간표" style={{ cursor: "pointer" }} element={
-              <TimeCell readonly={false} time_table={testTT} clickEvent={(info) => {
+              <TimeCell readonly={true} time_table={testTT} clickEvent={(info) => {
                 setToggleModal(true);
                 setCurrentInfo(info);
-                console.log(info);
               }} />
             } />
 
