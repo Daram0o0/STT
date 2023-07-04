@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import { ref, set, push, update, get, remove } from 'firebase/database';
 import { db } from '../../components/firebase';
 import { schedule, time_table } from '../../interfaces';
+import STTError from '../../Error';
 
 //Room User Member
 
@@ -171,6 +172,7 @@ async function addMember(roomId: String, uid: String, isOwner: boolean) {
  */
 async function removeMember(roomId: String, uid: String) {
     remove(ref(db, 'rooms/' + roomId + '/users/' + uid));
+    set(ref(db, 'users/' + uid + '/belongs/' + roomId), null);
 }
 
 interface memberInfo {
@@ -211,9 +213,11 @@ async function getTimeTable(uid: String) {
     let snapshot = await get(ref(db, 'users/' + uid + '/timeTables'));
     let obj = snapshot.exportVal() as time_table;
     if (obj == undefined || obj == null) {
-        throw new Error("timetable is missing.");
+        throw new STTError("timetable is missing.", 300);
     }
-    console.log(obj);
+    if (obj.schedules == undefined || obj.schedules == null) {
+        throw new STTError("schedules is missing", 301);
+    }
     obj.schedules = Object.values(obj.schedules);
     return obj;
 }

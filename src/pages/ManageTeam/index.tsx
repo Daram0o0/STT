@@ -9,6 +9,7 @@ import Sidebar from '../../components/Sidebar';
 import { schedule, time_table } from "../../interfaces";
 import { RiVipCrownFill } from "react-icons/ri";
 import Modal from "../../components/Modal";
+import STTError from "../../Error";
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
@@ -66,7 +67,6 @@ function ManageTeam() {
   }
 
   useEffect(() => {
-    console.log(fusion);
     getMembers(roomId).then((arr: memberInfo[]) => {
       let temp: memberInfo = { uid: "123ewfw45", isOwner: false, };
       for (let i = 0; i < arr.length; i++) {
@@ -130,7 +130,7 @@ function ManageTeam() {
                 {/* 아래로 기운 것 같음ㅠㅠ */}
                 <div className="top-member-icon"><div>+</div></div>
                 <div style={{ color: "gray" }}> 추가 </div>
-                <div style={{ width: "10px", height: "22  px" }}></div>
+                <div style={{ width: "10px", height: "22px" }}></div>
               </div>
             </div>
             <br />
@@ -180,6 +180,8 @@ function Timetable(props: any) {
     getTimeTable(uid).then((time_table) => {
       console.log(time_table);
       setTimeTable(time_table);
+    }).catch((err: STTError) => {
+      console.log(err.code, err.message);
     });
 
     getUserName(uid).then((name) => {
