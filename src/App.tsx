@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import Login from "./pages/Login";
-import Home from "./pages/MyTimeTable";
+import MyTimeTable from "./pages/MyTimeTable";
 import Signup from "./pages/Signup";
 import Invite from './pages/Invite';
 import CreateTeam from './pages/CreateTeam';
@@ -22,7 +22,7 @@ function App() {
           <Route path="/createteam" element={<CreateTeam />}></Route>
           <Route path="/manageteam" element={<ManageTeam />}></Route>
           <Route path="/invite/:code" element={<Invite />}></Route>
-          <Route path="/home" element={<Home />}></Route>
+          <Route path="/mytimetable" element={<MyTimeTable />}></Route>
           <Route path="/setting" element={<Setting />}></Route>
         </Routes>
       </BrowserRouter>
