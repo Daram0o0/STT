@@ -25,7 +25,6 @@ function App() {
           <Route path="/home" element={<Home />}></Route>
           <Route path="/setting" element={<Setting />}></Route>
         </Routes>
-
       </BrowserRouter>
     </Provider>
 

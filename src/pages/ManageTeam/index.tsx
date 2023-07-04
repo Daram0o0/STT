@@ -68,7 +68,7 @@ function ManageTeam() {
     console.log(fusion);
     getMembers(roomId).then((arr: memberInfo[]) => {
       let temp: memberInfo = { uid: "123ewfw45", isOwner: false, };
-      for (let i = 0; i < arr.length; i++){
+      for (let i = 0; i < arr.length; i++) {
         if (arr[i].isOwner == true) {
           temp = arr[i];
         }
@@ -80,7 +80,7 @@ function ManageTeam() {
       setMembers(arr2);
     });
 
-  }, [])
+  }, [state])
 
   return (
     <div className="ManageTeam">
@@ -232,7 +232,7 @@ function Member(props: any) {
       <p style={{ marginRight: "5px" }}>{userName}</p>
       {isOwner == false ? <button onClick={() => { props.deleteMember(roomId, userID); }}>강퇴</button> :
         <RiVipCrownFill className="crown" size={20} color="gold" onClick={() => {
-          }} />}
+        }} />}
     </div>
   )
 }
