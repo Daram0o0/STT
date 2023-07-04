@@ -1,7 +1,7 @@
 import "./styles.css";
 import TimeCell from '../../components/TimeCell';
 import { addMember, deleteUser, getMembers, getTimeTable, getUserName, memberInfo, removeMember } from '../../service/tableDB';
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Header from '../../components/Header';
@@ -213,7 +213,7 @@ function Member(props: any) {
   const isOwner = props.isOwner;
   const roomId = props.roomId;
   const idx = props.idx;
-
+  const [cookies] = useCookies();
   const [userName, setUserName] = useState<String>("");
 
   useEffect(() => {
@@ -222,6 +222,8 @@ function Member(props: any) {
     });
   }, [])
 
+  console.log(getUserName(cookies.uidToken));
+  console.log(userID);
   return (
     <div className="member">
       <div className="icons">{userName[0]}</div>
