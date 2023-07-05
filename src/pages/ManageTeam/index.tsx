@@ -25,6 +25,7 @@ interface msgInfo {
   uid: String,
   msg: String,
   date: number,
+  roomId: String,
 }
 
 function ManageTeam() {
@@ -38,8 +39,10 @@ function ManageTeam() {
   const [select, setSelect] = useState(99999999);
 
   const [chatValue, setChatValue] = useState("");
+  const [lastChat, setLastChat] = useState<String>("");
   const [chats, setChats] = useState<msgInfo[]>([]);
 
+  const chatBodyRef = useRef<HTMLDivElement>(null);
   const [fusion, setFusion] = useState<schedule[]>([]);
 
   const socket = io(`http://localhost:5000`,
@@ -59,8 +62,19 @@ function ManageTeam() {
     console.log("send", msg);
   }
 
-  socket.on("recv", (data) => {
-    console.log(data);
+  socket.on("recv", (data: msgInfo) => {
+    console.log("recv : ", data);
+    if (data.uid != cookies.uidToken && data.roomId == roomId) {
+      let temp = chats;
+      temp.push({
+        uid: data.uid,
+        msg: data.msg,
+        date: data.date,
+        roomId: data.roomId,
+      })
+      setLastChat(data.msg);
+      setChats(temp);
+    }
   })
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
@@ -121,6 +135,15 @@ function ManageTeam() {
     //   socket.off();
     // }
   }, [state])
+
+  useEffect(() => {
+
+    //스크롤 맨 아래로 내림.
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current?.scrollHeight;
+      console.log(chatBodyRef.current.scrollTop, chatBodyRef.current.scrollHeight);
+    }
+  }, [lastChat])
 
   return (
     <div className="ManageTeam">
@@ -189,22 +212,24 @@ function ManageTeam() {
             </div>
           </div> */}
           <div className="chat">
-            <div className="chat-body">
-              {chats.map((v) => {
-                return <Chat msg={v.msg} />
+            <div className="chat-body" ref={chatBodyRef}>
+              {chats.map((v, i) => {
+                return <Chat key={i} idx={i} msg={v.msg} />
               })}
             </div>
             <div className="chat-interactive">
               <input className="chat-input" value={chatValue} onChange={(e) => { setChatValue(e.target.value); }} onKeyUp={(e) => {
                 if (e.key === 'Enter') {
-                  sendMsg(chatValue);
+                  // sendMsg(chatValue);
 
                   let temp = chats;
                   temp.push({
                     uid: cookies.uidToken,
                     msg: chatValue,
                     date: Date.now(),
+                    roomId: roomId,
                   })
+                  setLastChat(chatValue);
                   setChats(temp);
                   setChatValue("");
                 }
@@ -227,8 +252,10 @@ function ManageTeam() {
 }
 
 function Chat(props: any) {
+
+  const style = { width: "calc(100%-2px)", minHeight: "50px", display: "flex", alignItems: "center", paddingLeft: "10px", border: "1px solid var(--main-border-light)", marginTop: `${props.idx == 0 && "auto"}` };
   return (
-    <div className="Chat" style={{ width: "100%", minHeight: "50px" }}>{props.msg}</div>
+    <div className="Chat" style={style}>{props.msg}</div>
   )
 }
 

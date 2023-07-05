@@ -188,6 +188,7 @@
   height: calc(100% - 100px);
   flex-direction: column;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .ManageTeam .chat-interactive {
