@@ -21,6 +21,13 @@ import { io } from "socket.io-client";
 // header 추가
 // 첫 멤버 -> get
 
+interface msgInfo {
+  uid: String,
+  msg: String,
+  date: number,
+  roomId: String,
+}
+
 function ManageTeam() {
 
   const [cookies] = useCookies();
@@ -31,6 +38,11 @@ function ManageTeam() {
   const [addMemberPopup, setAddMemberPopup] = useState(false);
   const [select, setSelect] = useState(99999999);
 
+  const [chatValue, setChatValue] = useState("");
+  const [lastChat, setLastChat] = useState<String>("");
+  const [chats, setChats] = useState<msgInfo[]>([]);
+
+  const chatBodyRef = useRef<HTMLDivElement>(null);
   const [fusion, setFusion] = useState<schedule[]>([]);
 
   const socket = io(`http://localhost:5000`,
@@ -41,17 +53,28 @@ function ManageTeam() {
     }
   );
 
-  const sendMsg = () => {
+  const sendMsg = (msg: String) => {
     socket.emit("send_msg", {
       uid: cookies.uidToken,
       roomId: roomId,
-      msg: "Hello"
+      msg: msg
     });
-    console.log("send hello..");
+    console.log("send", msg);
   }
 
-  socket.on("recv", (data) => {
-    console.log(data);
+  socket.on("recv", (data: msgInfo) => {
+    console.log("recv : ", data);
+    if (data.uid != cookies.uidToken && data.roomId == roomId) {
+      let temp = chats;
+      temp.push({
+        uid: data.uid,
+        msg: data.msg,
+        date: data.date,
+        roomId: data.roomId,
+      })
+      setLastChat(data.msg);
+      setChats(temp);
+    }
   })
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
@@ -113,6 +136,15 @@ function ManageTeam() {
     // }
   }, [state])
 
+  useEffect(() => {
+
+    //스크롤 맨 아래로 내림.
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current?.scrollHeight;
+      console.log(chatBodyRef.current.scrollTop, chatBodyRef.current.scrollHeight);
+    }
+  }, [lastChat])
+
   return (
     <div className="ManageTeam">
       {
@@ -140,11 +172,9 @@ function ManageTeam() {
         }}>
         <Sidebar />
         <div className="main">
-          <button onClick={() => {
-            sendMsg();//test
-          }}>메세지 보내기</button>
+
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
-          <div className="sub">
+          {/* <div className="sub">
             <div className="team_title">{roomName}</div>
             <br />
 
@@ -160,7 +190,7 @@ function ManageTeam() {
                 addMemPopupRef.current?.focus();
                 // addMember(roomId, "zizon_jiho", false);
               }}>
-                {/* 아래로 기운 것 같음ㅠㅠ */}
+                
                 <div className="top-member-icon"><div>+</div></div>
                 <div style={{ color: "gray" }}> 추가 </div>
                 <div style={{ width: "10px", height: "22px" }}></div>
@@ -168,20 +198,45 @@ function ManageTeam() {
             </div>
             <br />
             <div className="timecell-wrapper">
-              {/* 합친 시간표 */}
+              
               <div>
                 <div style={{ marginLeft: "10px", color: "gray" }}>합친 시간표</div>
                 <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={{ name: "fusion", ownerId: "", description: "fusion", schedules: fusion }} />
               </div>
 
-              {/* 선택된 시간표 */}
+              
               <div>
                 <div style={{ marginLeft: "10px", color: "gray" }}>현재 시간표</div>
                 <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
               </div>
             </div>
+          </div> */}
+          <div className="chat">
+            <div className="chat-body" ref={chatBodyRef}>
+              {chats.map((v, i) => {
+                return <Chat key={i} idx={i} msg={v.msg} />
+              })}
+            </div>
+            <div className="chat-interactive">
+              <input className="chat-input" value={chatValue} onChange={(e) => { setChatValue(e.target.value); }} onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  // sendMsg(chatValue);
+
+                  let temp = chats;
+                  temp.push({
+                    uid: cookies.uidToken,
+                    msg: chatValue,
+                    date: Date.now(),
+                    roomId: roomId,
+                  })
+                  setLastChat(chatValue);
+                  setChats(temp);
+                  setChatValue("");
+                }
+              }}></input>
+              <div className="sendmsg">보내기</div>
+            </div>
           </div>
-          {roomId}
         </div>
         <div className="members">
           {/* 오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기 */}
@@ -196,6 +251,13 @@ function ManageTeam() {
   )
 }
 
+function Chat(props: any) {
+
+  const style = { width: "calc(100%-2px)", minHeight: "50px", display: "flex", alignItems: "center", paddingLeft: "10px", border: "1px solid var(--main-border-light)", marginTop: `${props.idx == 0 && "auto"}` };
+  return (
+    <div className="Chat" style={style}>{props.msg}</div>
+  )
+}
 
 function Timetable(props: any) {
   const uid = props.uid;
