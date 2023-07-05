@@ -90,6 +90,14 @@ async function getUserRooms(uid: String): Promise<roomInfo[]> {
 
     return roomInfos;
 }
+/**
+ * 방 이름을 변경합니다.
+ * @param roomId 방 ID
+ * @param roomName 바꿀 방의 이름
+ */
+async function renameRoom(roomId: String, roomName: String) {
+    set(ref(db, "rooms/" + roomId + "/roomName"), roomName);
+}
 
 /**
  * 방 ID로 방 이름을 가져옵니다.
@@ -133,6 +141,11 @@ async function getUserName(uid: String): Promise<String> {
     const snapshot = await get(ref(db, 'users/' + uid + '/userName'));
     const t = snapshot.exportVal();
     return t;
+}
+
+
+async function renameUser(uid: String, userName: String) {
+    set(ref(db, "users/" + uid + "/userName"), userName);
 }
 
 //==========Member==========
@@ -210,6 +223,16 @@ async function getMembers(roomId: String) {
 
     return members;
 }
+/**
+ * 방의 소유권을 다른 사람으로 옮깁니다.
+ * @param roomId 방 ID
+ * @param ownerId 권한을 위임해 줄 멤버 (이전 주인) ID
+ * @param targetId 권한을 위임 받을 멤버 ID
+ */
+async function delegateOwner(roomId: String, ownerId: String, targetId: String) {
+    set(ref(db, "rooms/" + roomId + "/users/" + ownerId + "isOwner"), false);
+    set(ref(db, "rooms/" + roomId + "/users/" + targetId + "isOwner"), true);
+}
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정
 async function addTimeTable(uid: String, timeTables: time_table) {
@@ -234,9 +257,9 @@ async function deleteTimeTable(uid: String) {
 }
 
 export {
-    createRoom, deleteRoom, getUserRooms, getRoomName, //Room
-    getUserName, createUser, deleteUser, //User
-    addMember, removeMember, getMembers, //Member
+    createRoom, deleteRoom, getUserRooms, getRoomName, renameRoom, //Room
+    getUserName, createUser, deleteUser, renameUser, //User
+    addMember, removeMember, getMembers, delegateOwner, //Member
     addTimeTable, getTimeTable, deleteTimeTable //TimeTable
 };
 export type { roomInfo, memberInfo };

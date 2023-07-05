@@ -35,7 +35,6 @@ function Card(props: ICard) {
         <div className="element">
           {props.element}
         </div>
-
       </div>
     </div>
   )

@@ -10,13 +10,16 @@ import { schedule, time_table } from "../../interfaces";
 import { RiVipCrownFill } from "react-icons/ri";
 import Modal from "../../components/Modal";
 import STTError from "../../Error";
+import { io } from "socket.io-client";
+
+
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
 // 이지만 일단 addUser되면 하나씩 늘어나도록 만들어보기
 // delete시 useState내 members 지우기
-//header 추가
-//첫 멤버 -> get
+// header 추가
+// 첫 멤버 -> get
 
 function ManageTeam() {
 
@@ -29,6 +32,27 @@ function ManageTeam() {
   const [select, setSelect] = useState(99999999);
 
   const [fusion, setFusion] = useState<schedule[]>([]);
+
+  const socket = io(`http://localhost:5000`,
+    {
+      withCredentials: true,
+      path: '/socket.io/',
+      transports: ['websocket']
+    }
+  );
+
+  const sendMsg = () => {
+    socket.emit("send_msg", {
+      uid: cookies.uidToken,
+      roomId: roomId,
+      msg: "Hello"
+    });
+    console.log("send hello..");
+  }
+
+  socket.on("recv", (data) => {
+    console.log(data);
+  })
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
     name: "",
@@ -67,6 +91,9 @@ function ManageTeam() {
   }
 
   useEffect(() => {
+    // socket = io("http://localhost:5000");
+    socket.emit('connection', "Hello");
+
     getMembers(roomId).then((arr: memberInfo[]) => {
       let temp: memberInfo = { uid: "123ewfw45", isOwner: false, };
       for (let i = 0; i < arr.length; i++) {
@@ -80,7 +107,10 @@ function ManageTeam() {
       arr2.unshift(temp);
       setMembers(arr2);
     });
-
+    // return () => {
+    //   socket.emit("disconnect");
+    //   socket.off();
+    // }
   }, [state])
 
   return (
@@ -110,6 +140,9 @@ function ManageTeam() {
         }}>
         <Sidebar />
         <div className="main">
+          <button onClick={() => {
+            sendMsg();//test
+          }}>메세지 보내기</button>
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
           <div className="sub">
             <div className="team_title">{roomName}</div>
