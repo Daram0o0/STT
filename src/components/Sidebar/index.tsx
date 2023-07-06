@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './styles.css';
-import { getUserRooms, roomInfo, getUserName, deleteRoom, getMembers, getRoomName } from '../../service/tableDB';
+import { getUserRooms, roomInfo, getUserName, deleteRoom, getMembers, getRoomName, removeMember } from '../../service/tableDB';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { RiSettings5Fill } from 'react-icons/ri';
@@ -96,7 +96,10 @@ const Team = (props: any) => {
                 onClick={() => {
                   props.removeRoom(props.roomId, props.roomName);
                 }}> 방 삭제 </div> :
-              <div className="popup-btn" id="exitRoom" style={{ color: 'red', marginTop: "auto" }}>방 나가기</div>
+              <div className="popup-btn" id="exitRoom" style={{ color: 'red', marginTop: "auto" }}
+                onClick={() => {
+                  props.leaveRoom(props.roomId, props.roomName);
+                }}>방 나가기</div>
           }
         </div>
       }
@@ -117,6 +120,21 @@ function Sidebar(props: ISidebar) {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const leaveRoom = (roomId: String, roomName: String) => {
+    let msg = "정말로 " + roomName + "을 나가시겠습니까?";
+    if (!window.confirm(msg)) {
+      return;
+    }
+
+    removeMember(roomId, cookies.uidToken);
+    let tempTeams = teams;
+    let filtered = tempTeams.filter((v, i) => {
+      return v.roomId != roomId;
+    })
+    setTeams(filtered);
+    navigate("/");
+  }
 
   const removeRoom = (roomId: String, roomName: String) => {
     let msg = "정말로 " + roomName + "을 삭제 하시겠습니까?";
@@ -139,6 +157,7 @@ function Sidebar(props: ISidebar) {
               return v.roomId != roomId;
             })
             setTeams(t);
+            navigate("/");
           } else {
             alert("권한이 없습니다!");
           }
@@ -192,7 +211,7 @@ function Sidebar(props: ISidebar) {
           {
             teams.length > 0 ? teams.map((info, i) => {
               // console.log("info:", info);
-              return <Team key={i} id={i} roomId={info.roomId} roomName={info.roomName} removeRoom={removeRoom} setSelect={setSelect} select={select} />
+              return <Team key={i} id={i} roomId={info.roomId} roomName={info.roomName} removeRoom={removeRoom} leaveRoom={leaveRoom} setSelect={setSelect} select={select} />
             }) : !roomsGetDone ? <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}>  서버 협박하는 중 ...</p> :
               <p style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "gray" }}> 팀이 없습니다.</p>
           }

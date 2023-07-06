@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import { ref, set, push, update, get, remove } from 'firebase/database';
 import { db } from '../../components/firebase';
 import { schedule, time_table } from '../../interfaces';
+import STTError from '../../Error';
 
 //Room User Member
 
@@ -89,6 +90,14 @@ async function getUserRooms(uid: String): Promise<roomInfo[]> {
 
     return roomInfos;
 }
+/**
+ * 방 이름을 변경합니다.
+ * @param roomId 방 ID
+ * @param roomName 바꿀 방의 이름
+ */
+async function renameRoom(roomId: String, roomName: String) {
+    set(ref(db, "rooms/" + roomId + "/roomName"), roomName);
+}
 
 /**
  * 방 ID로 방 이름을 가져옵니다.
@@ -134,6 +143,11 @@ async function getUserName(uid: String): Promise<String> {
     return t;
 }
 
+
+async function renameUser(uid: String, userName: String) {
+    set(ref(db, "users/" + uid + "/userName"), userName);
+}
+
 //==========Member==========
 //Member는 Room에 속하는 유저들입니다.
 //addMember, removeMember
@@ -163,13 +177,22 @@ async function addMember(roomId: String, uid: String, isOwner: boolean) {
         console.log('이미 존재하는 유저입니다.');
     }
 }
+
 /**
  * 방에서 멤버를 삭제합니다.
  * @param roomId 방 ID
  * @param uid 삭제할 유저 아이디
  */
 async function removeMember(roomId: String, uid: String) {
+    //room에 있는 유저 삭제
     remove(ref(db, 'rooms/' + roomId + '/users/' + uid));
+    let belongsSnapShot = await get(ref(db, 'users/' + uid + '/belongs'));
+    let belongs = Object.entries(belongsSnapShot.exportVal());
+    let filtered = belongs.filter((v, i) => {
+        return v[1] != roomId;
+    })
+    //유저의 belongs에 있는 roomId 삭제
+    set(ref(db, 'users/' + uid + '/belongs/'), Object.fromEntries(filtered));
 }
 
 interface memberInfo {
@@ -200,6 +223,16 @@ async function getMembers(roomId: String) {
 
     return members;
 }
+/**
+ * 방의 소유권을 다른 사람으로 옮깁니다.
+ * @param roomId 방 ID
+ * @param ownerId 권한을 위임해 줄 멤버 (이전 주인) ID
+ * @param targetId 권한을 위임 받을 멤버 ID
+ */
+async function delegateOwner(roomId: String, ownerId: String, targetId: String) {
+    set(ref(db, "rooms/" + roomId + "/users/" + ownerId + "isOwner"), false);
+    set(ref(db, "rooms/" + roomId + "/users/" + targetId + "isOwner"), true);
+}
 
 //Time table , Time blocks, Time block 시간표 생성 삭제 수정
 async function addTimeTable(uid: String, timeTables: time_table) {
@@ -210,9 +243,11 @@ async function getTimeTable(uid: String) {
     let snapshot = await get(ref(db, 'users/' + uid + '/timeTables'));
     let obj = snapshot.exportVal() as time_table;
     if (obj == undefined || obj == null) {
-        throw new Error("timetable is missing.");
+        throw new STTError("timetable is missing.", 300);
     }
-    console.log(obj);
+    if (obj.schedules == undefined || obj.schedules == null) {
+        throw new STTError("schedules is missing", 301);
+    }
     obj.schedules = Object.values(obj.schedules);
     return obj;
 }
@@ -222,9 +257,9 @@ async function deleteTimeTable(uid: String) {
 }
 
 export {
-    createRoom, deleteRoom, getUserRooms, getRoomName, //Room
-    getUserName, createUser, deleteUser, //User
-    addMember, removeMember, getMembers, //Member
+    createRoom, deleteRoom, getUserRooms, getRoomName, renameRoom, //Room
+    getUserName, createUser, deleteUser, renameUser, //User
+    addMember, removeMember, getMembers, delegateOwner, //Member
     addTimeTable, getTimeTable, deleteTimeTable //TimeTable
 };
 export type { roomInfo, memberInfo };

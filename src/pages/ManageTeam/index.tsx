@@ -1,19 +1,32 @@
 import "./styles.css";
 import TimeCell from '../../components/TimeCell';
 import { addMember, deleteUser, getMembers, getTimeTable, getUserName, memberInfo, removeMember } from '../../service/tableDB';
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import { schedule, time_table } from "../../interfaces";
+import { RiVipCrownFill } from "react-icons/ri";
+import Modal from "../../components/Modal";
+import STTError from "../../Error";
+import { io } from "socket.io-client";
+
+
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
 // 이지만 일단 addUser되면 하나씩 늘어나도록 만들어보기
 // delete시 useState내 members 지우기
-//header 추가
-//첫 멤버 -> get
+// header 추가
+// 첫 멤버 -> get
+
+interface msgInfo {
+  uid: String,
+  msg: String,
+  date: number,
+  roomId: String,
+}
 
 function ManageTeam() {
 
@@ -25,7 +38,44 @@ function ManageTeam() {
   const [addMemberPopup, setAddMemberPopup] = useState(false);
   const [select, setSelect] = useState(99999999);
 
+  const [chatValue, setChatValue] = useState("");
+  const [lastChat, setLastChat] = useState<String>("");
+  const [chats, setChats] = useState<msgInfo[]>([]);
+
+  const chatBodyRef = useRef<HTMLDivElement>(null);
   const [fusion, setFusion] = useState<schedule[]>([]);
+
+  const socket = io(`http://localhost:5000`,
+    {
+      withCredentials: true,
+      path: '/socket.io/',
+      transports: ['websocket']
+    }
+  );
+
+  const sendMsg = (msg: String) => {
+    socket.emit("send_msg", {
+      uid: cookies.uidToken,
+      roomId: roomId,
+      msg: msg
+    });
+    console.log("send", msg);
+  }
+
+  socket.on("recv", (data: msgInfo) => {
+    console.log("recv : ", data);
+    if (data.uid != cookies.uidToken && data.roomId == roomId) {
+      let temp = chats;
+      temp.push({
+        uid: data.uid,
+        msg: data.msg,
+        date: data.date,
+        roomId: data.roomId,
+      })
+      setLastChat(data.msg);
+      setChats(temp);
+    }
+  })
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
     name: "",
@@ -64,15 +114,53 @@ function ManageTeam() {
   }
 
   useEffect(() => {
-    console.log(fusion);
-    getMembers(roomId).then((arr: memberInfo[]) => {
-      setMembers(arr);
-    });
+    // socket = io("http://localhost:5000");
+    socket.emit('connection', "Hello");
 
-  }, [])
+    getMembers(roomId).then((arr: memberInfo[]) => {
+      let temp: memberInfo = { uid: "123ewfw45", isOwner: false, };
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].isOwner == true) {
+          temp = arr[i];
+        }
+      }
+      const arr2 = arr.filter((v) => {
+        return v != temp;
+      })
+      arr2.unshift(temp);
+      setMembers(arr2);
+    });
+    // return () => {
+    //   socket.emit("disconnect");
+    //   socket.off();
+    // }
+  }, [state])
+
+  useEffect(() => {
+
+    //스크롤 맨 아래로 내림.
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current?.scrollHeight;
+      console.log(chatBodyRef.current.scrollTop, chatBodyRef.current.scrollHeight);
+    }
+  }, [lastChat])
 
   return (
     <div className="ManageTeam">
+      {
+        addMemberPopup &&
+        <Modal title="멤버 추가" closeEvent={() => { setAddMemberPopup(false); }} element={
+          <div className="addmember-popup">
+            <br />
+            <div>초대 링크를 전송하여 초대하기</div>
+            <br />
+            <div className="invite">
+              <div className="invite-box">{"http://localhost:3000/invite/" + roomId}</div>
+              <div className="invite-check">✔</div>
+            </div>
+          </div>}
+        />
+      }
       <Header />
       <div className="container"
         tabIndex={0}
@@ -83,30 +171,10 @@ function ManageTeam() {
           }
         }}>
         <Sidebar />
-        {
-          addMemberPopup &&
-          <div className="addmember-popup"
-            ref={addMemPopupRef}
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") {
-                setAddMemberPopup(false);
-              }
-            }}>
-            <div className="close-btn" onClick={() => { setAddMemberPopup(false); }}></div>
-            <h1 style={{ color: "rgb(60, 60, 60)" }}>멤버 추가</h1>
-            <br />
-            <div>초대 링크를 전송하여 초대하기</div>
-            <br />
-            <div className="invite">
-              <div className="invite-box">{"http://localhost:3000/invite/" + roomId}</div>
-              <div className="invite-check">✔</div>
-            </div>
-          </div>
-        }
         <div className="main">
+
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
-          <div className="sub">
+          {/* <div className="sub">
             <div className="team_title">{roomName}</div>
             <br />
 
@@ -122,28 +190,53 @@ function ManageTeam() {
                 addMemPopupRef.current?.focus();
                 // addMember(roomId, "zizon_jiho", false);
               }}>
-                {/* 아래로 기운 것 같음ㅠㅠ */}
+                
                 <div className="top-member-icon"><div>+</div></div>
                 <div style={{ color: "gray" }}> 추가 </div>
-                <div style={{ width: "10px", height: "22  px" }}></div>
+                <div style={{ width: "10px", height: "22px" }}></div>
               </div>
             </div>
             <br />
             <div className="timecell-wrapper">
-              {/* 합친 시간표 */}
+              
               <div>
                 <div style={{ marginLeft: "10px", color: "gray" }}>합친 시간표</div>
                 <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={{ name: "fusion", ownerId: "", description: "fusion", schedules: fusion }} />
               </div>
 
-              {/* 선택된 시간표 */}
+              
               <div>
                 <div style={{ marginLeft: "10px", color: "gray" }}>현재 시간표</div>
                 <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
               </div>
             </div>
+          </div> */}
+          <div className="chat">
+            <div className="chat-body" ref={chatBodyRef}>
+              {chats.map((v, i) => {
+                return <Chat key={i} idx={i} msg={v.msg} />
+              })}
+            </div>
+            <div className="chat-interactive">
+              <input className="chat-input" value={chatValue} onChange={(e) => { setChatValue(e.target.value); }} onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  // sendMsg(chatValue);
+
+                  let temp = chats;
+                  temp.push({
+                    uid: cookies.uidToken,
+                    msg: chatValue,
+                    date: Date.now(),
+                    roomId: roomId,
+                  })
+                  setLastChat(chatValue);
+                  setChats(temp);
+                  setChatValue("");
+                }
+              }}></input>
+              <div className="sendmsg">보내기</div>
+            </div>
           </div>
-          {roomId}
         </div>
         <div className="members">
           {/* 오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기 */}
@@ -158,11 +251,13 @@ function ManageTeam() {
   )
 }
 
+function Chat(props: any) {
 
-{/* {members.map((k, v) => {
-            return (
-              <Member value={k} bool={Object.values(k)[0]} roomId={roomId} />
-            ) */}
+  const style = { width: "calc(100%-2px)", minHeight: "50px", display: "flex", alignItems: "center", paddingLeft: "10px", border: "1px solid var(--main-border-light)", marginTop: `${props.idx == 0 && "auto"}` };
+  return (
+    <div className="Chat" style={style}>{props.msg}</div>
+  )
+}
 
 function Timetable(props: any) {
   const uid = props.uid;
@@ -180,6 +275,8 @@ function Timetable(props: any) {
     getTimeTable(uid).then((time_table) => {
       console.log(time_table);
       setTimeTable(time_table);
+    }).catch((err: STTError) => {
+      console.log(err.code, err.message);
     });
 
     getUserName(uid).then((name) => {
@@ -211,7 +308,7 @@ function Member(props: any) {
   const isOwner = props.isOwner;
   const roomId = props.roomId;
   const idx = props.idx;
-
+  const [cookies] = useCookies();
   const [userName, setUserName] = useState<String>("");
 
   useEffect(() => {
@@ -220,11 +317,15 @@ function Member(props: any) {
     });
   }, [])
 
+  console.log(getUserName(cookies.uidToken));
+  console.log(userID);
   return (
     <div className="member">
       <div className="icons">{userName[0]}</div>
       <p style={{ marginRight: "5px" }}>{userName}</p>
-      {isOwner == false && <button onClick={() => { props.deleteMember(roomId, userID); }}>강퇴</button>}
+      {isOwner == false ? <button onClick={() => { props.deleteMember(roomId, userID); }}>강퇴</button> :
+        <RiVipCrownFill className="crown" size={20} color="gold" onClick={() => {
+        }} />}
     </div>
   )
 }
