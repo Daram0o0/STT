@@ -11,8 +11,7 @@ import { RiVipCrownFill } from "react-icons/ri";
 import Modal from "../../components/Modal";
 import STTError from "../../Error";
 import { io } from "socket.io-client";
-
-
+import Card from "../../components/Card";
 
 // 오른쪽 멤버와 위쪽 멤버 이름 맞추기
 // 초대링크를 타고 들어와야 멤버 추가가 됨..?
@@ -28,6 +27,14 @@ interface msgInfo {
   roomId: String,
 }
 
+const socket = io(`http://localhost:5000`,
+  {
+    withCredentials: true,
+    path: '/socket.io/',
+    transports: ['websocket']
+  }
+);
+
 function ManageTeam() {
 
   const [cookies] = useCookies();
@@ -41,41 +48,10 @@ function ManageTeam() {
   const [chatValue, setChatValue] = useState("");
   const [lastChat, setLastChat] = useState<String>("");
   const [chats, setChats] = useState<msgInfo[]>([]);
+  const [sentMsg, setSentMsg] = useState(false);
 
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const [fusion, setFusion] = useState<schedule[]>([]);
-
-  const socket = io(`http://localhost:5000`,
-    {
-      withCredentials: true,
-      path: '/socket.io/',
-      transports: ['websocket']
-    }
-  );
-
-  const sendMsg = (msg: String) => {
-    socket.emit("send_msg", {
-      uid: cookies.uidToken,
-      roomId: roomId,
-      msg: msg
-    });
-    console.log("send", msg);
-  }
-
-  socket.on("recv", (data: msgInfo) => {
-    console.log("recv : ", data);
-    if (data.uid != cookies.uidToken && data.roomId == roomId) {
-      let temp = chats;
-      temp.push({
-        uid: data.uid,
-        msg: data.msg,
-        date: data.date,
-        roomId: data.roomId,
-      })
-      setLastChat(data.msg);
-      setChats(temp);
-    }
-  })
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
     name: "",
@@ -104,6 +80,15 @@ function ManageTeam() {
     })
   }
 
+  const sendMsg = (msg: String) => {
+    socket.emit("send_msg", {
+      uid: "test",
+      msg: msg,
+      roomId: roomId,
+      date: Date.now(),
+    });
+  }
+
   const setSelected = (id: number) => {
     setSelect(id);
   }
@@ -114,8 +99,6 @@ function ManageTeam() {
   }
 
   useEffect(() => {
-    // socket = io("http://localhost:5000");
-    socket.emit('connection', "Hello");
 
     getMembers(roomId).then((arr: memberInfo[]) => {
       let temp: memberInfo = { uid: "123ewfw45", isOwner: false, };
@@ -130,20 +113,42 @@ function ManageTeam() {
       arr2.unshift(temp);
       setMembers(arr2);
     });
-    // return () => {
-    //   socket.emit("disconnect");
-    //   socket.off();
-    // }
+
   }, [state])
 
   useEffect(() => {
+    // socket.emit('connection', "Hello");
+    console.log('connect');
+    socket.on("recv", (data: msgInfo) => {
+      console.log("recv : ", chats);
+      if (data.uid != cookies.uidToken && data.roomId == roomId && !sentMsg) {
+        let temp = chats;
+        temp.push({
+          uid: data.uid,
+          msg: data.msg,
+          date: data.date,
+          roomId: data.roomId,
+        })
+        setLastChat(data.msg);
+        setChats(temp);
+        setSentMsg(true);
+      }
+    })
+    return () => {
+      socket.disconnect();
+      socket.off();
+    }
+  }, [])
 
+  useEffect(() => {
     //스크롤 맨 아래로 내림.
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current?.scrollHeight;
       console.log(chatBodyRef.current.scrollTop, chatBodyRef.current.scrollHeight);
     }
-  }, [lastChat])
+
+    setLastChat("");
+  }, [chats.length])
 
   return (
     <div className="ManageTeam">
@@ -172,7 +177,56 @@ function ManageTeam() {
         }}>
         <Sidebar />
         <div className="main">
+          <div className="left-body">
+            <div className="widgets" style={{ display: "flex", minHeight: "100%", height: "auto", flexDirection: "column" }}>
+              <Card notitle style={{ marginBottom: "20px", height: "500px" }} element={
+                <div className="timetable" style={{ display: "flex", justifyContent: "center" }}>
+                  공지사항
+                </div>
+              } />
+              <Card notitle style={{ marginBottom: "20px", height: "700px" }} element={
+                <div className="timetable" style={{ display: "flex", justifyContent: "center" }}>
+                  캘린더
+                </div>
+              } />
+              <Card notitle style={{ marginBottom: "20px", height: "700px" }} element={
+                <div className="timetable" style={{ display: "flex", justifyContent: "center" }}>
+                  시간표
+                </div>
+              } />
+            </div>
+          </div>
+          <div className="right-body">
+            <Card style={{ width: "100%", height: "calc(100% - 50px)" }} notitle element={
+              <div className="chat">
+                <div className="chat-body" ref={chatBodyRef}>
+                  {chats.map((v, i) => {
+                    return <Chat key={i} idx={i} msg={v.msg} me={v.uid == cookies.uidToken} />
+                  })}
+                </div>
+                <div className="chat-interactive">
+                  <input className="chat-input" value={chatValue} onChange={(e) => { setChatValue(e.target.value); }} onKeyUp={(e) => {
+                    if (e.key === 'Enter' && chatValue.length > 0) {
+                      sendMsg(chatValue);
 
+                      let temp = chats;
+                      temp.push({
+                        uid: cookies.uidToken,
+                        msg: chatValue,
+                        date: Date.now(),
+                        roomId: roomId,
+                      })
+                      setLastChat(chatValue);
+                      setChats(temp);
+                      setChatValue("");
+                    }
+                  }}></input>
+                  <div className="sendmsg">보내기</div>
+                </div>
+              </div>
+            } />
+
+          </div>
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
           {/* <div className="sub">
             <div className="team_title">{roomName}</div>
@@ -211,32 +265,7 @@ function ManageTeam() {
               </div>
             </div>
           </div> */}
-          <div className="chat">
-            <div className="chat-body" ref={chatBodyRef}>
-              {chats.map((v, i) => {
-                return <Chat key={i} idx={i} msg={v.msg} />
-              })}
-            </div>
-            <div className="chat-interactive">
-              <input className="chat-input" value={chatValue} onChange={(e) => { setChatValue(e.target.value); }} onKeyUp={(e) => {
-                if (e.key === 'Enter') {
-                  // sendMsg(chatValue);
 
-                  let temp = chats;
-                  temp.push({
-                    uid: cookies.uidToken,
-                    msg: chatValue,
-                    date: Date.now(),
-                    roomId: roomId,
-                  })
-                  setLastChat(chatValue);
-                  setChats(temp);
-                  setChatValue("");
-                }
-              }}></input>
-              <div className="sendmsg">보내기</div>
-            </div>
-          </div>
         </div>
         <div className="members">
           {/* 오른쪽 창 - 활성화 멤버 + 대장 왕관 넣기 */}
@@ -252,10 +281,22 @@ function ManageTeam() {
 }
 
 function Chat(props: any) {
-
-  const style = { width: "calc(100%-2px)", minHeight: "50px", display: "flex", alignItems: "center", paddingLeft: "10px", border: "1px solid var(--main-border-light)", marginTop: `${props.idx == 0 && "auto"}` };
+  const me = props.me;
+  const style = {
+    width: "calc(100%-2px)",
+    minHeight: "50px",
+    display: "flex",
+    alignItems: "center",
+    border: "1px solid var(--main-border-light)",
+    marginTop: `${props.idx == 0 && "auto"}`
+  };
+  const otherStyle = { paddingLeft: "10px", };
+  const meStyle = { marginLeft: "auto", paddingRight: "10px" }
   return (
-    <div className="Chat" style={style}>{props.msg}</div>
+    <div className="Chat" style={style}>
+      <div style={me ? meStyle : otherStyle}>{props.msg}</div>
+
+    </div>
   )
 }
 
