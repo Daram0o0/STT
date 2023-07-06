@@ -47,26 +47,3 @@
   height: 100%;
   padding: 50px;
 }
-
-.Main .card-content {
-  border: 1px solid var(--main-border-light);
-  box-shadow: 0px 0px 10px 1px rgb(213, 213, 213);
-  border-radius: 20px;
-  padding: 20px;
-}
-
-.Main .card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: width .3s, height .3s, margin .3s;
-}
-
-.Main .card-title {
-  display: flex;
-  height: 40px;
-  font-size: 30px;
-  color: rgb(76, 76, 76);
-  align-items: center;
-  justify-content: center;
-}

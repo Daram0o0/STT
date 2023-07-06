@@ -18,9 +18,9 @@
 }
 
 .ManageTeam .main {
-  width: calc(100% - 251px - 250px);
   display: flex;
-  flex-direction: column;
+  width: calc(100% - 251px - 250px);
+  flex-direction: row;
   /* border: 5px solid red; */
 
 }
@@ -197,14 +197,17 @@
   height: 100px;
   align-items: center;
   padding-left: 10px;
+  margin-left: auto;
   border-top: 1px solid var(--main-border-light);
 }
 
 .ManageTeam .chat-input {
-  width: calc(100% - 150px);
+  width: auto;
+  flex: 1 0 auto;
   height: 50px;
   border: 1px solid var(--main-border-light);
   outline: none;
+  border-radius: 20px;
 }
 
 .ManageTeam .chat-input:focus {
@@ -220,4 +223,26 @@
   background-color: white;
   margin-left: 20px;
   border: 1px solid var(--main-border-light);
+  border-radius: 20px;
 }
+
+.ManageTeam .left-body {
+  width: 50%;
+  padding: 20px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  /* 인터넷 익스플로러 */
+  scrollbar-width: none;
+  /* 파이어폭스 */
+}
+
+.ManageTeam .left-body::-webkit-scrollbar {
+  display: none;
+}
+
+.ManageTeam .right-body {
+  width: 50%;
+  padding: 20px;
+}
+
+.ManageTeam .widgets {}

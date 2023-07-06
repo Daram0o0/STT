@@ -8,37 +8,7 @@ import { useCookies } from 'react-cookie';
 import { time_table } from '../../interfaces';
 import Modal from '../../components/Modal';
 import { useNavigate } from 'react-router-dom';
-
-interface ICard {
-  width?: Number,
-  height?: Number,
-  title?: String,
-  onClick?: React.MouseEventHandler<HTMLDivElement>,
-  style?: React.CSSProperties,
-  element?: ReactNode,
-}
-
-function Card(props: ICard) {
-
-  let style = {
-    width: props.width + "px",
-    height: props.height + "px",
-    ...props.style,
-  }
-
-  return (
-    <div className="card"
-      style={style}
-      onClick={props.onClick}>
-      <div className="card-content">
-        <div className="card-title">{props.title}</div>
-        <div className="element">
-          {props.element}
-        </div>
-      </div>
-    </div>
-  )
-}
+import Card from '../../components/Card';
 
 function Main() {
   const [cookie] = useCookies();
@@ -72,7 +42,7 @@ function Main() {
         <div className="body">
           <div className="notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px" }}> 7월 20일 까지 완성하기!</div>
           <div className="cards">
-            <Card width={600} title="내 시간표" style={{ cursor: "pointer" }} onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            <Card title="내 시간표" style={{ width: "100%", cursor: "pointer" }} onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
               e.preventDefault();
               navigate("/mytimetable");
             }} element={

@@ -23,18 +23,20 @@ const io = socketio(server)
 io.on("connection", (socket) => {
   console.log(`user connected: ${socket.id}`);
   socket.on("send_msg", (data) => {
-    console.log(data);
+    console.log("send : ", data);
     // socket.broadcast.emit("receive_msg", data);
-    socket.emit("recv", data)
+    setTimeout(() => {
+      socket.emit("recv", data);
+    }, 50)
+
   })
 
-
-
+  socket.on("disconnect", (data) => {
+    console.log("disconnected ", socket.id);
+    socket.disconnect();
+  })
 })
 
 server.listen(5000, () => {
   console.log("server is running");
 })
-
-
-
