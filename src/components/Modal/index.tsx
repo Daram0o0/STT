@@ -1,6 +1,5 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import './styles.css';
-import Openmodal from './TimeTableChange';
 
 // function Modal(props: any) {
 //     const [modal, setModal] = useState<boolean>(props.toggle);
