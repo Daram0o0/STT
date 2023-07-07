@@ -227,13 +227,13 @@
 }
 
 .ManageTeam .left-body {
-  width: 50%;
   padding: 20px;
+  min-width: 200px;
+  width: calc(50% - 42px);
   overflow-y: scroll;
   -ms-overflow-style: none;
-  /* 인터넷 익스플로러 */
   scrollbar-width: none;
-  /* 파이어폭스 */
+  transition: width 1s cubic-bezier(0, 0.7, 0.9, 1);
 }
 
 .ManageTeam .left-body::-webkit-scrollbar {
@@ -241,8 +241,10 @@
 }
 
 .ManageTeam .right-body {
-  width: 50%;
+  width: calc(50% - 42px);
+  min-width: 200px;
   padding: 20px;
+
 }
 
 .ManageTeam .widgets {}
