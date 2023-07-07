@@ -1,5 +1,4 @@
 import "./styles.css";
-import TimeCell from '../../components/TimeCell';
 import { addMember, deleteUser, getMembers, getTimeTable, getUserName, memberInfo, removeMember } from '../../service/tableDB';
 import { useCookies } from "react-cookie";
 import { useLocation, useParams } from "react-router-dom";
@@ -10,15 +9,9 @@ import { schedule, time_table } from "../../interfaces";
 import { RiVipCrownFill } from "react-icons/ri";
 import Modal from "../../components/Modal";
 import STTError from "../../Error";
-import { io } from "socket.io-client";
 import Card from "../../components/Card";
-
-// 오른쪽 멤버와 위쪽 멤버 이름 맞추기
-// 초대링크를 타고 들어와야 멤버 추가가 됨..?
-// 이지만 일단 addUser되면 하나씩 늘어나도록 만들어보기
-// delete시 useState내 members 지우기
-// header 추가
-// 첫 멤버 -> get
+import axios from "axios";
+import { get, post } from "./../../service/nasdac_db";
 
 interface msgInfo {
   uid: String,
@@ -27,13 +20,6 @@ interface msgInfo {
   roomId: String,
 }
 
-const socket = io(`http://localhost:5000`,
-  {
-    withCredentials: true,
-    path: '/socket.io/',
-    transports: ['websocket']
-  }
-);
 
 function ManageTeam() {
 
@@ -48,10 +34,13 @@ function ManageTeam() {
   const [chatValue, setChatValue] = useState("");
   const [lastChat, setLastChat] = useState<String>("");
   const [chats, setChats] = useState<msgInfo[]>([]);
-  const [sentMsg, setSentMsg] = useState(false);
+  const [sentMsg, setSentMsg] = useState(true);
 
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const [fusion, setFusion] = useState<schedule[]>([]);
+
+  const [rightEnable, setRightEnable] = useState(true);
+  const [rightTransitionEnd, setRightTransitionEnd] = useState(false);
 
   const [currentTimeTable, setCurrentTimeTable] = useState<time_table>({
     name: "",
@@ -81,12 +70,10 @@ function ManageTeam() {
   }
 
   const sendMsg = (msg: String) => {
-    socket.emit("send_msg", {
-      uid: "test",
-      msg: msg,
-      roomId: roomId,
-      date: Date.now(),
-    });
+    post("echo", msg).then((res) => {
+      console.log("db res : ", res);
+    })
+
   }
 
   const setSelected = (id: number) => {
@@ -115,30 +102,6 @@ function ManageTeam() {
     });
 
   }, [state])
-
-  useEffect(() => {
-    // socket.emit('connection', "Hello");
-    console.log('connect');
-    socket.on("recv", (data: msgInfo) => {
-      console.log("recv : ", chats);
-      if (data.uid != cookies.uidToken && data.roomId == roomId && !sentMsg) {
-        let temp = chats;
-        temp.push({
-          uid: data.uid,
-          msg: data.msg,
-          date: data.date,
-          roomId: data.roomId,
-        })
-        setLastChat(data.msg);
-        setChats(temp);
-        setSentMsg(true);
-      }
-    })
-    return () => {
-      socket.disconnect();
-      socket.off();
-    }
-  }, [])
 
   useEffect(() => {
     //스크롤 맨 아래로 내림.
@@ -177,7 +140,7 @@ function ManageTeam() {
         }}>
         <Sidebar />
         <div className="main">
-          <div className="left-body">
+          <div className="left-body" style={rightEnable ? { width: "calc(50% - 42px)" } : { width: "calc(100% - 42px)" }}>
             <div className="widgets" style={{ display: "flex", minHeight: "100%", height: "auto", flexDirection: "column" }}>
               <Card notitle style={{ marginBottom: "20px", height: "500px" }} element={
                 <div className="timetable" style={{ display: "flex", justifyContent: "center" }}>
@@ -196,75 +159,79 @@ function ManageTeam() {
               } />
             </div>
           </div>
-          <div className="right-body">
-            <Card style={{ width: "100%", height: "calc(100% - 50px)" }} notitle element={
-              <div className="chat">
-                <div className="chat-body" ref={chatBodyRef}>
-                  {chats.map((v, i) => {
-                    return <Chat key={i} idx={i} msg={v.msg} me={v.uid == cookies.uidToken} />
-                  })}
-                </div>
-                <div className="chat-interactive">
-                  <input className="chat-input" value={chatValue} onChange={(e) => { setChatValue(e.target.value); }} onKeyUp={(e) => {
-                    if (e.key === 'Enter' && chatValue.length > 0) {
-                      sendMsg(chatValue);
+          {
+            rightEnable &&
+            <div className="right-body" onClick={() => { /*setRightEnable(false)*/ }}>
+              <Card style={{ width: "100%", height: "calc(100% - 50px)" }} notitle element={
+                <div className="chat">
+                  <div className="chat-body" ref={chatBodyRef}>
+                    {chats.map((v, i) => {
+                      return <Chat key={i} idx={i} msg={v.msg} me={v.uid == cookies.uidToken} />
+                    })}
+                  </div>
+                  <div className="chat-interactive">
+                    <input className="chat-input" value={chatValue} onChange={(e) => { setChatValue(e.target.value); }} onKeyUp={(e) => {
+                      if (e.key === 'Enter' && chatValue.length > 0) {
+                        sendMsg(chatValue);
 
-                      let temp = chats;
-                      temp.push({
-                        uid: cookies.uidToken,
-                        msg: chatValue,
-                        date: Date.now(),
-                        roomId: roomId,
-                      })
-                      setLastChat(chatValue);
-                      setChats(temp);
-                      setChatValue("");
-                    }
-                  }}></input>
-                  <div className="sendmsg">보내기</div>
+                        let temp = chats;
+                        temp.push({
+                          uid: cookies.uidToken,
+                          msg: chatValue,
+                          date: Date.now(),
+                          roomId: roomId,
+                        })
+                        setLastChat(chatValue);
+                        setChats(temp);
+                        setChatValue("");
+                      }
+                    }}></input>
+                    <div className="sendmsg">보내기</div>
+                  </div>
                 </div>
-              </div>
-            } />
-
-          </div>
+              } />
+            </div>
+          }
           {/* <div>시간표 리스트 + 초대하기 버튼</div> */}
-          {/* <div className="sub">
-            <div className="team_title">{roomName}</div>
-            <br />
-
-            <div className="timetables">
-              {members.map((v, i) => {
-
-                return (
-                  <Timetable key={i} id={i} uid={v.uid} select={select} setSelected={setSelected} setCurrentTimeTable={setCurrentTimeTable} mixTimeTable={mixTimeTable} />
-                )
-              })}
-              <div className="top-member" style={{ cursor: "pointer" }} onClick={() => {
-                setAddMemberPopup(true);
-                addMemPopupRef.current?.focus();
-                // addMember(roomId, "zizon_jiho", false);
-              }}>
+          {
+            /* <div className="sub">
+              <div className="team_title">{roomName}</div>
+              <br />
+  
+              <div className="timetables">
+                {members.map((v, i) => {
+  
+                  return (
+                    <Timetable key={i} id={i} uid={v.uid} select={select} setSelected={setSelected} setCurrentTimeTable={setCurrentTimeTable} mixTimeTable={mixTimeTable} />
+                  )
+                })}
+                <div className="top-member" style={{ cursor: "pointer" }} onClick={() => {
+                  setAddMemberPopup(true);
+                  addMemPopupRef.current?.focus();
+                  // addMember(roomId, "zizon_jiho", false);
+                }}>
+                  
+                  <div className="top-member-icon"><div>+</div></div>
+                  <div style={{ color: "gray" }}> 추가 </div>
+                  <div style={{ width: "10px", height: "22px" }}></div>
+                </div>
+              </div>
+              <br />
+              <div className="timecell-wrapper">
                 
-                <div className="top-member-icon"><div>+</div></div>
-                <div style={{ color: "gray" }}> 추가 </div>
-                <div style={{ width: "10px", height: "22px" }}></div>
+                <div>
+                  <div style={{ marginLeft: "10px", color: "gray" }}>합친 시간표</div>
+                  <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={{ name: "fusion", ownerId: "", description: "fusion", schedules: fusion }} />
+                </div>
+  
+                
+                <div>
+                  <div style={{ marginLeft: "10px", color: "gray" }}>현재 시간표</div>
+                  <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
+                </div>
               </div>
-            </div>
-            <br />
-            <div className="timecell-wrapper">
-              
-              <div>
-                <div style={{ marginLeft: "10px", color: "gray" }}>합친 시간표</div>
-                <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={{ name: "fusion", ownerId: "", description: "fusion", schedules: fusion }} />
-              </div>
-
-              
-              <div>
-                <div style={{ marginLeft: "10px", color: "gray" }}>현재 시간표</div>
-                <TimeCell style={{ width: "500px", height: "700px", margin: "10px" }} readonly={true} time_table={currentTimeTable} />
-              </div>
-            </div>
-          </div> */}
+            </div> */
+          }
 
         </div>
         <div className="members">
